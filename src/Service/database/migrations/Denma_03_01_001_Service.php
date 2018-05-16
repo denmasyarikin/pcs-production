@@ -17,7 +17,7 @@ class Service extends Migration
             $table->text('description')->nullable()->default(null);
             $table->enum('status', ['draft', 'active', 'inactive'])->default('draft');
             $table->timestamps();
-            $table->softDeletes();            
+            $table->softDeletes();
         });
     }
 

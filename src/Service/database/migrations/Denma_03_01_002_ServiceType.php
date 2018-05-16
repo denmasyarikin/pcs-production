@@ -24,10 +24,11 @@ class ServiceType extends Migration
             $table->float('width')->nullable()->default(null);
             $table->float('height')->nullable()->default(null);
             $table->float('weight')->nullable()->default(null);
-            // decreasement
-            $table->boolean('price_decreasement')->default(false);
-            $table->float('price_decrease_multiples')->nullable()->default(null);
-            $table->float('price_decrease_percentage')->nullable()->default(null);
+            // increasment
+            $table->boolean('increasement')->default(false);
+            $table->float('increasement_multiples')->nullable()->default(null);
+            $table->enum('increasement_rule', ['fixed', 'percentage'])->nullable()->default(null);
+            $table->float('increasement_value')->nullable()->default(null);
 
             $table->boolean('enabled')->default(false);
             $table->float('min_order')->default(1);

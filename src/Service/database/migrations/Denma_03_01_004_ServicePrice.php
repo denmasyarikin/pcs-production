@@ -19,7 +19,7 @@ class ServicePrice extends Migration
             $table->boolean('current')->default(true);
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('service_type_id')->references('id')->on('production_service_types');
             $table->foreign('chanel_id')->references('id')->on('core_chanels');
         });
