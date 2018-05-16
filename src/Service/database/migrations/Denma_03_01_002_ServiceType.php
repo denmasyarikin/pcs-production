@@ -16,29 +16,14 @@ class ServiceType extends Migration
             $table->string('name', 100);
             $table->integer('service_id')->unsigned();
             $table->integer('unit_id')->unsigned();
-            // dimension
-            $table->boolean('depending_to_dimension')->default(false);
-            $table->enum('dimension', ['length', 'area', 'volume', 'weight'])->nullable()->default(null);
-            $table->integer('dimension_unit_id')->unsigned()->nullable()->default(null);
-            $table->float('length')->nullable()->default(null);
-            $table->float('width')->nullable()->default(null);
-            $table->float('height')->nullable()->default(null);
-            $table->float('weight')->nullable()->default(null);
-            // increasment
-            $table->boolean('increasement')->default(false);
-            $table->float('increasement_multiples')->nullable()->default(null);
-            $table->enum('increasement_rule', ['fixed', 'percentage'])->nullable()->default(null);
-            $table->float('increasement_value')->nullable()->default(null);
-
-            $table->boolean('enabled')->default(false);
             $table->float('min_order')->default(1);
             $table->float('order_multiples')->default(1);
+            $table->boolean('enabled')->default(false);
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('service_id')->references('id')->on('production_services');
             $table->foreign('unit_id')->references('id')->on('core_units');
-            $table->foreign('dimension_unit_id')->references('id')->on('core_units');
         });
     }
 

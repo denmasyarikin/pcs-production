@@ -11,7 +11,7 @@ class ServicePrice extends Migration
      */
     public function up()
     {
-        Schema::create('production_service_priceses', function (Blueprint $table) {
+        Schema::create('production_service_prices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('service_type_id')->unsigned();
             $table->integer('chanel_id')->nullable()->default(null)->unsigned()->comment('where chanel_id is null that mean is base price');
