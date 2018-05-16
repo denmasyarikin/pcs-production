@@ -13,7 +13,7 @@ class ServiceType extends Migration
     {
         Schema::create('production_service_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 100);
+            $table->string('name', 100)->nullable()->default(null);
             $table->integer('service_id')->unsigned();
             $table->integer('unit_id')->unsigned();
             $table->float('min_order')->default(1);
