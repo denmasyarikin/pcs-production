@@ -23,11 +23,11 @@ class ServiceSetting extends Seeder
             'unit_id' => 33,
             'min_order' => 1,
             'order_multiples' => 1,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
 
         ServicePrice::create(['service_type_id' => 1, 'price' => 20000]);
-        
+
         ServiceTypeConfiguration::create([
             'name' => 'Jenis Undagnan',
             'service_type_id' => 1,
@@ -36,15 +36,15 @@ class ServiceSetting extends Seeder
                 'value' => [
                     ['label' => 'Blanko', 'value' => 10000],
                     ['label' => 'BW', 'value' => 15000],
-                    ['label' => 'Custome', 'value' => 30000]
+                    ['label' => 'Custome', 'value' => 30000],
                 ],
                 'multiple' => false,
                 'affected_the_price' => true,
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
-                'formula' => 'addition'
+                'formula' => 'addition',
             ],
-            'required' => 1
+            'required' => 1,
         ]);
 
         ServiceType::create([
@@ -54,7 +54,7 @@ class ServiceSetting extends Seeder
             'unit_id' => 33,
             'min_order' => 1,
             'order_multiples' => 1,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
 
         ServicePrice::create(['service_type_id' => 2, 'price' => 30000]);
@@ -67,9 +67,9 @@ class ServiceSetting extends Seeder
                 'relativity' => 'unit_price',
                 'multiples' => 1,
                 'rule' => 'fixed',
-                'value' => 1000
+                'value' => 1000,
             ],
-            'required' => 1
+            'required' => 1,
         ]);
 
         ServiceTypeConfiguration::create([
@@ -79,15 +79,15 @@ class ServiceSetting extends Seeder
             'configuration' => [
                 'value' => [
                     ['label' => 'Huruf Asing', 'value' => 10000],
-                    ['label' => 'Dengan Logo', 'value' => 20000]
+                    ['label' => 'Dengan Logo', 'value' => 20000],
                 ],
                 'multiple' => true,
                 'affected_the_price' => true,
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
-                'formula' => 'addition'
+                'formula' => 'addition',
             ],
-            'required' => 1
+            'required' => 1,
         ]);
     }
 }

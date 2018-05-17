@@ -41,9 +41,9 @@ class ServicePriceListFormatedTransformer extends Collection
     /**
      * get chanel price.
      *
-     * @param Chanel     $chanel
-     * @param Collection $prices
-     * @param ServicePrice  $basePrice
+     * @param Chanel       $chanel
+     * @param Collection   $prices
+     * @param ServicePrice $basePrice
      *
      * @return array
      */
@@ -77,7 +77,7 @@ class ServicePriceListFormatedTransformer extends Collection
     /**
      * generate chanel price.
      *
-     * @param Chanel    $chanel
+     * @param Chanel       $chanel
      * @param ServicePrice $basePrice
      *
      * @return array

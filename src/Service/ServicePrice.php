@@ -21,6 +21,6 @@ class ServicePrice extends Model
      */
     public function serviceType()
     {
-    	return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(ServiceType::class);
     }
 }

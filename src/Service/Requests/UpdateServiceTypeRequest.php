@@ -16,7 +16,7 @@ class UpdateServiceTypeRequest extends DetailServiceTypeRequest
             'unit_id' => 'required|exists:core_units,id',
             'min_order' => 'required|numeric',
             'order_multiples' => 'required|numeric',
-            'enabled' => 'required|boolean'
+            'enabled' => 'required|boolean',
        ];
     }
 }

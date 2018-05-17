@@ -23,7 +23,7 @@ class ServiceCetak extends Seeder
             'unit_id' => 33,
             'min_order' => 100,
             'order_multiples' => 10,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
 
         ServicePrice::create(['service_type_id' => 3, 'price' => 30000]);
@@ -36,9 +36,9 @@ class ServiceCetak extends Seeder
                 'relativity' => 'unit_price',
                 'multiples' => 500,
                 'rule' => 'percentage',
-                'value' => 50
+                'value' => 50,
             ],
-            'required' => 1
+            'required' => 1,
         ]);
 
         ServiceTypeConfiguration::create([
@@ -49,9 +49,9 @@ class ServiceCetak extends Seeder
                 'relativity' => 'unit_total',
                 'min' => 1,
                 'max' => 20,
-                'default' => 1
+                'default' => 1,
             ],
-            'required' => 1
+            'required' => 1,
         ]);
     }
 }

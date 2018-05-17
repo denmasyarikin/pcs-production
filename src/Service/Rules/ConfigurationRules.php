@@ -8,7 +8,7 @@ use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
 class ConfigurationRules implements Rule
 {
     /**
-     * type
+     * type.
      *
      * @var string
      */
@@ -18,7 +18,6 @@ class ConfigurationRules implements Rule
      * Create a new ConfigurationRules instance.
      *
      * @param string $type
-     * @return void
      */
     public function __construct($type)
     {
@@ -28,13 +27,14 @@ class ConfigurationRules implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-    	$manager = new ConfigurationManager();
+        $manager = new ConfigurationManager();
 
         if (!is_array($value)) {
             return false;

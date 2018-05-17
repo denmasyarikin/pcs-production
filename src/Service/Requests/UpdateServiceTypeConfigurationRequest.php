@@ -16,9 +16,9 @@ class UpdateServiceTypeConfigurationRequest extends DetailServiceTypeConfigurati
     {
         return [
             'name' => 'max:30',
-            'type' => ['required', new ConfigurationType],
+            'type' => ['required', new ConfigurationType()],
             'configuration' => ['required', 'array', new ConfigurationRules($this->type)],
-            'required' => 'required|boolean'
+            'required' => 'required|boolean',
        ];
     }
 }

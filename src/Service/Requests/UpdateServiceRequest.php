@@ -14,7 +14,7 @@ class UpdateServiceRequest extends DetailServiceRequest
         return [
             'name' => 'required|max:50',
             'description' => 'nullable',
-            'status' => 'nullable|in:draft,active,inactive'
+            'status' => 'nullable|in:draft,active,inactive',
        ];
     }
 }

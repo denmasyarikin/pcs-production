@@ -98,7 +98,7 @@ class ServiceController extends Controller
     public function createService(CreateServiceRequest $request)
     {
         $service = Service::create($request->only([
-            'name', 'description'
+            'name', 'description',
         ]));
 
         return new JsonResponse([

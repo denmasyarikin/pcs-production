@@ -63,7 +63,6 @@ class ServiceTypeController extends Controller
             $request->only(['name', 'unit_id', 'min_order', 'order_multiples'])
         );
 
-
         return new JsonResponse([
             'messaage' => 'Service type has been created',
             'data' => (new ServiceTypeDetailTransformer($serviceType))->toArray(),
@@ -112,7 +111,7 @@ class ServiceTypeController extends Controller
     }
 
     /**
-     * get configuration type list
+     * get configuration type list.
      *
      * @return json
      */

@@ -13,24 +13,24 @@ class ServiceTable extends Seeder
     public function run()
     {
         Service::create([
-        	'id' => 1,
-        	'name' => 'Setting',
-			'description' => 'Design Digital untuk kebutuhan cetak',
-			'status' => 'active'
-        ]);
-        
-        Service::create([
-        	'id' => 2,
-        	'name' => 'Ongkos Cetak',
-			'description' => 'Biaya cetak berbagai mesin dan media',
-			'status' => 'active'
+            'id' => 1,
+            'name' => 'Setting',
+            'description' => 'Design Digital untuk kebutuhan cetak',
+            'status' => 'active',
         ]);
 
         Service::create([
-        	'id' => 3,
-        	'name' => 'Finishing',
-			'description' => 'Penyelesaian hasil akhir percetakan',
-			'status' => 'active'
+            'id' => 2,
+            'name' => 'Ongkos Cetak',
+            'description' => 'Biaya cetak berbagai mesin dan media',
+            'status' => 'active',
+        ]);
+
+        Service::create([
+            'id' => 3,
+            'name' => 'Finishing',
+            'description' => 'Penyelesaian hasil akhir percetakan',
+            'status' => 'active',
         ]);
     }
 }

@@ -21,13 +21,14 @@ class ServiceTypeConfiguration extends Model
      */
     public function serviceType()
     {
-    	return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(ServiceType::class);
     }
 
     /**
      * Get Configuration.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     public function getConfigurationAttribute($value)
@@ -38,7 +39,8 @@ class ServiceTypeConfiguration extends Model
     /**
      * Set Configuration.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     public function setConfigurationAttribute($value)

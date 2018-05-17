@@ -15,7 +15,7 @@ class CreateServiceRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'description' => 'nullable'
+            'description' => 'nullable',
         ];
     }
 }

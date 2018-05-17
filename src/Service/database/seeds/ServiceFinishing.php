@@ -23,11 +23,11 @@ class ServiceFinishing extends Seeder
             'unit_id' => 24,
             'min_order' => 500,
             'order_multiples' => 100,
-            'enabled' => 1
+            'enabled' => 1,
         ]);
 
         ServicePrice::create(['service_type_id' => 4, 'price' => 20000]);
-        
+
         ServiceTypeConfiguration::create([
             'name' => 'Jumlah Titik',
             'service_type_id' => 4,
@@ -36,9 +36,9 @@ class ServiceFinishing extends Seeder
                 'relativity' => 'unit_total',
                 'min' => 1,
                 'max' => 20,
-                'default' => 1
+                'default' => 1,
             ],
-            'required' => 1
+            'required' => 1,
         ]);
     }
 }

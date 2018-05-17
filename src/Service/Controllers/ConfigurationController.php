@@ -45,7 +45,7 @@ class ConfigurationController extends Controller
         $this->checkIsTypeConfigurationExist($serviceType, $request->type);
 
         $configuration = $serviceType->serviceTypeConfigurations()->create($request->only([
-        	'name', 'type', 'configuration', 'required'
+            'name', 'type', 'configuration', 'required',
         ]));
 
         return new JsonResponse([
@@ -69,7 +69,7 @@ class ConfigurationController extends Controller
         $this->checkIsTypeConfigurationExist($serviceType, $request->type, $configuration);
 
         $configuration->update($request->only([
-        	'name', 'type', 'configuration', 'required'
+            'name', 'type', 'configuration', 'required',
         ]));
 
         return new JsonResponse([
@@ -96,17 +96,17 @@ class ConfigurationController extends Controller
     /**
      * check is service variant configuration exist.
      *
-     * @param type 						$serviceType
-     * @param mixed      				$type
-     * @param ServiceTypeConfiguration 	$except
+     * @param type                     $serviceType
+     * @param mixed                    $type
+     * @param ServiceTypeConfiguration $except
      */
     protected function checkIsTypeConfigurationExist(ServiceType $serviceType, $type, ServiceTypeConfiguration $except = null)
     {
-    	$query = $serviceType->serviceTypeConfigurations()->where('type', $type);
+        $query = $serviceType->serviceTypeConfigurations()->where('type', $type);
 
-    	if (!is_null($except)) {
-    		$query->where('id', '<>', $except->id);
-    	}
+        if (!is_null($except)) {
+            $query->where('id', '<>', $except->id);
+        }
 
         if ($query->exists()) {
             throw new BadRequestHttpException("Service Type Configuration where {$type} already exist");
