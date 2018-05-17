@@ -30,6 +30,6 @@ class ServicePrice extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('production_service_priceses');
+        Schema::dropIfExists('production_service_prices');
     }
 }

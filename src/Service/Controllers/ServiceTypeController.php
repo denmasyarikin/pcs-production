@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Denmasyarikin\Production\Service\Service;
 use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
 use Denmasyarikin\Production\Service\Requests\DetailTypeRequest;
 use Denmasyarikin\Production\Service\Requests\DetailServiceRequest;
 use Denmasyarikin\Production\Service\Requests\CreateServiceTypeRequest;
@@ -108,5 +109,22 @@ class ServiceTypeController extends Controller
         $serviceType->delete();
 
         return new JsonResponse(['messaage' => 'Service type has been deleted']);
+    }
+
+    /**
+     * get configuration type list
+     *
+     * @return json
+     */
+    public function getConfigurationTypeList()
+    {
+        $manager = new ConfigurationManager();
+        $types = [];
+
+        foreach ($manager->getConfigurationInstances() as $key => $configuration) {
+            $types[$key] = $configuration->getStructure();
+        }
+
+        return new JsonResponse(['data' => $types]);
     }
 }

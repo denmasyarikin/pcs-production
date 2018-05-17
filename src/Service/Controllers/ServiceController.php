@@ -47,7 +47,7 @@ class ServiceController extends Controller
      */
     protected function getServiceList(Request $request, $status = null)
     {
-        $services = Service::orderBy('name', 'ASC');
+        $services = Service::orderBy('id', 'ASC');
 
         if ($request->has('key')) {
             $services->where('name', 'like', "%{$request->key}%");

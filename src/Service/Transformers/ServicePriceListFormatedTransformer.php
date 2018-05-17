@@ -1,14 +1,14 @@
 <?php
 
-namespace Denmasyarikin\Inventory\Good\Transformers;
+namespace Denmasyarikin\Production\Service\Transformers;
 
 use Modules\Chanel\Chanel;
 use App\Manager\Facades\Money;
 use App\Http\Transformers\Collection;
-use Denmasyarikin\Inventory\Good\GoodPrice;
+use Denmasyarikin\Production\Service\ServicePrice;
 use Illuminate\Database\Eloquent\Collection as IlluminateCollection;
 
-class GoodPriceListFormatedTransformer extends Collection
+class ServicePriceListFormatedTransformer extends Collection
 {
     /**
      * get data.
@@ -43,11 +43,11 @@ class GoodPriceListFormatedTransformer extends Collection
      *
      * @param Chanel     $chanel
      * @param Collection $prices
-     * @param GoodPrice  $basePrice
+     * @param ServicePrice  $basePrice
      *
      * @return array
      */
-    protected function getChanelPrice(Chanel $chanel, IlluminateCollection $prices, GoodPrice $basePrice)
+    protected function getChanelPrice(Chanel $chanel, IlluminateCollection $prices, ServicePrice $basePrice)
     {
         $chanelPrice = $prices->whereStrict('chanel_id', $chanel->id)->whereStrict('current', 1)->first();
 
@@ -61,11 +61,11 @@ class GoodPriceListFormatedTransformer extends Collection
     /**
      * generate single data.
      *
-     * @param GoodPrice $price
+     * @param ServicePrice $price
      *
      * @return array
      */
-    protected function generateSingleData(GoodPrice $price)
+    protected function generateSingleData(ServicePrice $price)
     {
         return [
             'id' => $price->id,
@@ -78,11 +78,11 @@ class GoodPriceListFormatedTransformer extends Collection
      * generate chanel price.
      *
      * @param Chanel    $chanel
-     * @param GoodPrice $basePrice
+     * @param ServicePrice $basePrice
      *
      * @return array
      */
-    protected function generateChanelPrice(Chanel $chanel, GoodPrice $basePrice)
+    protected function generateChanelPrice(Chanel $chanel, ServicePrice $basePrice)
     {
         return [
             'id' => null,

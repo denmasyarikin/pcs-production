@@ -31,4 +31,12 @@ class ServiceType extends Model
     {
         return $this->hasMany(ServicePrice::class);
     }
+
+    /**
+     * Get the serviceConfigurations record associated with the ServiceType.
+     */
+    public function serviceTypeConfigurations()
+    {
+        return $this->hasMany(ServiceTypeConfiguration::class);
+    }
 }

@@ -23,4 +23,26 @@ class ServiceTypeConfiguration extends Model
     {
     	return $this->belongsTo(ServiceType::class);
     }
+
+    /**
+     * Get Configuration.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getConfigurationAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    /**
+     * Set Configuration.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setConfigurationAttribute($value)
+    {
+        $this->attributes['configuration'] = json_encode($value);
+    }
 }

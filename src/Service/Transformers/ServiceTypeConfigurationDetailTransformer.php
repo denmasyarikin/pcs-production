@@ -5,7 +5,7 @@ namespace Denmasyarikin\Production\Service\Transformers;
 use App\Http\Transformers\Detail;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceDetailTransformer extends Detail
+class ServiceTypeConfigurationDetailTransformer extends Detail
 {
     /**
      * get data.
@@ -19,9 +19,11 @@ class ServiceDetailTransformer extends Detail
         return [
             'id' => $model->id,
             'name' => $model->name,
-            'description' => $model->description,
-            'status' => $model->status,
-            'service_type_count' => $model->serviceTypes()->count(),
+            'type' => $model->type,
+            'service_type_id' => $model->service_type_id,
+            'service_type' => (new ServiceTypeDetailTransformer($model->serviceType))->toArray(),
+            'configuration' => $model->configuration,
+            'required' => (bool) $model->required,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $model->updated_at->format('Y-m-d H:i:s'),
         ];

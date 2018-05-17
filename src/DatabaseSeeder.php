@@ -11,5 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(Service\database\seeds\ServiceTable::class);
+        $this->call(Service\database\seeds\ServiceSetting::class);
+        $this->call(Service\database\seeds\ServiceCetak::class);
+        $this->call(Service\database\seeds\ServiceFinishing::class);
     }
 }

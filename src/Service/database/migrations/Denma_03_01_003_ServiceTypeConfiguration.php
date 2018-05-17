@@ -11,18 +11,11 @@ class ServiceTypeConfiguration extends Migration
      */
     public function up()
     {
-        Schema::create('production_service_type_configuration', function (Blueprint $table) {
+        Schema::create('production_service_type_configurations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
             $table->integer('service_type_id')->unsigned();
-            $table->integer('sequence');
-            $table->enum('type', [
-                'increasement',
-                'multiplication',
-                'multiplication_area',
-                'multiplication_volume',
-                'selection'
-            ]);
+            $table->string('type');
             $table->longText('configuration');
             $table->boolean('required')->default(false);
             $table->timestamps();
@@ -37,6 +30,6 @@ class ServiceTypeConfiguration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('production_service_type_configuration');
+        Schema::dropIfExists('production_service_type_configurations');
     }
 }
