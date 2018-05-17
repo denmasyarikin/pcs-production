@@ -2,6 +2,8 @@
 
 namespace Denmasyarikin\Production\Service\Factories\Configuration;
 
+use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+
 abstract class Configuration
 {
     /**
@@ -17,6 +19,23 @@ abstract class Configuration
      * @var array
      */
     protected $structure = [];
+
+    /**
+     * service type configuration
+     *
+     * @var ServiceTypeConfiguration
+     */
+    public $serviceTypeConfiguration;
+
+    /**
+     * Create a new Configuration instance.
+     *
+     * @return void
+     */
+    public function __construct(ServiceTypeConfiguration $serviceTypeConfiguration = null)
+    {
+        $this->serviceTypeConfiguration = $serviceTypeConfiguration;
+    }
 
     /**
      * get type.
@@ -95,5 +114,40 @@ abstract class Configuration
                 return true;
                 break;
         }
+    }
+
+    /**
+     * set service type configuration
+     *
+     * @return ServiceTypeConfiguration
+     */
+    public function setServiceTypeConfiguration(ServiceTypeConfiguration $serviceTypeConfiguration)
+    {
+        return $this->serviceTypeConfiguration = $serviceTypeConfiguration;
+    }
+
+    /**
+     * get service type configuration
+     *
+     * @return ServiceTypeConfiguration
+     */
+    public function getServiceTypeConfiguration()
+    {
+        return $this->serviceTypeConfiguration;
+    }
+
+    /**
+     * is validate value.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isValidValue($value) {
+        if (is_null($this->serviceTypeConfiguration)) {
+            return false;
+        }
+
+        return true;
     }
 }

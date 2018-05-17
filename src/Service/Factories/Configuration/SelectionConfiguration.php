@@ -73,4 +73,19 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             return true;
         }
     }
+
+    /**
+     * is validate value.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isValidValue($value) {
+        parent::isValidValue($value);
+
+        $configuration = $this->serviceTypeConfiguration;
+
+        dd('selection value validation');
+    }
 }

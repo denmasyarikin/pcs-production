@@ -26,4 +26,13 @@ interface ConfigurationInterface
      * @return bool
      */
     public function isValidStructure(array $config);
+
+    /**
+     * is validate value.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isValidValue($value);
 }

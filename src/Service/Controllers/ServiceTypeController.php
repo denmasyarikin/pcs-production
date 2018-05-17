@@ -13,6 +13,7 @@ use Denmasyarikin\Production\Service\Requests\CreateServiceTypeRequest;
 use Denmasyarikin\Production\Service\Requests\UpdateServiceTypeRequest;
 use Denmasyarikin\Production\Service\Requests\DeleteServiceTypeRequest;
 use Denmasyarikin\Production\Service\Transformers\ServiceTypeListTransformer;
+use Denmasyarikin\Production\Service\Requests\CalculateServiceTypePriceRequest;
 use Denmasyarikin\Production\Service\Transformers\ServiceTypeDetailTransformer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -125,5 +126,29 @@ class ServiceTypeController extends Controller
         }
 
         return new JsonResponse(['data' => $types]);
+    }
+
+    /**
+     * calculate prise.
+     *
+     * @param CalculateServiceTypePriceRequest $request
+     *
+     * @return json
+     */
+    public function calculatePrice(CalculateServiceTypePriceRequest $request)
+    {
+        $serviceType = $request->getServiceType();
+
+        $manager = new ConfigurationManager($serviceType);
+
+        try {
+            return $manager->calculatePrice(
+                $request->quantity,
+                $request->input('value'),
+                $request->input('chanel_id')
+            );
+        } catch (\Exception $e){
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 }

@@ -33,7 +33,7 @@ class ServiceTypeConfiguration extends Model
      */
     public function getConfigurationAttribute($value)
     {
-        return json_decode($value);
+        return json_decode($value, true);
     }
 
     /**

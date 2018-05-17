@@ -7,6 +7,7 @@ $router->get('/{id}', ['as' => 'production.service.detail', 'uses' => 'ServiceCo
 $router->get('/{id}/type', ['as' => 'production.service.type.list', 'uses' => 'ServiceTypeController@getList']);
 $router->get('/{id}/type/{type_id}/price', ['as' => 'production.service.price.list', 'uses' => 'ServicePriceController@getList']);
 $router->get('/{id}/type/{type_id}/configuration', ['as' => 'production.service.configuration.list', 'uses' => 'ConfigurationController@getList']);
+$router->post('/{id}/type/{type_id}/calculate', ['as' => 'production.service.type.calculate', 'uses' => 'ServiceTypeController@calculatePrice']);
 
 $router->group(['middleware' => 'manage:production,service,write'], function ($router) {
     $router->post('/', ['as' => 'production.service.create', 'uses' => 'ServiceController@createService']);
