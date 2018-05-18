@@ -51,4 +51,39 @@ class MultiplicationConfiguration extends Configuration implements Configuration
 
         return true;
     }
+
+    /**
+     * apply configuration.
+     *
+     * @param mixed $value
+     * @param int $quantity
+     * @param int $unitPrice
+     * @param int $unitTotal
+     * 
+     * @return array
+     */
+    public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
+    {
+        $beforeUnitPrice = $unitPrice;
+        $beforeUnitTotal = $unitTotal;
+        $config = $this->serviceTypeConfiguration->configuration;
+
+        if($config['relativity'] === 'unit_total') {
+            $unitTotal *= $value;
+        }
+
+        if($config['relativity'] === 'unit_price') {
+            $unitPrice *= $value;
+            $unitTotal = $unitPrice * $quantity;
+        }
+
+        return [
+            'quantity' => $quantity,
+            'before_unit_price' => $beforeUnitPrice,
+            'before_unit_total' => $beforeUnitTotal,
+            'after_unit_price' => $unitPrice,
+            'after_unit_total' => $unitTotal,
+            'configuration' => $this->serviceTypeConfiguration->toArray()
+        ];
+    }
 }

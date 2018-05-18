@@ -4,24 +4,18 @@ namespace Denmasyarikin\Production\Service\Factories;
 
 use Denmasyarikin\Production\Service\ServiceType;
 use Denmasyarikin\Production\Service\ServicePrice;
+use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 class ConfigurationManager
 {
-    /**
-     * service type
-     *
-     * @var ServiceType
-     */
-    protected $serviceType;
-
     /**
      * configuration.
      *
      * @var array
      */
     protected $configurations = [
-        Configuration\IncreasementConfiguration::class,
+        Configuration\MultiplesConfiguration::class,
         Configuration\MultiplicationConfiguration::class,
         Configuration\MultiplicationAreaConfiguration::class,
         Configuration\MultiplicationVolumeConfiguration::class,
@@ -37,12 +31,9 @@ class ConfigurationManager
 
     /**
      * Create a new ConfigurationManager instance.
-     *
-     * @param ServiceType $serviceType
      */
-    public function __construct(ServiceType $serviceType = null)
+    public function __construct()
     {
-        $this->serviceType = $serviceType;
         $this->instantiateConfigurations();
     }
 
@@ -94,102 +85,28 @@ class ConfigurationManager
     }
 
     /**
-     * calculate price
+     * get value from request
      *
-     * @param int $quantity
+     * @param ServiceType $serviceType
+     * @param ServiceTypeConfiguration $serviceTypeConfiguration
      * @param mixed $value
-     * @param int $chanelId
-     * @return array
+     *
+     * @return data type
      */
-    public function calculatePrice($quantity, $value, $chanelId = null)
+    public function getValueFromRequest(ServiceType $serviceType, ServiceTypeConfiguration $serviceTypeConfiguration, $value)
     {
-        if (is_null($this->serviceType)) {
-            throw new InvalidArgumentException('Service type is undefined');
+        $configurations = $serviceType->serviceTypeConfigurations;
+
+        if ($configurations->count() === 0) {
+            return null;
         }
 
-        $basePrice = $this->getBasePrice($chanelId);
-        $configurations = $this->serviceType->serviceTypeConfigurations;
-        
-        switch (true) {
-            case $configurations->count() === 0:
-                return $this->callculateWithNoConfiguration($quantity, $value, $basePrice);
-                break;
-
-            case $configurations->count() === 1:
-                return $this->callculateSingularConfiguration($quantity, $value, $basePrice);
-                break;
-
-            default:
-                return $this->callculateMultipleConfiguration($quantity, $value, $basePrice);
-                break;
-        }
-    }
-
-    /**
-     * get base price
-     *
-     * @param int $chanelId
-     *
-     * @return ServicePrice
-     */
-    protected function getBasePrice($chanelId = null)
-    {
-        $query = $this->serviceType->servicePrices();
- 
-        if (is_null($chanelId)) {
-            $query->whereNull('chanel_id');
-        } else {
-            $query->whereChanelId($chanelId);
+        if ($configurations->count() === 1) {
+            return $value;
         }
 
-        $serviceType = $query->first();
-
-        if (is_null($serviceType)) {
-            throw new InvalidArgumentException('No base price found');
+        if (isset($value[$serviceTypeConfiguration->id])) {
+            return $value[$serviceTypeConfiguration->id];
         }
-
-        return $serviceType;
-    }
-    
-    /**
-     * calculate with no configuration
-     *
-     * @param int $quantity
-     * @param mixed $value
-     * @param ServicePrice $basePrice
-     *
-     * @return array
-     */
-    public function callculateWithNoConfiguration($quantity, $value, ServicePrice $basePrice)
-    {
-        return [];
-    }
-
-    /**
-     * calculate singular configuration
-     *
-     * @param int $quantity
-     * @param mixed $value
-     * @param ServicePrice $basePrice
-     *
-     * @return array
-     */
-    public function callculateSingularConfiguration($quantity, $value, ServicePrice $basePrice)
-    {
-        return 'singular';
-    }
-
-    /**
-     * calculate multiple configuration
-     *
-     * @param int $quantity
-     * @param mixed $value
-     * @param ServicePrice $basePrice
-     *
-     * @return array
-     */
-    public function callculateMultipleConfiguration($quantity, $value, ServicePrice $basePrice)
-    {
-        return [];
     }
 }

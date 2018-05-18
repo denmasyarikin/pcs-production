@@ -56,7 +56,7 @@ class MultiplicationAreaConfiguration extends Configuration implements Configura
             throw new InvalidArgumentException('Width Less then ' . $configuration['min_width']);
         }
 
-        if ($value['width'] > $configuration['min_width']) {
+        if ($value['width'] > $configuration['max_width']) {
             throw new InvalidArgumentException('Width More then ' . $configuration['max_width']);
         }
 
@@ -64,10 +64,45 @@ class MultiplicationAreaConfiguration extends Configuration implements Configura
             throw new InvalidArgumentException('Length Less then ' . $configuration['min_length']);
         }
 
-        if ($value['length'] > $configuration['min_length']) {
+        if ($value['length'] > $configuration['max_length']) {
             throw new InvalidArgumentException('Length More then ' . $configuration['max_length']);
         }
 
         return true;
+    }
+
+    /**
+     * apply configuration.
+     *
+     * @param mixed $value
+     * @param int $quantity
+     * @param int $unitPrice
+     * @param int $unitTotal
+     * 
+     * @return array
+     */
+    public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
+    {
+        $beforeUnitPrice = $unitPrice;
+        $beforeUnitTotal = $unitTotal;
+        $config = $this->serviceTypeConfiguration->configuration;
+
+        if($config['relativity'] === 'unit_total') {
+            $unitTotal *= $value['width'] * $value['length'];
+        }
+
+        if($config['relativity'] === 'unit_price') {
+            $unitPrice *= $value['width'] * $value['length'];
+            $unitTotal = $unitPrice * $quantity;
+        }
+
+        return [
+            'quantity' => $quantity,
+            'before_unit_price' => $beforeUnitPrice,
+            'before_unit_total' => $beforeUnitTotal,
+            'after_unit_price' => $unitPrice,
+            'after_unit_total' => $unitTotal,
+            'configuration' => $this->serviceTypeConfiguration->toArray()
+        ];
     }
 }

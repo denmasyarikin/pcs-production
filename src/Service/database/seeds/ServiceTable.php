@@ -32,5 +32,12 @@ class ServiceTable extends Seeder
             'description' => 'Penyelesaian hasil akhir percetakan',
             'status' => 'active',
         ]);
+
+        Service::create([
+            'id' => 4,
+            'name' => 'Print Digital',
+            'description' => 'Cetak dengan mesin digital',
+            'status' => 'active',
+        ]);
     }
 }

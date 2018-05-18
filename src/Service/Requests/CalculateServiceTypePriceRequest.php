@@ -4,6 +4,8 @@ namespace Denmasyarikin\Production\Service\Requests;
 
 use Denmasyarikin\Production\Service\Service;
 use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\Rules\MinOrder;
+use Denmasyarikin\Production\Service\Rules\OrderMultiple;
 use Denmasyarikin\Production\Service\Rules\ConfigurationValue;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -35,10 +37,10 @@ class CalculateServiceTypePriceRequest extends DetailServiceTypeRequest
         $serviceType = $this->getServiceType();
 
         return [
-            'quantity' => 'required|numeric',
+            'quantity' => ['required', 'numeric', new MinOrder($serviceType), new OrderMultiple($serviceType)],
             'chanel_id' => 'nullable|exists:core_chanels,id',
             // if not need value, it values will be ignored
-            'values' => ['required', new ConfigurationValue($serviceType)],
+            'value' => ['required', new ConfigurationValue($serviceType)],
         ];
     }
 }

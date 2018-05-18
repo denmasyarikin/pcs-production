@@ -31,14 +31,13 @@ class ServiceCetak extends Seeder
         ServiceTypeConfiguration::create([
             'name' => 'Harga Kelipatan',
             'service_type_id' => 3,
-            'type' => 'increasement',
+            'type' => 'multiples',
             'configuration' => [
                 'relativity' => 'unit_price',
                 'multiples' => 500,
                 'rule' => 'percentage',
                 'value' => 50,
-            ],
-            'required' => 1,
+            ]
         ]);
 
         ServiceTypeConfiguration::create([
@@ -50,8 +49,7 @@ class ServiceCetak extends Seeder
                 'min' => 1,
                 'max' => 20,
                 'default' => 1,
-            ],
-            'required' => 1,
+            ]
         ]);
     }
 }

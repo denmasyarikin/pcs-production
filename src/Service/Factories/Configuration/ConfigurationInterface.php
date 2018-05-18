@@ -5,6 +5,18 @@ namespace Denmasyarikin\Production\Service\Factories\Configuration;
 interface ConfigurationInterface
 {
     /**
+     * apply configuration.
+     *
+     * @param mixed $value
+     * @param int $quantity
+     * @param int $unitPrice
+     * @param int $unitTotal
+     * 
+     * @return array
+     */
+    public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal);
+
+    /**
      * configuration type.
      *
      * @return string
@@ -35,4 +47,11 @@ interface ConfigurationInterface
      * @return bool
      */
     public function isValidValue($value);
+
+    /**
+     * is need input.
+     *
+     * @return bool
+     */
+    public function isNeedInput();
 }

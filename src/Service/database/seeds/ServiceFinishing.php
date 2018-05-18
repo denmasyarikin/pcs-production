@@ -27,6 +27,18 @@ class ServiceFinishing extends Seeder
         ]);
 
         ServicePrice::create(['service_type_id' => 4, 'price' => 20000]);
+        
+        ServiceTypeConfiguration::create([
+            'name' => 'Harga Kelipatan',
+            'service_type_id' => 4,
+            'type' => 'multiples',
+            'configuration' => [
+                'relativity' => 'unit_price',
+                'multiples' => 500,
+                'rule' => 'percentage',
+                'value' => 100,
+            ]
+        ]);
 
         ServiceTypeConfiguration::create([
             'name' => 'Jumlah Titik',
@@ -37,8 +49,7 @@ class ServiceFinishing extends Seeder
                 'min' => 1,
                 'max' => 20,
                 'default' => 1,
-            ],
-            'required' => 1,
+            ]
         ]);
     }
 }

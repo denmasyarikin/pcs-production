@@ -43,8 +43,7 @@ class ServiceSetting extends Seeder
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
                 'formula' => 'addition',
-            ],
-            'required' => 1,
+            ]
         ]);
 
         ServiceType::create([
@@ -62,14 +61,13 @@ class ServiceSetting extends Seeder
         ServiceTypeConfiguration::create([
             'name' => 'Jumlah Nama',
             'service_type_id' => 2,
-            'type' => 'increasement',
+            'type' => 'multiplication',
             'configuration' => [
                 'relativity' => 'unit_price',
                 'multiples' => 1,
                 'rule' => 'fixed',
                 'value' => 1000,
-            ],
-            'required' => 1,
+            ]
         ]);
 
         ServiceTypeConfiguration::create([
@@ -86,8 +84,7 @@ class ServiceSetting extends Seeder
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
                 'formula' => 'addition',
-            ],
-            'required' => 1,
+            ]
         ]);
     }
 }

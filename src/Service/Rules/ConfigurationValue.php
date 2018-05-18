@@ -55,20 +55,20 @@ class ConfigurationValue implements Rule
             return false;
         }
 
-        foreach ($configurations as $configType) {
+        foreach ($configurations as $config) {
             $id = 0;
             $currentValue = $value;
 
             if ($configurations->count() > 1) {
-                if (!array_key_exists($configType->id, $value)) {
-                    $this->message = 'The :attribute not contain key service type configuration id ' . $configType->id;
+                if (!array_key_exists($config->id, $value)) {
+                    $this->message = 'The :attribute not contain key service type configuration id ' . $config->id;
                     return false;
                 }
 
-                $currentValue = $value[$configType->id];
+                $currentValue = $value[$config->id];
             }
 
-            if (!$this->validateConfigurationValue($configType, $currentValue)) {
+            if (!$this->validateConfigurationValue($config, $currentValue)) {
                 return false;
             }
         }
@@ -88,7 +88,7 @@ class ConfigurationValue implements Rule
         $manager = new ConfigurationManager();
         
         if (!$manager->isConfigurationExists($typeConfiguration->type)) {
-            $this->message = 'The :attribute not be proses, not found configuration';
+            $this->message = 'The :attribute can not be processed, no configuration found';
             return false;
         }
 
@@ -98,7 +98,7 @@ class ConfigurationValue implements Rule
         try {
             return $factory->isValidValue($value);
         } catch (InvalidArgumentException $e) {
-            $this->message = 'The :attribute invalid ' . $typeConfiguration->id .' : ' . $e->getMessage();
+            $this->message = 'The :attribute ' . $typeConfiguration->id .' invalid  : ' . $e->getMessage();
             return false;
         }
     }

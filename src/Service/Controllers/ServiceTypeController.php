@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Denmasyarikin\Production\Service\Service;
 use Denmasyarikin\Production\Service\ServiceType;
 use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
+use Denmasyarikin\Production\Service\Factories\ServicePriceCalculator;
 use Denmasyarikin\Production\Service\Requests\DetailTypeRequest;
 use Denmasyarikin\Production\Service\Requests\DetailServiceRequest;
 use Denmasyarikin\Production\Service\Requests\CreateServiceTypeRequest;
@@ -122,7 +123,11 @@ class ServiceTypeController extends Controller
         $types = [];
 
         foreach ($manager->getConfigurationInstances() as $key => $configuration) {
-            $types[$key] = $configuration->getStructure();
+            $types[] = [
+                'type' => $key,
+                'need_input' => $configuration->isNeedInput(), 
+                'structure' => $configuration->getStructure()
+            ];
         }
 
         return new JsonResponse(['data' => $types]);
@@ -139,14 +144,21 @@ class ServiceTypeController extends Controller
     {
         $serviceType = $request->getServiceType();
 
-        $manager = new ConfigurationManager($serviceType);
+        $calculator = new ServicePriceCalculator($serviceType);
 
         try {
-            return $manager->calculatePrice(
+            $calculation = $calculator->calculatePrice(
                 $request->quantity,
                 $request->input('value'),
                 $request->input('chanel_id')
             );
+
+            return new JsonResponse([
+                'quantity' => $calculation->getQuantity(),
+                'unit_price' => $calculation->getUnitPrice(),
+                'unit_total' => $calculation->getUnitTotal(),
+                'configurations' => $calculation->getConfigurations()
+            ]);
         } catch (\Exception $e){
             throw new BadRequestHttpException($e->getMessage());
         }

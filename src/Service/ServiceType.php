@@ -3,9 +3,10 @@
 namespace Denmasyarikin\Production\Service;
 
 use App\Model;
+use App\Manager\Contracts\Priceable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceType extends Model
+class ServiceType extends Model implements Priceable
 {
     use SoftDeletes;
 
@@ -30,6 +31,16 @@ class ServiceType extends Model
     public function servicePrices()
     {
         return $this->hasMany(ServicePrice::class);
+    }
+
+    /**
+     * get prices
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getPrices()
+    {
+        return $this->servicePrices();
     }
 
     /**

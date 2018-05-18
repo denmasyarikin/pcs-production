@@ -17,7 +17,6 @@ class ServiceTypeConfiguration extends Migration
             $table->integer('service_type_id')->unsigned();
             $table->string('type');
             $table->longText('configuration');
-            $table->boolean('required')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

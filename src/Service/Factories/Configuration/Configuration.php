@@ -14,6 +14,13 @@ abstract class Configuration
     protected $type;
 
     /**
+     * need input.
+     *
+     * @var bool
+     */
+    protected $needInput = true;
+
+    /**
      * structure.
      *
      * @var array
@@ -116,6 +123,16 @@ abstract class Configuration
         }
     }
 
+    /**
+     * is need input.
+     *
+     * @return bool
+     */
+    public function isNeedInput()
+    {
+        return $this->needInput;
+    }
+    
     /**
      * set service type configuration
      *

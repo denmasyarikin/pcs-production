@@ -2,6 +2,8 @@
 
 namespace Denmasyarikin\Production\Service\Factories\Configuration;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+
 class SelectionConfiguration extends Configuration implements ConfigurationInterface
 {
     /**
@@ -61,17 +63,16 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     return false;
                 }
             }
-
-            return true;
         } else {
             foreach ($config['value'] as $value) {
-                if (is_array($value)) {
+                if (!is_string($value)) {
                     return false;
                 }
             }
 
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -86,6 +87,21 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
 
         $configuration = $this->serviceTypeConfiguration;
 
-        dd('selection value validation');
+        return true;
+    }
+
+    /**
+     * apply configuration.
+     *
+     * @param mixed $value
+     * @param int $quantity
+     * @param int $unitPrice
+     * @param int $unitTotal
+     * 
+     * @return array
+     */
+    public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
+    {
+        dd($value);
     }
 }

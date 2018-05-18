@@ -3,9 +3,11 @@
 namespace Denmasyarikin\Production\Service;
 
 use App\Model;
+use Modules\Chanel\Chanel;
+use App\Manager\Contracts\Price;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServicePrice extends Model
+class ServicePrice extends Model implements Price
 {
     use SoftDeletes;
 
@@ -17,10 +19,27 @@ class ServicePrice extends Model
     protected $table = 'production_service_prices';
 
     /**
+     * Get the chanel record associated with the ServicePrice.
+     */
+    public function chanel()
+    {
+        return $this->belongsTo(Chanel::class);
+    }
+
+    /**
      * Get the serviceType record associated with the ServicePrice.
      */
     public function serviceType()
     {
         return $this->belongsTo(ServiceType::class);
+    }
+
+    /**
+     * get priceabel
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function getPriceabel() {
+        return $this->serviceType();
     }
 }
