@@ -43,4 +43,12 @@ class ServicePrice extends Model implements Price
     {
         return $this->serviceType();
     }
+
+    /**
+     * Get the previous record associated with the ServicePrice.
+     */
+    public function previous()
+    {
+        return $this->belongsTo(static::class, 'previous_id');
+    }
 }

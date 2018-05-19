@@ -30,6 +30,7 @@ class ServiceTypeDetailTransformer extends Detail
             'min_order' => $model->min_order,
             'order_multiples' => $model->order_multiples,
             'prices' => (new ServicePriceListTransformer($calculator->getAllPrices()))->toArray(),
+            'configurations' => (new ServiceTypeConfigurationListTransformer($model->serviceTypeConfigurations))->toArray(),
             'enabled' => $model->enabled,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $model->updated_at->format('Y-m-d H:i:s'),

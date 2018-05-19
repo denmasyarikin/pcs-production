@@ -2,6 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Controllers;
 
+use Modules\Chanel\Chanel;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Denmasyarikin\Production\Service\ServiceType;
@@ -12,6 +13,7 @@ use Denmasyarikin\Production\Service\Requests\DeleteServicePriceRequest;
 use Denmasyarikin\Production\Service\Transformers\ServicePriceListTransformer;
 use Denmasyarikin\Production\Service\Transformers\ServicePriceDetailTransformer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Denmasyarikin\Production\Service\Factories\ServicePriceCalculator;
 
 class ServicePriceController extends Controller
 {
@@ -43,9 +45,26 @@ class ServicePriceController extends Controller
         $serviceType = $request->getServiceType();
         $this->checkIsTypePriceExist($serviceType, $request->chanel_id);
 
-        $price = $serviceType->servicePrices()->create(
-            $request->only(['chanel_id', 'price'])
-        );
+        $data = $request->only(['chanel_id', 'price']);
+        $data['current'] = true;
+
+        $calculator = new ServicePriceCalculator($serviceType);
+        $defaultPrice = null;
+
+        if (null !== $request->chanel_id) {
+            $chanel = Chanel::whereStatus('active')->find($request->chanel_id);
+            if (!is_null($chanel)) {
+                $defaultPrice = $calculator->getChanelPrice($chanel);
+            }
+        }
+
+        if ($defaultPrice) {
+            $data['previous_id'] = $defaultPrice->id;
+            $data['change_type'] = $request->price > $defaultPrice->price ? 'up' : 'down';
+            $data['difference'] = $request->price - $defaultPrice->price;
+        }
+
+        $price = $serviceType->servicePrices()->create($data);
 
         return new JsonResponse([
             'messaage' => 'Service price has been created',
@@ -62,14 +81,19 @@ class ServicePriceController extends Controller
      */
     public function updatePrice(UpdateServicePriceRequest $request)
     {
-        $variant = $request->getServiceType();
+        $type = $request->getServiceType();
         $price = $request->getServicePrice();
 
+        $calculator = new ServicePriceCalculator($type);
+        $defaultPrice = null;
+
         if (null === $price->chanel_id) {
-            $variant->servicePrices()
+            $defaultPrice = $calculator->getBasePrice();
+            $type->servicePrices()
                     ->update(['current' => false]);
         } else {
-            $variant->servicePrices()
+            $defaultPrice = $calculator->getChanelPrice($price->chanel);
+            $type->servicePrices()
                     ->whereChanelId($price->chanel_id)
                     ->update(['current' => false]);
         }
@@ -77,6 +101,9 @@ class ServicePriceController extends Controller
         $newPrice = $price->replicate();
         $newPrice->price = $request->price;
         $newPrice->current = true;
+        $newPrice->previous_id = $newPrice->id;
+        $newPrice->change_type = $newPrice->price > $defaultPrice->price ? 'up' : 'down';
+        $newPrice->difference = $newPrice->price - $defaultPrice->price;
         $newPrice->save();
 
         return new JsonResponse([
@@ -106,7 +133,7 @@ class ServicePriceController extends Controller
     }
 
     /**
-     * check is service variant price exist.
+     * check is service type price exist.
      *
      * @param param type $serviceType
      * @param mixed      $chanelId

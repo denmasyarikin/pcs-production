@@ -50,4 +50,12 @@ class ServiceType extends Model implements Priceable
     {
         return $this->hasMany(ServiceTypeConfiguration::class);
     }
+
+    /**
+     * Get the unit record associated with the GoodPrice.
+     */
+    public function unit()
+    {
+        return $this->belongsTo('Modules\Unit\Unit');
+    }
 }

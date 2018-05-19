@@ -16,12 +16,21 @@ class ServiceTypeConfigurationDetailTransformer extends Detail
      */
     protected function getData(Model $model)
     {
+        $serviceType = $model->serviceType;
+
         return [
             'id' => $model->id,
             'name' => $model->name,
             'type' => $model->type,
             'service_type_id' => $model->service_type_id,
-            'service_type' => (new ServiceTypeDetailTransformer($model->serviceType))->toArray(),
+            'service_type' => [
+                'id' => $serviceType->id,
+                'service_id' => $serviceType->service_id,
+                'name' => $serviceType->name,
+                'unit_id' => $serviceType->unit_id,
+                'min_order' => $serviceType->min_order,
+                'order_multiples' => $serviceType->order_multiples
+            ],
             'configuration' => $model->configuration,
             'required' => (bool) $model->required,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),

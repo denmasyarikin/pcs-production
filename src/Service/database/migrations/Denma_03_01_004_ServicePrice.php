@@ -17,10 +17,14 @@ class ServicePrice extends Migration
             $table->integer('chanel_id')->nullable()->default(null)->unsigned()->comment('where chanel_id is null that mean is base price');
             $table->bigInteger('price');
             $table->boolean('current')->default(true);
+            $table->integer('previous_id')->unsigned()->nullable()->default(null);
+            $table->enum('change_type', ['up', 'down'])->nullable()->default(null);
+            $table->bigInteger('difference');
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('service_type_id')->references('id')->on('production_service_types');
+            $table->foreign('previous_id')->references('id')->on('production_service_prices');
             $table->foreign('chanel_id')->references('id')->on('core_chanels');
         });
     }
