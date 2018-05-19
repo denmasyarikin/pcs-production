@@ -32,21 +32,22 @@ class MultiplicationConfiguration extends Configuration implements Configuration
      *
      * @return bool
      */
-    public function isValidValue($value) {
+    public function isValidValue($value)
+    {
         parent::isValidValue($value);
 
         $configuration = $this->serviceTypeConfiguration->configuration;
-        
+
         if (!is_int($value)) {
             throw new InvalidArgumentException('Not an integer');
         }
 
         if ($value < $configuration['min']) {
-            throw new InvalidArgumentException('Less then ' . $configuration['min']);
+            throw new InvalidArgumentException('Less then '.$configuration['min']);
         }
 
         if ($value > $configuration['max']) {
-            throw new InvalidArgumentException('More then ' . $configuration['max']);
+            throw new InvalidArgumentException('More then '.$configuration['max']);
         }
 
         return true;
@@ -56,10 +57,10 @@ class MultiplicationConfiguration extends Configuration implements Configuration
      * apply configuration.
      *
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
-     * 
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
+     *
      * @return array
      */
     public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
@@ -68,11 +69,11 @@ class MultiplicationConfiguration extends Configuration implements Configuration
         $beforeUnitTotal = $unitTotal;
         $config = $this->serviceTypeConfiguration->configuration;
 
-        if($config['relativity'] === 'unit_total') {
+        if ('unit_total' === $config['relativity']) {
             $unitTotal *= $value;
         }
 
-        if($config['relativity'] === 'unit_price') {
+        if ('unit_price' === $config['relativity']) {
             $unitPrice *= $value;
             $unitTotal = $unitPrice * $quantity;
         }
@@ -83,7 +84,7 @@ class MultiplicationConfiguration extends Configuration implements Configuration
             'before_unit_total' => $beforeUnitTotal,
             'after_unit_price' => $unitPrice,
             'after_unit_total' => $unitTotal,
-            'configuration' => $this->serviceTypeConfiguration->toArray()
+            'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }
 }

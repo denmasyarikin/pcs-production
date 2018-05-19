@@ -38,22 +38,23 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      *
      * @return bool
      */
-    public function isValidValue($value) {
+    public function isValidValue($value)
+    {
         parent::isValidValue($value);
 
         $configuration = $this->serviceTypeConfiguration->configuration;
-        
+
         if ($configuration['input_multiples']) {
             if (!is_int($value)) {
                 throw new InvalidArgumentException('Not an integer');
             }
 
             if ($value < $configuration['input_min']) {
-                throw new InvalidArgumentException('Less then ' . $configuration['input_min']);
+                throw new InvalidArgumentException('Less then '.$configuration['input_min']);
             }
 
             if ($value > $configuration['input_max']) {
-                throw new InvalidArgumentException('More then ' . $configuration['input_max']);
+                throw new InvalidArgumentException('More then '.$configuration['input_max']);
             }
         }
 
@@ -64,10 +65,10 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      * apply configuration.
      *
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
-     * 
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
+     *
      * @return array
      */
     public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
@@ -76,7 +77,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         $beforeUnitTotal = $unitTotal;
         $config = $this->serviceTypeConfiguration->configuration;
         $firstPrice = $unitPrice;
-        $nextPrice = $this->getNextPrice($config['rule'], $config['value'], $config['relativity'] === 'unit_price' ? $unitPrice : $unitTotal);
+        $nextPrice = $this->getNextPrice($config['rule'], $config['value'], 'unit_price' === $config['relativity'] ? $unitPrice : $unitTotal);
 
         // calculate multiple
         if ($config['input_multiples']) {
@@ -86,10 +87,13 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         }
 
         // calculate price
-        if (!$config['include_first']) $unitTotal = $firstPrice;
-        else $unitTotal = $firstPrice + $nextPrice;
+        if (!$config['include_first']) {
+            $unitTotal = $firstPrice;
+        } else {
+            $unitTotal = $firstPrice + $nextPrice;
+        }
         $unitTotal += $nextPrice * ($multiples - 1);
-        
+
         if ($config['input_multiples']) {
             $unitTotal *= $quantity;
         }
@@ -103,16 +107,16 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
             'multiples' => $multiples,
             'first_price' => $firstPrice,
             'next_price' => $nextPrice,
-            'configuration' => $this->serviceTypeConfiguration->toArray()
+            'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }
 
     /**
-     * get next price
+     * get next price.
      *
      * @param string $rule
-     * @param int $value
-     * @param int $relativeValue
+     * @param int    $value
+     * @param int    $relativeValue
      *
      * @return int
      */

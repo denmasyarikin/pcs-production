@@ -35,11 +35,12 @@ class ServicePrice extends Model implements Price
     }
 
     /**
-     * get priceabel
+     * get priceabel.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getPriceabel() {
+    public function getPriceabel()
+    {
         return $this->serviceType();
     }
 }

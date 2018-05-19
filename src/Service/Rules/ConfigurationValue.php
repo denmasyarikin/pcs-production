@@ -11,7 +11,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
 class ConfigurationValue implements Rule
 {
     /**
-     * message
+     * message.
      *
      * @var string
      */
@@ -45,13 +45,14 @@ class ConfigurationValue implements Rule
     public function passes($attribute, $value)
     {
         $configurations = $this->serviceType->serviceTypeConfigurations;
-        
-        if ($configurations->count() === 0) {
+
+        if (0 === $configurations->count()) {
             return true;
         }
 
-        if ($configurations->count() > 1 AND !is_array($value)) {
+        if ($configurations->count() > 1 and !is_array($value)) {
             $this->message = 'The :attribute should be an array where configurations is multiple';
+
             return false;
         }
 
@@ -61,7 +62,8 @@ class ConfigurationValue implements Rule
 
             if ($configurations->count() > 1) {
                 if (!array_key_exists($config->id, $value)) {
-                    $this->message = 'The :attribute not contain key service type configuration id ' . $config->id;
+                    $this->message = 'The :attribute not contain key service type configuration id '.$config->id;
+
                     return false;
                 }
 
@@ -77,18 +79,20 @@ class ConfigurationValue implements Rule
     }
 
     /**
-     * validate each configuration value
+     * validate each configuration value.
      *
      * @param ServiceTypeConfiguration $typeConfiguration
-     * @param mixed $value
+     * @param mixed                    $value
      *
      * @return bool
      */
-    public function validateConfigurationValue(ServiceTypeConfiguration $typeConfiguration, $value) {
+    public function validateConfigurationValue(ServiceTypeConfiguration $typeConfiguration, $value)
+    {
         $manager = new ConfigurationManager();
-        
+
         if (!$manager->isConfigurationExists($typeConfiguration->type)) {
             $this->message = 'The :attribute can not be processed, no configuration found';
+
             return false;
         }
 
@@ -98,7 +102,8 @@ class ConfigurationValue implements Rule
         try {
             return $factory->isValidValue($value);
         } catch (InvalidArgumentException $e) {
-            $this->message = 'The :attribute ' . $typeConfiguration->id .' invalid  : ' . $e->getMessage();
+            $this->message = 'The :attribute '.$typeConfiguration->id.' invalid  : '.$e->getMessage();
+
             return false;
         }
     }

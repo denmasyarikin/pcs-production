@@ -69,7 +69,6 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     return false;
                 }
             }
-
         }
 
         return true;
@@ -82,7 +81,8 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      *
      * @return bool
      */
-    public function isValidValue($value) {
+    public function isValidValue($value)
+    {
         parent::isValidValue($value);
 
         $configuration = $this->serviceTypeConfiguration->configuration;
@@ -98,7 +98,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                         throw new InvalidArgumentException('value is not array of array');
                     }
 
-                    if (!isset($val['label']) OR !isset($val['value'])) {
+                    if (!isset($val['label']) or !isset($val['value'])) {
                         throw new InvalidArgumentException('value or lable is not persent');
                     }
 
@@ -107,7 +107,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     }
                 }
             } else {
-                if (!isset($value['label']) OR !isset($value['value'])) {
+                if (!isset($value['label']) or !isset($value['value'])) {
                     throw new InvalidArgumentException('value or lable is not persent');
                 }
 
@@ -147,10 +147,10 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      * apply configuration.
      *
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
-     * 
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
+     *
      * @return array
      */
     public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
@@ -176,45 +176,45 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             'after_unit_price' => $unitPrice,
             'after_unit_total' => $unitTotal,
             'selected' => $value,
-            'configuration' => $this->serviceTypeConfiguration->toArray()
+            'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }
 
     /**
-     * calculate selected
+     * calculate selected.
      *
      * @param mixed $value
-     * @param array $config 
+     * @param array $config
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
      */
     protected function calculateSelected($value, array $config, int &$quantity, int &$unitPrice, int &$unitTotal)
     {
         if (!method_exists($this, $methode = $config['formula'])) {
-            throw new InvalidArgumentException('Unknwon formula ' . $config['formula']);            
+            throw new InvalidArgumentException('Unknwon formula '.$config['formula']);
         }
 
-        $relativeValue = $config['relativity'] === 'unit_price' ? $unitPrice : $unitTotal;
+        $relativeValue = 'unit_price' === $config['relativity'] ? $unitPrice : $unitTotal;
 
-        if ($config['rule'] === 'percentage') {
+        if ('percentage' === $config['rule']) {
             $value = ceil($relativeValue * $value) / 100;
         }
 
         $unitPrice = $this->$methode($value, $relativeValue);
 
-        if ($config['relativity'] === 'unit_price') {
+        if ('unit_price' === $config['relativity']) {
             $unitTotal = $quantity * $unitPrice;
         }
     }
 
     /**
-     * multiplication
+     * multiplication.
      *
      * @param int $value
      * @param int $relativeValue
-     * 
+     *
      * @return int
      */
     public function multiplication($value, $relativeValue)
@@ -223,11 +223,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     }
 
     /**
-     * division
+     * division.
      *
      * @param int $value
      * @param int $relativeValue
-     * 
+     *
      * @return int
      */
     public function division($value, $relativeValue)
@@ -236,11 +236,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     }
 
     /**
-     * addition
+     * addition.
      *
      * @param int $value
      * @param int $relativeValue
-     * 
+     *
      * @return int
      */
     public function addition($value, $relativeValue)
@@ -249,16 +249,15 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     }
 
     /**
-     * reduction
+     * reduction.
      *
      * @param int $value
      * @param int $relativeValue
-     * 
+     *
      * @return int
      */
     public function reduction($value, $relativeValue)
     {
         return $value - $relativeValue;
     }
-
 }

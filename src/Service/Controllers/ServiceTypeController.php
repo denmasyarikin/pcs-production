@@ -125,7 +125,7 @@ class ServiceTypeController extends Controller
         foreach ($manager->getConfigurationInstances() as $key => $configuration) {
             $types[] = [
                 'type' => $key,
-                'structure' => $configuration->getStructure()
+                'structure' => $configuration->getStructure(),
             ];
         }
 
@@ -156,9 +156,9 @@ class ServiceTypeController extends Controller
                 'quantity' => $calculation->getQuantity(),
                 'unit_price' => $calculation->getUnitPrice(),
                 'unit_total' => $calculation->getUnitTotal(),
-                'configurations' => $calculation->getConfigurations()
+                'configurations' => $calculation->getConfigurations(),
             ]);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
     }

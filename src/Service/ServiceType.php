@@ -34,7 +34,7 @@ class ServiceType extends Model implements Priceable
     }
 
     /**
-     * get prices
+     * get prices.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

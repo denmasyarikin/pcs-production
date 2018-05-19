@@ -8,12 +8,13 @@ use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 class ServicePriceCalculator extends ChanelPriceCalculator
 {
-	/**
-     * calculate price
+    /**
+     * calculate price.
      *
-     * @param int $quantity
+     * @param int   $quantity
      * @param mixed $value
-     * @param int $chanelId
+     * @param int   $chanelId
+     *
      * @return array
      */
     public function calculatePrice(int $quantity, $value, int $chanelId = null)
@@ -22,29 +23,29 @@ class ServicePriceCalculator extends ChanelPriceCalculator
         $manager = new ConfigurationManager();
 
         if (is_null($price)) {
-        	throw new InvalidArgumentException('Price not found');
+            throw new InvalidArgumentException('Price not found');
         }
-		
-		$calculation = $this->generateCalculation($quantity, $price);
 
-		foreach ($this->priceable->serviceTypeConfigurations as $configuration) {
-			$val = $manager->getValueFromRequest($this->priceable, $configuration, $value);
-			$calculation->applyConfiguration($configuration, $val);
-		}
+        $calculation = $this->generateCalculation($quantity, $price);
 
-		return $calculation;
+        foreach ($this->priceable->serviceTypeConfigurations as $configuration) {
+            $val = $manager->getValueFromRequest($this->priceable, $configuration, $value);
+            $calculation->applyConfiguration($configuration, $val);
+        }
+
+        return $calculation;
     }
 
     /**
-     * generate calculation
+     * generate calculation.
      *
-     * @param int $quantity
+     * @param int          $quantity
      * @param ServicePrice $servicePrice
      *
      * @return data type
      */
     protected function generateCalculation(int $quantity, ServicePrice $servicePrice)
     {
-    	return new Calculation($quantity, $servicePrice->price);
+        return new Calculation($quantity, $servicePrice->price);
     }
 }

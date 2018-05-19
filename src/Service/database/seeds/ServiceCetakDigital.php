@@ -39,8 +39,8 @@ class ServiceCetakDigital extends Seeder
                 'min_length' => 1,
                 'max_length' => 100,
                 'default_width' => 1,
-                'default_length' => 1
-            ]
+                'default_length' => 1,
+            ],
         ]);
     }
 }

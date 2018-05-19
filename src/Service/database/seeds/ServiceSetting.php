@@ -43,7 +43,7 @@ class ServiceSetting extends Seeder
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
                 'formula' => 'addition',
-            ]
+            ],
         ]);
 
         ServiceType::create([
@@ -72,7 +72,7 @@ class ServiceSetting extends Seeder
                 'input_default' => 1,
                 'rule' => 'fixed',
                 'value' => 1000,
-            ]
+            ],
         ]);
 
         ServiceTypeConfiguration::create([
@@ -89,7 +89,7 @@ class ServiceSetting extends Seeder
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
                 'formula' => 'addition',
-            ]
+            ],
         ]);
     }
 }

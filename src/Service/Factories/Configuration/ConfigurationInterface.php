@@ -8,10 +8,10 @@ interface ConfigurationInterface
      * apply configuration.
      *
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
-     * 
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
+     *
      * @return array
      */
     public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal);

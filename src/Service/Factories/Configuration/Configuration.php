@@ -21,7 +21,7 @@ abstract class Configuration
     protected $structure = [];
 
     /**
-     * service type configuration
+     * service type configuration.
      *
      * @var ServiceTypeConfiguration
      */
@@ -29,8 +29,6 @@ abstract class Configuration
 
     /**
      * Create a new Configuration instance.
-     *
-     * @return void
      */
     public function __construct(ServiceTypeConfiguration $serviceTypeConfiguration = null)
     {
@@ -115,9 +113,9 @@ abstract class Configuration
                 break;
         }
     }
-    
+
     /**
-     * set service type configuration
+     * set service type configuration.
      *
      * @return ServiceTypeConfiguration
      */
@@ -127,7 +125,7 @@ abstract class Configuration
     }
 
     /**
-     * get service type configuration
+     * get service type configuration.
      *
      * @return ServiceTypeConfiguration
      */
@@ -143,7 +141,8 @@ abstract class Configuration
      *
      * @return bool
      */
-    public function isValidValue($value) {
+    public function isValidValue($value)
+    {
         if (is_null($this->serviceTypeConfiguration)) {
             return false;
         }

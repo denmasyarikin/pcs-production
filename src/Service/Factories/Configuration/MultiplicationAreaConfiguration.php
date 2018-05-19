@@ -35,37 +35,38 @@ class MultiplicationAreaConfiguration extends Configuration implements Configura
      *
      * @return bool
      */
-    public function isValidValue($value) {
+    public function isValidValue($value)
+    {
         parent::isValidValue($value);
 
         $configuration = $this->serviceTypeConfiguration->configuration;
 
         if (!is_array($value)) {
-            throw new InvalidArgumentException('Not array');            
+            throw new InvalidArgumentException('Not array');
         }
 
         if (!isset($value['width'])) {
-            throw new InvalidArgumentException('Width Not present');            
+            throw new InvalidArgumentException('Width Not present');
         }
 
         if (!isset($value['length'])) {
-            throw new InvalidArgumentException('Length Not present');            
+            throw new InvalidArgumentException('Length Not present');
         }
 
         if ($value['width'] < $configuration['min_width']) {
-            throw new InvalidArgumentException('Width Less then ' . $configuration['min_width']);
+            throw new InvalidArgumentException('Width Less then '.$configuration['min_width']);
         }
 
         if ($value['width'] > $configuration['max_width']) {
-            throw new InvalidArgumentException('Width More then ' . $configuration['max_width']);
+            throw new InvalidArgumentException('Width More then '.$configuration['max_width']);
         }
 
         if ($value['length'] < $configuration['min_length']) {
-            throw new InvalidArgumentException('Length Less then ' . $configuration['min_length']);
+            throw new InvalidArgumentException('Length Less then '.$configuration['min_length']);
         }
 
         if ($value['length'] > $configuration['max_length']) {
-            throw new InvalidArgumentException('Length More then ' . $configuration['max_length']);
+            throw new InvalidArgumentException('Length More then '.$configuration['max_length']);
         }
 
         return true;
@@ -75,10 +76,10 @@ class MultiplicationAreaConfiguration extends Configuration implements Configura
      * apply configuration.
      *
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
-     * 
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
+     *
      * @return array
      */
     public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
@@ -87,11 +88,11 @@ class MultiplicationAreaConfiguration extends Configuration implements Configura
         $beforeUnitTotal = $unitTotal;
         $config = $this->serviceTypeConfiguration->configuration;
 
-        if($config['relativity'] === 'unit_total') {
+        if ('unit_total' === $config['relativity']) {
             $unitTotal *= $value['width'] * $value['length'];
         }
 
-        if($config['relativity'] === 'unit_price') {
+        if ('unit_price' === $config['relativity']) {
             $unitPrice *= $value['width'] * $value['length'];
             $unitTotal = $unitPrice * $quantity;
         }
@@ -102,7 +103,7 @@ class MultiplicationAreaConfiguration extends Configuration implements Configura
             'before_unit_total' => $beforeUnitTotal,
             'after_unit_price' => $unitPrice,
             'after_unit_total' => $unitTotal,
-            'configuration' => $this->serviceTypeConfiguration->toArray()
+            'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }
 }

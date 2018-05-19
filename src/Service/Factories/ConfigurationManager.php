@@ -3,9 +3,7 @@
 namespace Denmasyarikin\Production\Service\Factories;
 
 use Denmasyarikin\Production\Service\ServiceType;
-use Denmasyarikin\Production\Service\ServicePrice;
 use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
-use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 class ConfigurationManager
 {
@@ -85,11 +83,11 @@ class ConfigurationManager
     }
 
     /**
-     * get value from request
+     * get value from request.
      *
-     * @param ServiceType $serviceType
+     * @param ServiceType              $serviceType
      * @param ServiceTypeConfiguration $serviceTypeConfiguration
-     * @param mixed $value
+     * @param mixed                    $value
      *
      * @return data type
      */
@@ -97,11 +95,11 @@ class ConfigurationManager
     {
         $configurations = $serviceType->serviceTypeConfigurations;
 
-        if ($configurations->count() === 0) {
+        if (0 === $configurations->count()) {
             return null;
         }
 
-        if ($configurations->count() === 1) {
+        if (1 === $configurations->count()) {
             return $value;
         }
 

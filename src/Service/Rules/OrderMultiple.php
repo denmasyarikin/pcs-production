@@ -34,7 +34,7 @@ class OrderMultiple implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value % $this->serviceType->order_multiples === 0;
+        return 0 === $value % $this->serviceType->order_multiples;
     }
 
     /**
@@ -44,6 +44,6 @@ class OrderMultiple implements Rule
      */
     public function message()
     {
-        return 'The :attribute is not multiple of ' . $this->serviceType->order_multiples;
+        return 'The :attribute is not multiple of '.$this->serviceType->order_multiples;
     }
 }

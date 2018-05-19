@@ -38,49 +38,50 @@ class MultiplicationVolumeConfiguration extends Configuration implements Configu
      *
      * @return bool
      */
-    public function isValidValue($value) {
+    public function isValidValue($value)
+    {
         parent::isValidValue($value);
 
         $configuration = $this->serviceTypeConfiguration->configuration;
 
         if (!is_array($value)) {
-            throw new InvalidArgumentException('Not array');            
+            throw new InvalidArgumentException('Not array');
         }
 
-        if (!isset($value['width']) OR !is_int($value['width'])) {
+        if (!isset($value['width']) or !is_int($value['width'])) {
             throw new InvalidArgumentException('Width Not present or not integer');
         }
 
-        if (!isset($value['length']) OR !is_int($value['length'])) {
-            throw new InvalidArgumentException('Length Not present or not integer');            
+        if (!isset($value['length']) or !is_int($value['length'])) {
+            throw new InvalidArgumentException('Length Not present or not integer');
         }
 
-        if (!isset($value['height']) OR !is_int($value['height'])) {
-            throw new InvalidArgumentException('Height Not present or not integer');            
+        if (!isset($value['height']) or !is_int($value['height'])) {
+            throw new InvalidArgumentException('Height Not present or not integer');
         }
 
         if ($value['width'] < $configuration['min_width']) {
-            throw new InvalidArgumentException('Width Less then ' . $configuration['min_width']);
+            throw new InvalidArgumentException('Width Less then '.$configuration['min_width']);
         }
 
         if ($value['width'] > $configuration['max_width']) {
-            throw new InvalidArgumentException('Width More then ' . $configuration['max_width']);
+            throw new InvalidArgumentException('Width More then '.$configuration['max_width']);
         }
 
         if ($value['length'] < $configuration['min_length']) {
-            throw new InvalidArgumentException('Length Less then ' . $configuration['min_length']);
+            throw new InvalidArgumentException('Length Less then '.$configuration['min_length']);
         }
 
         if ($value['length'] > $configuration['max_length']) {
-            throw new InvalidArgumentException('Length More then ' . $configuration['max_length']);
+            throw new InvalidArgumentException('Length More then '.$configuration['max_length']);
         }
 
         if ($value['height'] < $configuration['min_height']) {
-            throw new InvalidArgumentException('Height Less then ' . $configuration['min_height']);
+            throw new InvalidArgumentException('Height Less then '.$configuration['min_height']);
         }
 
         if ($value['height'] > $configuration['max_height']) {
-            throw new InvalidArgumentException('Height More then ' . $configuration['max_height']);
+            throw new InvalidArgumentException('Height More then '.$configuration['max_height']);
         }
 
         return true;
@@ -90,10 +91,10 @@ class MultiplicationVolumeConfiguration extends Configuration implements Configu
      * apply configuration.
      *
      * @param mixed $value
-     * @param int $quantity
-     * @param int $unitPrice
-     * @param int $unitTotal
-     * 
+     * @param int   $quantity
+     * @param int   $unitPrice
+     * @param int   $unitTotal
+     *
      * @return array
      */
     public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
@@ -102,12 +103,12 @@ class MultiplicationVolumeConfiguration extends Configuration implements Configu
         $beforeUnitTotal = $unitTotal;
         $config = $this->serviceTypeConfiguration->configuration;
 
-        if($config['relativity'] === 'unit_total') {
+        if ('unit_total' === $config['relativity']) {
             $unitTotal *= $value['width'] * $value['length'] * $value['height'];
         }
 
-        if($config['relativity'] === 'unit_price') {
-            $unitPrice *= $value['width'] * $value['length']* $value['height'];
+        if ('unit_price' === $config['relativity']) {
+            $unitPrice *= $value['width'] * $value['length'] * $value['height'];
             $unitTotal = $unitPrice * $quantity;
         }
 
@@ -117,7 +118,7 @@ class MultiplicationVolumeConfiguration extends Configuration implements Configu
             'before_unit_total' => $beforeUnitTotal,
             'after_unit_price' => $unitPrice,
             'after_unit_total' => $unitTotal,
-            'configuration' => $this->serviceTypeConfiguration->toArray()
+            'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }
 }

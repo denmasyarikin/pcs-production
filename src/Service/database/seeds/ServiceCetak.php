@@ -42,7 +42,7 @@ class ServiceCetak extends Seeder
                 'multiples' => 500,
                 'rule' => 'percentage',
                 'value' => 50,
-            ]
+            ],
         ]);
 
         ServiceTypeConfiguration::create([
@@ -54,7 +54,7 @@ class ServiceCetak extends Seeder
                 'min' => 1,
                 'max' => 20,
                 'default' => 1,
-            ]
+            ],
         ]);
     }
 }

@@ -44,6 +44,6 @@ class MinOrder implements Rule
      */
     public function message()
     {
-        return 'The :attribute less then minimal order ' . $this->serviceType->min_order;
+        return 'The :attribute less then minimal order '.$this->serviceType->min_order;
     }
 }
