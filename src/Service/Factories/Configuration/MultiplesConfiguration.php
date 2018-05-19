@@ -3,6 +3,7 @@
 namespace Denmasyarikin\Production\Service\Factories\Configuration;
 
 use App\Manager\Facades\Money;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 class MultiplesConfiguration extends Configuration implements ConfigurationInterface
 {
@@ -14,13 +15,6 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     protected $type = 'multiples';
 
     /**
-     * need input.
-     *
-     * @var bool
-     */
-    protected $needInput = false;
-
-    /**
      * structure.
      *
      * @var array
@@ -28,9 +22,43 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     protected $structure = [
         'relativity' => ['unit_price', 'unit_total'],
         'multiples' => 'integer',
+        'include_first' => 'boolean',
+        'input_multiples' => 'boolean',
+        'input_min' => 'integer',
+        'input_max' => 'integer',
+        'input_default' => 'integer',
         'rule' => ['fixed', 'percentage'],
         'value' => 'integer',
     ];
+
+    /**
+     * is validate value.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function isValidValue($value) {
+        parent::isValidValue($value);
+
+        $configuration = $this->serviceTypeConfiguration->configuration;
+        
+        if ($configuration['input_multiples']) {
+            if (!is_int($value)) {
+                throw new InvalidArgumentException('Not an integer');
+            }
+
+            if ($value < $configuration['input_min']) {
+                throw new InvalidArgumentException('Less then ' . $configuration['input_min']);
+            }
+
+            if ($value > $configuration['input_max']) {
+                throw new InvalidArgumentException('More then ' . $configuration['input_max']);
+            }
+        }
+
+        return true;
+    }
 
     /**
      * apply configuration.
@@ -51,11 +79,20 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         $nextPrice = $this->getNextPrice($config['rule'], $config['value'], $config['relativity'] === 'unit_price' ? $unitPrice : $unitTotal);
 
         // calculate multiple
-        $multiples = ceil($quantity / $config['multiples']);
+        if ($config['input_multiples']) {
+            $multiples = $value;
+        } else {
+            $multiples = ceil($quantity / $config['multiples']);
+        }
 
         // calculate price
-        $unitTotal = $firstPrice;
+        if (!$config['include_first']) $unitTotal = $firstPrice;
+        else $unitTotal = $firstPrice + $nextPrice;
         $unitTotal += $nextPrice * ($multiples - 1);
+        
+        if ($config['input_multiples']) {
+            $unitTotal *= $quantity;
+        }
 
         return [
             'quantity' => $quantity,

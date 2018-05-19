@@ -125,7 +125,6 @@ class ServiceTypeController extends Controller
         foreach ($manager->getConfigurationInstances() as $key => $configuration) {
             $types[] = [
                 'type' => $key,
-                'need_input' => $configuration->isNeedInput(), 
                 'structure' => $configuration->getStructure()
             ];
         }

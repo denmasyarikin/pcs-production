@@ -61,10 +61,15 @@ class ServiceSetting extends Seeder
         ServiceTypeConfiguration::create([
             'name' => 'Jumlah Nama',
             'service_type_id' => 2,
-            'type' => 'multiplication',
+            'type' => 'multiples',
             'configuration' => [
                 'relativity' => 'unit_price',
                 'multiples' => 1,
+                'include_first' => false,
+                'input_multiples' => true,
+                'input_min' => 1,
+                'input_max' => 1000,
+                'input_default' => 1,
                 'rule' => 'fixed',
                 'value' => 1000,
             ]

@@ -47,11 +47,4 @@ interface ConfigurationInterface
      * @return bool
      */
     public function isValidValue($value);
-
-    /**
-     * is need input.
-     *
-     * @return bool
-     */
-    public function isNeedInput();
 }

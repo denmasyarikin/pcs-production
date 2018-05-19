@@ -35,6 +35,11 @@ class ServiceFinishing extends Seeder
             'configuration' => [
                 'relativity' => 'unit_price',
                 'multiples' => 500,
+                'include_first' => false,
+                'input_multiples' => false,
+                'input_min' => 0,
+                'input_max' => 0,
+                'input_default' => 0,
                 'rule' => 'percentage',
                 'value' => 100,
             ]

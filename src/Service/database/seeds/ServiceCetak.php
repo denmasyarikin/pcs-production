@@ -34,6 +34,11 @@ class ServiceCetak extends Seeder
             'type' => 'multiples',
             'configuration' => [
                 'relativity' => 'unit_price',
+                'input_multiples' => false,
+                'include_first' => false,
+                'input_min' => 0,
+                'input_max' => 0,
+                'input_default' => 0,
                 'multiples' => 500,
                 'rule' => 'percentage',
                 'value' => 50,
