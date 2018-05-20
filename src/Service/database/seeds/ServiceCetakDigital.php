@@ -31,8 +31,8 @@ class ServiceCetakDigital extends Seeder
         ServiceTypeConfiguration::create([
             'name' => 'Area Cetak',
             'service_type_id' => 5,
-            'type' => 'multiplication_area',
-            'configuration' => [
+            'type' => 'area',
+            'structure' => [
                 'relativity' => 'unit_price',
                 'min_width' => 1,
                 'max_width' => 5,
@@ -42,5 +42,17 @@ class ServiceCetakDigital extends Seeder
                 'default_length' => 1,
             ],
         ]);
+
+        ServiceType::create([
+            'id' => 6,
+            'name' => 'A3',
+            'service_id' => $serviceCetakId,
+            'unit_id' => 16,
+            'min_order' => 1,
+            'order_multiples' => 1,
+            'enabled' => 0,
+        ]);
+
+        ServicePrice::create(['service_type_id' => 6, 'price' => 3000]);
     }
 }

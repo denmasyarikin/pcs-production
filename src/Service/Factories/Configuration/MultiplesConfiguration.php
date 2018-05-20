@@ -22,7 +22,6 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     protected $structure = [
         'relativity' => ['unit_price', 'unit_total'],
         'multiples' => 'integer',
-        'include_first' => 'boolean',
         'input_multiples' => 'boolean',
         'input_min' => 'integer',
         'input_max' => 'integer',
@@ -87,11 +86,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         }
 
         // calculate price
-        if (!$config['include_first']) {
-            $unitTotal = $firstPrice;
-        } else {
-            $unitTotal = $firstPrice + $nextPrice;
-        }
+        $unitTotal = $firstPrice;
         $unitTotal += $nextPrice * ($multiples - 1);
 
         if ($config['input_multiples']) {

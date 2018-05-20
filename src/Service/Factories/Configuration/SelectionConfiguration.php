@@ -21,6 +21,8 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     protected $structure = [
         'value' => 'array',
         'multiple' => 'boolean',
+        'required' => 'boolean',
+        'default' => 'any',
         'affected_the_price' => 'boolean',
         'relativity' => [null, 'unit_price', 'unit_total'],
         'rule' => [null, 'fixed', 'percentage'],
@@ -51,22 +53,32 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     {
         if ($config['affected_the_price']) {
             if (is_null($config['relativity']) or is_null($config['rule']) or is_null($config['formula'])) {
-                return false;
+                throw new InvalidArgumentException('relativity, rule or formula is null');
+            }
+
+            if ($config['required']) {
+                if (count($config['default']) === 0) {
+                    if ($config['multiple']) {
+                        throw new InvalidArgumentException('default value should be present minimal 1');
+                    } else {
+                        throw new InvalidArgumentException('default value should be present');
+                    }
+                }
             }
 
             foreach ($config['value'] as $value) {
                 if (!is_array($value)) {
-                    return false;
+                    throw new InvalidArgumentException('item should be array');
                 }
 
                 if (!isset($value['label']) or !isset($value['value']) or !is_int($value['value'])) {
-                    return false;
+                    throw new InvalidArgumentException('item should be contain key label and value');
                 }
             }
         } else {
             foreach ($config['value'] as $value) {
                 if (!is_string($value)) {
-                    return false;
+                    throw new InvalidArgumentException('item should be string');
                 }
             }
         }

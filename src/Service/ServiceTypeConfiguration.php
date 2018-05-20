@@ -25,26 +25,26 @@ class ServiceTypeConfiguration extends Model
     }
 
     /**
-     * Get Configuration.
+     * Get Structure.
      *
      * @param string $value
      *
      * @return string
      */
-    public function getConfigurationAttribute($value)
+    public function getStructureAttribute($value)
     {
         return json_decode($value, true);
     }
 
     /**
-     * Set Configuration.
+     * Set Structure.
      *
      * @param string $value
      *
      * @return string
      */
-    public function setConfigurationAttribute($value)
+    public function setStructureAttribute($value)
     {
-        $this->attributes['configuration'] = json_encode($value);
+        $this->attributes['structure'] = json_encode($value);
     }
 }

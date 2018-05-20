@@ -30,9 +30,14 @@ class ServiceTypeController extends Controller
     public function getList(DetailServiceRequest $request)
     {
         $service = $request->getService();
+        $types = $service->serviceTypes();
+
+        if ($request->has('name')) {
+            $types->where('name', 'like', "%{$request->name}%");
+        }
 
         return new JsonResponse([
-            'data' => (new ServiceTypeListTransformer($service->serviceTypes))->toArray(),
+            'data' => (new ServiceTypeListTransformer($types->get()))->toArray(),
         ]);
     }
 

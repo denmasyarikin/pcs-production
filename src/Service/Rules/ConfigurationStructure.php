@@ -4,9 +4,17 @@ namespace Denmasyarikin\Production\Service\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ConfigurationRules implements Rule
+class ConfigurationStructure implements Rule
 {
+    /**
+     * message.
+     *
+     * @var string
+     */
+    protected $message = 'The :attribute is not valid';
+
     /**
      * type.
      *
@@ -36,14 +44,18 @@ class ConfigurationRules implements Rule
     {
         $manager = new ConfigurationManager();
 
-        if (!is_array($value)) {
+        if (!$manager->isConfigurationExists($this->type)) {
+            $this->message = 'The :attribute can not be processed, no configuration found';
             return false;
         }
 
-        $configuration = $manager->getConfigurationInstance($this->type);
+        $factory = $manager->getConfigurationInstance($this->type);
 
-        if (!is_null($configuration)) {
-            return $configuration->isValidStructure($value);
+        try {
+            return $factory->isValidStructure($value);
+        } catch (InvalidArgumentException $e) {
+            $this->message = 'The :attribute is invalid  : '.$e->getMessage();
+            return false;
         }
 
         return false;
@@ -56,6 +68,6 @@ class ConfigurationRules implements Rule
      */
     public function message()
     {
-        return 'The :attribute is not valid';
+        return $this->message;
     }
 }

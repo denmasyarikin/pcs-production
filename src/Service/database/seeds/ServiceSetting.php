@@ -32,13 +32,15 @@ class ServiceSetting extends Seeder
             'name' => 'Jenis Undagnan',
             'service_type_id' => 1,
             'type' => 'selection',
-            'configuration' => [
+            'structure' => [
                 'value' => [
                     ['label' => 'Blanko', 'value' => 10000],
                     ['label' => 'BW', 'value' => 15000],
                     ['label' => 'Custome', 'value' => 30000],
                 ],
+                'default' => ['label' => 'Blanko', 'value' => 10000],
                 'multiple' => false,
+                'required' => true,
                 'affected_the_price' => true,
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',
@@ -62,10 +64,9 @@ class ServiceSetting extends Seeder
             'name' => 'Jumlah Nama',
             'service_type_id' => 2,
             'type' => 'multiples',
-            'configuration' => [
+            'structure' => [
                 'relativity' => 'unit_price',
                 'multiples' => 1,
-                'include_first' => false,
                 'input_multiples' => true,
                 'input_min' => 1,
                 'input_max' => 1000,
@@ -79,12 +80,14 @@ class ServiceSetting extends Seeder
             'name' => 'Kesulitan',
             'service_type_id' => 2,
             'type' => 'selection',
-            'configuration' => [
+            'structure' => [
                 'value' => [
                     ['label' => 'Huruf Asing', 'value' => 10000],
                     ['label' => 'Dengan Logo', 'value' => 20000],
                 ],
+                "default" => [],
                 'multiple' => true,
+                'required' => false,
                 'affected_the_price' => true,
                 'relativity' => 'unit_price',
                 'rule' => 'fixed',

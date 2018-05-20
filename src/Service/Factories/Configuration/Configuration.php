@@ -3,6 +3,7 @@
 namespace Denmasyarikin\Production\Service\Factories\Configuration;
 
 use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 abstract class Configuration
 {
@@ -66,12 +67,10 @@ abstract class Configuration
     {
         foreach ($this->structure as $key => $structure) {
             if (!array_key_exists($key, $config)) {
-                return false;
+                throw new InvalidArgumentException($key . ' not present');
             }
 
-            if (!$this->isValidStructureValue($config[$key], $structure)) {
-                return false;
-            }
+            $this->isValidStructureValue($config[$key], $structure);
         }
 
         return true;
@@ -88,24 +87,34 @@ abstract class Configuration
     protected function isValidStructureValue($value, $structure)
     {
         if (is_array($structure)) {
-            return in_array($value, $structure);
+            if  (!in_array($value, $structure)) {
+                throw new InvalidArgumentException($value . ' tidak dalam pilihan');
+            }
         }
 
         switch ($structure) {
             case 'integer':
-                return is_int($value);
+                if (!is_int($value)) {
+                    throw new InvalidArgumentException($value . ' bukan integer');
+                }
                 break;
 
             case 'string':
-                return is_string($value);
+                if (!is_string($value)) {
+                    throw new InvalidArgumentException($value . ' bukan string');
+                }
                 break;
 
             case 'array':
-                return is_array($value);
+                if (!is_array($value)) {
+                    throw new InvalidArgumentException($value . ' bukan array');
+                }
                 break;
 
             case 'boolean':
-                return is_bool($value);
+                if (!is_bool($value)) {
+                    throw new InvalidArgumentException($value . ' bukan boolean');
+                }
                 break;
 
             default:

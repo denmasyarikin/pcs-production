@@ -92,7 +92,6 @@ class ConfigurationValue implements Rule
 
         if (!$manager->isConfigurationExists($typeConfiguration->type)) {
             $this->message = 'The :attribute can not be processed, no configuration found';
-
             return false;
         }
 
@@ -103,7 +102,6 @@ class ConfigurationValue implements Rule
             return $factory->isValidValue($value);
         } catch (InvalidArgumentException $e) {
             $this->message = 'The :attribute '.$typeConfiguration->id.' invalid  : '.$e->getMessage();
-
             return false;
         }
     }

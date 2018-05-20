@@ -52,7 +52,7 @@ class ServicePriceController extends Controller
         $defaultPrice = null;
 
         if (null !== $request->chanel_id) {
-            $chanel = Chanel::whereStatus('active')->find($request->chanel_id);
+            $chanel = Chanel::whereStatus('active')->find(intval($request->chanel_id));
             if (!is_null($chanel)) {
                 $defaultPrice = $calculator->getChanelPrice($chanel);
             }

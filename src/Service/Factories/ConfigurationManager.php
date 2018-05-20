@@ -15,8 +15,8 @@ class ConfigurationManager
     protected $configurations = [
         Configuration\MultiplesConfiguration::class,
         Configuration\MultiplicationConfiguration::class,
-        Configuration\MultiplicationAreaConfiguration::class,
-        Configuration\MultiplicationVolumeConfiguration::class,
+        Configuration\DimensionAreaConfiguration::class,
+        Configuration\DimensionVolumeConfiguration::class,
         Configuration\SelectionConfiguration::class,
     ];
 

@@ -16,7 +16,7 @@ class ServiceTypeConfiguration extends Migration
             $table->string('name', 100);
             $table->integer('service_type_id')->unsigned();
             $table->string('type');
-            $table->longText('configuration');
+            $table->longText('structure');
             $table->timestamps();
             $table->softDeletes();
 

@@ -45,7 +45,7 @@ class ConfigurationController extends Controller
         $this->checkIsTypeConfigurationExist($serviceType, $request->type);
 
         $configuration = $serviceType->serviceTypeConfigurations()->create($request->only([
-            'name', 'type', 'configuration', 'required',
+            'name', 'type', 'structure'
         ]));
 
         return new JsonResponse([
@@ -69,7 +69,7 @@ class ConfigurationController extends Controller
         $this->checkIsTypeConfigurationExist($serviceType, $request->type, $configuration);
 
         $configuration->update($request->only([
-            'name', 'type', 'configuration', 'required',
+            'name', 'type', 'structure'
         ]));
 
         return new JsonResponse([

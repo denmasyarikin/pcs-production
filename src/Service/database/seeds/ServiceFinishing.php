@@ -32,10 +32,9 @@ class ServiceFinishing extends Seeder
             'name' => 'Harga Kelipatan',
             'service_type_id' => 4,
             'type' => 'multiples',
-            'configuration' => [
+            'structure' => [
                 'relativity' => 'unit_price',
                 'multiples' => 500,
-                'include_first' => false,
                 'input_multiples' => false,
                 'input_min' => 0,
                 'input_max' => 0,
@@ -49,7 +48,7 @@ class ServiceFinishing extends Seeder
             'name' => 'Jumlah Titik',
             'service_type_id' => 4,
             'type' => 'multiplication',
-            'configuration' => [
+            'structure' => [
                 'relativity' => 'unit_total',
                 'min' => 1,
                 'max' => 20,

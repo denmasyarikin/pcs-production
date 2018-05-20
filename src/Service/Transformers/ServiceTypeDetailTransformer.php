@@ -29,6 +29,7 @@ class ServiceTypeDetailTransformer extends Detail
             'unit' => (new UnitListDetailTransformer($model->unit))->toArray(),
             'min_order' => $model->min_order,
             'order_multiples' => $model->order_multiples,
+            'base_price' => $calculator->getBasePrice() ? $calculator->getBasePrice()->price : null,
             'prices' => (new ServicePriceListTransformer($calculator->getAllPrices()))->toArray(),
             'configurations' => (new ServiceTypeConfigurationListTransformer($model->serviceTypeConfigurations))->toArray(),
             'enabled' => $model->enabled,

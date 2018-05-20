@@ -31,8 +31,7 @@ class ServiceTypeConfigurationDetailTransformer extends Detail
                 'min_order' => $serviceType->min_order,
                 'order_multiples' => $serviceType->order_multiples
             ],
-            'configuration' => $model->configuration,
-            'required' => (bool) $model->required,
+            'structure' => $model->structure,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $model->updated_at->format('Y-m-d H:i:s'),
         ];

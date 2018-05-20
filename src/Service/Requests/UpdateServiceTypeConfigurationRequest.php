@@ -3,7 +3,7 @@
 namespace Denmasyarikin\Production\Service\Requests;
 
 use Denmasyarikin\Production\Service\Rules\ConfigurationType;
-use Denmasyarikin\Production\Service\Rules\ConfigurationRules;
+use Denmasyarikin\Production\Service\Rules\ConfigurationStructure;
 
 class UpdateServiceTypeConfigurationRequest extends DetailServiceTypeConfigurationRequest
 {
@@ -17,8 +17,7 @@ class UpdateServiceTypeConfigurationRequest extends DetailServiceTypeConfigurati
         return [
             'name' => 'max:30',
             'type' => ['required', new ConfigurationType()],
-            'configuration' => ['required', 'array', new ConfigurationRules($this->type)],
-            'required' => 'required|boolean',
+            'structure' => ['required', 'array', new ConfigurationStructure($this->type)]
        ];
     }
 }
