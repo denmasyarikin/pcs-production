@@ -71,6 +71,12 @@ class ServiceController extends Controller
                 break;
         }
 
+        if ($request->has('workspace_id')) {
+            $services->workspaceId($request->workspace_id);
+        } else {
+            $services->myWorkspace();
+        }
+
         return $services->paginate($request->get('per_page') ?: 10);
     }
 
@@ -101,6 +107,8 @@ class ServiceController extends Controller
             'name', 'description',
         ]));
 
+        $service->workspaces()->sync($request->workspace_ids);
+
         return new JsonResponse([
             'message' => 'Service has been created',
             'data' => (new ServiceDetailTransformer($service))->toArray(),
@@ -126,6 +134,8 @@ class ServiceController extends Controller
         $service->update($request->only([
             'name', 'description', 'status',
         ]));
+
+        $service->workspaces()->sync($request->workspace_ids);
 
         return new JsonResponse([
             'message' => 'Service has been updated',

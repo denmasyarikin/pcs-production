@@ -16,6 +16,8 @@ class CreateServiceRequest extends FormRequest
         return [
             'name' => 'required|max:50',
             'description' => 'nullable',
+            'workspace_ids' => 'required|array|min:1',
+            'workspace_ids.*' => 'exists:core_workspaces,id'
         ];
     }
 }
