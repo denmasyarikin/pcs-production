@@ -18,20 +18,20 @@ class ConfigurationValue implements Rule
     protected $message = 'The :attribute is not valid';
 
     /**
-     * service type.
+     * service type configuration.
      *
-     * @var ServiceType
+     * @var ServiceTypeConfiguration
      */
-    protected $serviceType;
+    protected $serviceTypeConfiguration;
 
     /**
-     * Create a new ConfigurationRules instance.
+     * Create a new ConfigurationValue instance.
      *
-     * @param ServiceType $serviceType
+     * @param ServiceTypeConfiguration $serviceTypeConfiguration
      */
-    public function __construct(ServiceType $serviceType)
+    public function __construct(ServiceTypeConfiguration $serviceTypeConfiguration)
     {
-        $this->serviceType = $serviceType;
+        $this->serviceTypeConfiguration = $serviceTypeConfiguration;
     }
 
     /**
@@ -44,64 +44,20 @@ class ConfigurationValue implements Rule
      */
     public function passes($attribute, $value)
     {
-        $configurations = $this->serviceType->serviceTypeConfigurations;
-
-        if (0 === $configurations->count()) {
-            return true;
-        }
-
-        if ($configurations->count() > 1 and !is_array($value)) {
-            $this->message = 'The :attribute should be an array where configurations is multiple';
-
-            return false;
-        }
-
-        foreach ($configurations as $config) {
-            $id = 0;
-            $currentValue = $value;
-
-            if ($configurations->count() > 1) {
-                if (!array_key_exists($config->id, $value)) {
-                    $this->message = 'The :attribute not contain key service type configuration id '.$config->id;
-
-                    return false;
-                }
-
-                $currentValue = $value[$config->id];
-            }
-
-            if (!$this->validateConfigurationValue($config, $currentValue)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * validate each configuration value.
-     *
-     * @param ServiceTypeConfiguration $typeConfiguration
-     * @param mixed                    $value
-     *
-     * @return bool
-     */
-    public function validateConfigurationValue(ServiceTypeConfiguration $typeConfiguration, $value)
-    {
         $manager = new ConfigurationManager();
 
-        if (!$manager->isConfigurationExists($typeConfiguration->type)) {
+        if (!$manager->isConfigurationExists($this->serviceTypeConfiguration->type)) {
             $this->message = 'The :attribute can not be processed, no configuration found';
             return false;
         }
 
-        $factory = $manager->getConfigurationInstance($typeConfiguration->type);
-        $factory->setServiceTypeConfiguration($typeConfiguration);
+        $factory = $manager->getConfigurationInstance($this->serviceTypeConfiguration->type);
+        $factory->setServiceTypeConfiguration($this->serviceTypeConfiguration);
 
         try {
             return $factory->isValidValue($value);
         } catch (InvalidArgumentException $e) {
-            $this->message = 'The :attribute '.$typeConfiguration->id.' invalid  : '.$e->getMessage();
+            $this->message = 'The :attribute invalid : '.$e->getMessage();
             return false;
         }
     }

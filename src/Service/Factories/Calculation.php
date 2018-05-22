@@ -60,16 +60,21 @@ class Calculation
      *
      * @param ServiceTypeConfiguration $serviceTypeConfiguration
      * @param mixed                    $value
+     * @param bool                     $asMultiple
      *
      * @return data type
      */
-    public function applyConfiguration(ServiceTypeConfiguration $serviceTypeConfiguration, $value)
+    public function applyConfiguration(ServiceTypeConfiguration $serviceTypeConfiguration, $value, $asMultiple = true)
     {
         $configInstance = $this->getConfigInstance($serviceTypeConfiguration);
 
         $configuration = $configInstance->apply($value, $this->quantity, $this->unitPrice, $this->unitTotal);
 
-        $this->configurations[(string) $serviceTypeConfiguration->id] = $configuration;
+        if ($asMultiple) {
+            $this->configurations[(string) $serviceTypeConfiguration->id] = $configuration;
+        } else {
+            $this->configurations = $configuration;
+        }
     }
 
     /**

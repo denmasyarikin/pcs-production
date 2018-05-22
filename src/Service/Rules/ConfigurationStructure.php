@@ -54,7 +54,7 @@ class ConfigurationStructure implements Rule
         try {
             return $factory->isValidStructure($value);
         } catch (InvalidArgumentException $e) {
-            $this->message = 'The :attribute is invalid  : '.$e->getMessage();
+            $this->message = $e->getMessage();
             return false;
         }
 

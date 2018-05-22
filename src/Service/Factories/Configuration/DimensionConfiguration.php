@@ -40,7 +40,7 @@ abstract class DimensionConfiguration extends Configuration implements Configura
 
         foreach ($this->input as $input) {
             foreach ($this->dimension as $dimension) {
-                array_push($this->structure, "{$input}_{$dimension}");
+                $this->structure["{$input}_{$dimension}"] = 'integer';
             }
         }
     }
@@ -56,7 +56,7 @@ abstract class DimensionConfiguration extends Configuration implements Configura
     {
         parent::isValidValue($value);
 
-        $configuration = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
         if (!is_array($value)) {
             throw new InvalidArgumentException('Not array');
@@ -67,13 +67,13 @@ abstract class DimensionConfiguration extends Configuration implements Configura
                 throw new InvalidArgumentException(ucwords($dimension) . ' Not present or not integer');
             }
 
-            $min = $configuration['min_'.$dimension];
+            $min = $structure['min_'.$dimension];
 
             if ($value[$dimension] < $min) {
                 throw new InvalidArgumentException('Width Less then ' . $min);
             }
 
-            $max = $configuration['max_'.$dimension];
+            $max = $structure['max_'.$dimension];
 
             if ($value[$dimension] > $max) {
                 throw new InvalidArgumentException('Width More then ' . $max);
@@ -97,15 +97,15 @@ abstract class DimensionConfiguration extends Configuration implements Configura
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $config = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
-        if ('unit_total' === $config['relativity']) {
+        if ('unit_total' === $structure['relativity']) {
             foreach ($this->dimension as $dimension) {
                 $unitTotal *= $value[$dimension];
             }
         }
 
-        if ('unit_price' === $config['relativity']) {
+        if ('unit_price' === $structure['relativity']) {
             foreach ($this->dimension as $dimension) {
                 $unitPrice *= $value[$dimension];
             }

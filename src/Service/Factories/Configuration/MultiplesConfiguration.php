@@ -41,19 +41,19 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     {
         parent::isValidValue($value);
 
-        $configuration = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
-        if ($configuration['input_multiples']) {
+        if ($structure['input_multiples']) {
             if (!is_int($value)) {
                 throw new InvalidArgumentException('Not an integer');
             }
 
-            if ($value < $configuration['input_min']) {
-                throw new InvalidArgumentException('Less then '.$configuration['input_min']);
+            if ($value < $structure['input_min']) {
+                throw new InvalidArgumentException('Less then '.$structure['input_min']);
             }
 
-            if ($value > $configuration['input_max']) {
-                throw new InvalidArgumentException('More then '.$configuration['input_max']);
+            if ($value > $structure['input_max']) {
+                throw new InvalidArgumentException('More then '.$structure['input_max']);
             }
         }
 
@@ -74,22 +74,22 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $config = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
         $firstPrice = $unitPrice;
-        $nextPrice = $this->getNextPrice($config['rule'], $config['value'], 'unit_price' === $config['relativity'] ? $unitPrice : $unitTotal);
+        $nextPrice = $this->getNextPrice($structure['rule'], $structure['value'], 'unit_price' === $structure['relativity'] ? $unitPrice : $unitTotal);
 
         // calculate multiple
-        if ($config['input_multiples']) {
+        if ($structure['input_multiples']) {
             $multiples = $value;
         } else {
-            $multiples = ceil($quantity / $config['multiples']);
+            $multiples = ceil($quantity / $structure['multiples']);
         }
 
         // calculate price
         $unitTotal = $firstPrice;
         $unitTotal += $nextPrice * ($multiples - 1);
 
-        if ($config['input_multiples']) {
+        if ($structure['input_multiples']) {
             $unitTotal *= $quantity;
         }
 

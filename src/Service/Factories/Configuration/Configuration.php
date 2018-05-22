@@ -67,10 +67,10 @@ abstract class Configuration
     {
         foreach ($this->structure as $key => $structure) {
             if (!array_key_exists($key, $config)) {
-                throw new InvalidArgumentException($key . ' not present');
+                throw new InvalidArgumentException($key . ' is not present');
             }
 
-            $this->isValidStructureValue($config[$key], $structure);
+            $this->isValidStructureValue($key, $config[$key], $structure);
         }
 
         return true;
@@ -79,41 +79,42 @@ abstract class Configuration
     /**
      * check is structure value valid.
      *
+     * @param mixed $key
      * @param mixed $value
      * @param mixed $structure
      *
      * @return bool
      */
-    protected function isValidStructureValue($value, $structure)
+    protected function isValidStructureValue($key, $value, $structure)
     {
         if (is_array($structure)) {
             if  (!in_array($value, $structure)) {
-                throw new InvalidArgumentException($value . ' tidak dalam pilihan');
+                throw new InvalidArgumentException($key . ' is not in options');
             }
         }
 
         switch ($structure) {
             case 'integer':
                 if (!is_int($value)) {
-                    throw new InvalidArgumentException($value . ' bukan integer');
+                    throw new InvalidArgumentException($key . ' is not integer');
                 }
                 break;
 
             case 'string':
                 if (!is_string($value)) {
-                    throw new InvalidArgumentException($value . ' bukan string');
+                    throw new InvalidArgumentException($key . ' is not string');
                 }
                 break;
 
             case 'array':
                 if (!is_array($value)) {
-                    throw new InvalidArgumentException($value . ' bukan array');
+                    throw new InvalidArgumentException($key . ' is not array');
                 }
                 break;
 
             case 'boolean':
                 if (!is_bool($value)) {
-                    throw new InvalidArgumentException($value . ' bukan boolean');
+                    throw new InvalidArgumentException($key . ' is not boolean');
                 }
                 break;
 

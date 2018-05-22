@@ -36,18 +36,18 @@ class MultiplicationConfiguration extends Configuration implements Configuration
     {
         parent::isValidValue($value);
 
-        $configuration = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
         if (!is_int($value)) {
             throw new InvalidArgumentException('Not an integer');
         }
 
-        if ($value < $configuration['min']) {
-            throw new InvalidArgumentException('Less then '.$configuration['min']);
+        if ($value < $structure['min']) {
+            throw new InvalidArgumentException('Less then '.$structure['min']);
         }
 
-        if ($value > $configuration['max']) {
-            throw new InvalidArgumentException('More then '.$configuration['max']);
+        if ($value > $structure['max']) {
+            throw new InvalidArgumentException('More then '.$structure['max']);
         }
 
         return true;
@@ -67,13 +67,13 @@ class MultiplicationConfiguration extends Configuration implements Configuration
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $config = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
-        if ('unit_total' === $config['relativity']) {
+        if ('unit_total' === $structure['relativity']) {
             $unitTotal *= $value;
         }
 
-        if ('unit_price' === $config['relativity']) {
+        if ('unit_price' === $structure['relativity']) {
             $unitPrice *= $value;
             $unitTotal = $unitPrice * $quantity;
         }

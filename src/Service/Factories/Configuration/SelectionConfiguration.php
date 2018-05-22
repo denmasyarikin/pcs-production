@@ -39,48 +39,132 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     public function isValidStructure(array $config)
     {
         return parent::isValidStructure($config)
-            and $this->isValidAffectedThePriceStructure($config);
+            and $this->isValidAdvanceStructure($config);
     }
 
     /**
-     * check is valid affected the price structure.
+     * check is valid advance structure.
      *
      * @param array $config
      *
      * @return bool
      */
-    protected function isValidAffectedThePriceStructure(array $config)
+    protected function isValidAdvanceStructure(array $config)
     {
-        if ($config['affected_the_price']) {
-            if (is_null($config['relativity']) or is_null($config['rule']) or is_null($config['formula'])) {
-                throw new InvalidArgumentException('relativity, rule or formula is null');
-            }
+        $this->checkStructureValue($config['value'], $config['affected_the_price']);
+        
+        $checkDuplicate = array_unique($config['value'], SORT_REGULAR);
 
-            if ($config['required']) {
-                if (count($config['default']) === 0) {
-                    if ($config['multiple']) {
-                        throw new InvalidArgumentException('default value should be present minimal 1');
-                    } else {
-                        throw new InvalidArgumentException('default value should be present');
-                    }
-                }
-            }
+        if (count($checkDuplicate) !== count($config['value'])) {
+            throw new InvalidArgumentException('duplicate value is not allowed');
+        }
 
-            foreach ($config['value'] as $value) {
-                if (!is_array($value)) {
-                    throw new InvalidArgumentException('item should be array');
+        $this->checkStructureDefaultValue($config['default'], $config['required'], $config['multiple'], $config['affected_the_price']);
+        
+        if (!empty($config['default'])) {
+            $this->checkisDefaultValueInSelection($config['default'], $config['value'], $config['multiple']);
+        }
+
+        if ($config['affected_the_price']
+            AND (empty($config['relativity'])
+            OR empty($config['rule'])
+            OR empty($config['formula']))) {
+            throw new InvalidArgumentException('relativity, rule and forumla required');
+        }
+
+        return true;
+    }
+
+    /**
+     * check structure value
+     *
+     * @param array $value
+     * @param bool $affectedThePrice
+     * @param bool $asDefaultValue
+     *
+     * @return bool
+     */
+    protected function checkStructureValue(array $value, bool $affectedThePrice, bool $asDefaultValue = false)
+    {
+        if (!$asDefaultValue AND count($value) < 2) {
+            throw new InvalidArgumentException('structure value count minimal 2');
+        }
+
+        // should be array of
+        // ['label' => 'string', 'value' => 'integer']
+        if ($affectedThePrice) {
+            foreach ($value as $key => $val) {
+                if (!is_array($val)) {
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should be array');
+                }
+                
+                if (!isset($val['label']) OR !is_string($val['label'])) {
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should contain key label and string');
                 }
 
-                if (!isset($value['label']) or !isset($value['value']) or !is_int($value['value'])) {
-                    throw new InvalidArgumentException('item should be contain key label and value');
+                if (!isset($val['value']) OR !is_int($val['value'])) {
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should contain key value and integer');
                 }
             }
-        } else {
-            foreach ($config['value'] as $value) {
-                if (!is_string($value)) {
-                    throw new InvalidArgumentException('item should be string');
+        }
+
+        // should be array of string
+        else {
+            foreach ($value as $key => $val) {
+                if (!is_string($val)) {
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should be string');
                 }
             }
+        }
+    }
+
+    /**
+     * check structure default value
+     *
+     * @param mixed $default
+     * @param bool $required
+     * @param bool $multiple
+     * @param bool $affectedThePrice
+     *
+     * @return bool
+     */
+    protected function checkStructureDefaultValue($default, bool $required, bool $multiple, bool $affectedThePrice)
+    {
+        if ($required AND empty($default)) {
+            throw new InvalidArgumentException('default value should be defined');
+        }
+
+        if ($multiple AND !is_array($default)) {
+            throw new InvalidArgumentException('default value should be array when multiple');
+        }
+
+        if ($multiple) {
+            $this->checkStructureValue($default, $affectedThePrice, true);
+        } else if (!empty($default)) {
+            $this->checkStructureValue([$default], $affectedThePrice, true);
+        }
+
+        return true;
+    }
+
+    /**
+     * check is default value in selection
+     *
+     * @param mixed $default
+     * @param array $selection
+     * @param bool $multiple
+     *
+     * @return bool
+     */
+    protected function checkisDefaultValueInSelection($default, array $selection, bool $multiple)
+    {
+        if ($multiple) {
+            // default value has been checked as array
+            foreach ($default as $val) {
+                $this->checkisDefaultValueInSelection($val, $selection, false);
+            }
+        } else if (!in_array($default, $selection)) {
+            throw new InvalidArgumentException('default value is not in selection');
         }
 
         return true;
@@ -97,14 +181,14 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     {
         parent::isValidValue($value);
 
-        $configuration = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
-        if ($configuration['affected_the_price']) {
+        if ($structure['affected_the_price']) {
             if (!is_array($value)) {
                 throw new InvalidArgumentException('value is not array');
             }
 
-            if ($configuration['multiple']) {
+            if ($structure['multiple']) {
                 foreach ($value as $val) {
                     if (!is_array($val)) {
                         throw new InvalidArgumentException('value is not array of array');
@@ -114,7 +198,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                         throw new InvalidArgumentException('value or lable is not persent');
                     }
 
-                    if (!in_array($val, $configuration['value'])) {
+                    if (!in_array($val, $structure['value'])) {
                         throw new InvalidArgumentException('value is not in selection');
                     }
                 }
@@ -123,12 +207,12 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     throw new InvalidArgumentException('value or lable is not persent');
                 }
 
-                if (!in_array($value, $configuration['value'])) {
+                if (!in_array($value, $structure['value'])) {
                     throw new InvalidArgumentException('value is not in selection');
                 }
             }
         } else {
-            if ($configuration['multiple']) {
+            if ($structure['multiple']) {
                 if (!is_array($value)) {
                     throw new InvalidArgumentException('value is not array');
                 }
@@ -137,7 +221,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                         throw new InvalidArgumentException('value is not array of string');
                     }
 
-                    if (!in_array($val, $configuration['value'])) {
+                    if (!in_array($val, $structure['value'])) {
                         throw new InvalidArgumentException('value is not in selection');
                     }
                 }
@@ -146,7 +230,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     throw new InvalidArgumentException('value is not string');
                 }
 
-                if (!in_array($value, $configuration['value'])) {
+                if (!in_array($value, $structure['value'])) {
                     throw new InvalidArgumentException('value is not in selection');
                 }
             }
@@ -169,15 +253,15 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $config = $this->serviceTypeConfiguration->configuration;
+        $structure = $this->serviceTypeConfiguration->structure;
 
-        if ($config['affected_the_price']) {
-            if ($config['multiple']) {
+        if ($structure['affected_the_price']) {
+            if ($structure['multiple']) {
                 foreach ($value as $val) {
-                    $this->calculateSelected($val['value'], $config, $quantity, $unitPrice, $unitTotal);
+                    $this->calculateSelected($val['value'], $structure, $quantity, $unitPrice, $unitTotal);
                 }
             } else {
-                $this->calculateSelected($value['value'], $config, $quantity, $unitPrice, $unitTotal);
+                $this->calculateSelected($value['value'], $structure, $quantity, $unitPrice, $unitTotal);
             }
         }
 
