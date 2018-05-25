@@ -7,7 +7,7 @@ use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
 use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ConfigurationValues implements ConfigurationValue
+class ConfigurationValues extends ConfigurationValue
 {
     /**
      * service type.
@@ -52,15 +52,13 @@ class ConfigurationValues implements ConfigurationValue
             $id = 0;
             $currentValue = $value;
 
-            if ($configurations->count() > 1) {
-                if (!array_key_exists($config->id, $value)) {
-                    $this->message = 'The :attribute not contain key service type configuration id '.$config->id;
+            if (!array_key_exists($config->id, $value)) {
+                $this->message = 'The :attribute not contain key service type configuration id '.$config->id;
 
-                    return false;
-                }
-
-                $currentValue = $value[$config->id];
+                return false;
             }
+
+            $currentValue = $value[$config->id];
 
             $this->serviceTypeConfiguration = $config;
 

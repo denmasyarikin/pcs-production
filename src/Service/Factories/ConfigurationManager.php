@@ -99,10 +99,6 @@ class ConfigurationManager
             return null;
         }
 
-        if (1 === $configurations->count()) {
-            return $value;
-        }
-
         if (isset($value[$serviceTypeConfiguration->id])) {
             return $value[$serviceTypeConfiguration->id];
         }

@@ -114,11 +114,10 @@ abstract class DimensionConfiguration extends Configuration implements Configura
         }
 
         return [
+            'value' => $value,
             'quantity' => $quantity,
             'before_unit_price' => $beforeUnitPrice,
             'before_unit_total' => $beforeUnitTotal,
-            'after_unit_price' => $unitPrice,
-            'after_unit_total' => $unitTotal,
             'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }

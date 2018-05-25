@@ -226,11 +226,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     }
                 }
             } else {
-                if (!is_string($value)) {
+                if ($structure['required'] AND !is_string($value)) {
                     throw new InvalidArgumentException('value is not string');
                 }
 
-                if (!in_array($value, $structure['value'])) {
+                if ($structure['required'] AND !in_array($value, $structure['value'])) {
                     throw new InvalidArgumentException('value is not in selection');
                 }
             }
@@ -266,12 +266,10 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         }
 
         return [
+            'value' => $value,
             'quantity' => $quantity,
             'before_unit_price' => $beforeUnitPrice,
             'before_unit_total' => $beforeUnitTotal,
-            'after_unit_price' => $unitPrice,
-            'after_unit_total' => $unitTotal,
-            'selected' => $value,
             'configuration' => $this->serviceTypeConfiguration->toArray(),
         ];
     }

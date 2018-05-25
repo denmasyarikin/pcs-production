@@ -40,7 +40,7 @@ class CalculateServiceTypePriceRequest extends DetailServiceTypeRequest
             'quantity' => ['required', 'numeric', new MinOrder($serviceType), new OrderMultiple($serviceType)],
             'chanel_id' => 'nullable|exists:core_chanels,id',
             // if not need value, it values will be ignored
-            'value' => ['required', new ConfigurationValues($serviceType)],
+            'value' => [new ConfigurationValues($serviceType)],
         ];
     }
 }

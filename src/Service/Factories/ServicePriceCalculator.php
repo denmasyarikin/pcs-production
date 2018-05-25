@@ -19,7 +19,7 @@ class ServicePriceCalculator extends ChanelPriceCalculator
      *
      * @return array
      */
-    public function calculatePrice(int $quantity, $value, int $chanelId = null, ServiceTypeConfiguration $serviceTypeConfigurations = null)
+    public function calculatePrice(int $quantity, $value, int $chanelId = null, ServiceTypeConfiguration $serviceTypeConfiguration = null)
     {
         $price = $this->getPrice($chanelId);
         $manager = new ConfigurationManager();
@@ -29,15 +29,16 @@ class ServicePriceCalculator extends ChanelPriceCalculator
         }
 
         $calculation = $this->generateCalculation($quantity, $price);
-        $configurations = $this->priceable->serviceTypeConfigurations;
 
-        if (! is_null($serviceTypeConfigurations)) {
-            $configurations = [$serviceTypeConfigurations];
+        if (! is_null($serviceTypeConfiguration)) {
+            $configurations = [$serviceTypeConfiguration];
+        } else {
+            $configurations = $this->priceable->serviceTypeConfigurations;
         }
 
-        foreach ($this->priceable->serviceTypeConfigurations as $configuration) {
-            $val = $manager->getValueFromRequest($this->priceable, $configuration, $value);
-            $calculation->applyConfiguration($configuration, $val, is_null($serviceTypeConfigurations));
+        foreach ($configurations as $configuration) {
+            $val = $manager->getValueFromRequest($this->priceable, $configuration, $value, is_null($serviceTypeConfiguration));
+            $calculation->applyConfiguration($configuration, $val, is_null($serviceTypeConfiguration));
         }
 
         return $calculation;
