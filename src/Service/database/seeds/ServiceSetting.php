@@ -3,9 +3,9 @@
 namespace Denmasyarikin\Production\Service\database\seeds;
 
 use Illuminate\Database\Seeder;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\ServicePrice;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 
 class ServiceSetting extends Seeder
 {
@@ -16,7 +16,7 @@ class ServiceSetting extends Seeder
     {
         $serviceSettingId = 1;
 
-        ServiceType::create([
+        ServiceOption::create([
             'id' => 1,
             'name' => 'Undangan',
             'service_id' => $serviceSettingId,
@@ -26,11 +26,11 @@ class ServiceSetting extends Seeder
             'enabled' => 1,
         ]);
 
-        ServicePrice::create(['service_type_id' => 1, 'price' => 20000]);
+        ServicePrice::create(['service_option_id' => 1, 'price' => 20000]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Jenis Undagnan',
-            'service_type_id' => 1,
+            'service_option_id' => 1,
             'type' => 'selection',
             'structure' => [
                 'value' => [
@@ -48,7 +48,7 @@ class ServiceSetting extends Seeder
             ],
         ]);
 
-        ServiceType::create([
+        ServiceOption::create([
             'id' => 2,
             'name' => 'Kartu Nama',
             'service_id' => $serviceSettingId,
@@ -58,11 +58,11 @@ class ServiceSetting extends Seeder
             'enabled' => 1,
         ]);
 
-        ServicePrice::create(['service_type_id' => 2, 'price' => 30000]);
+        ServicePrice::create(['service_option_id' => 2, 'price' => 30000]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Jumlah Nama',
-            'service_type_id' => 2,
+            'service_option_id' => 2,
             'type' => 'multiples',
             'structure' => [
                 'relativity' => 'unit_price',
@@ -76,16 +76,16 @@ class ServiceSetting extends Seeder
             ],
         ]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Kesulitan',
-            'service_type_id' => 2,
+            'service_option_id' => 2,
             'type' => 'selection',
             'structure' => [
                 'value' => [
                     ['label' => 'Huruf Asing', 'value' => 10000],
                     ['label' => 'Dengan Logo', 'value' => 20000],
                 ],
-                "default" => [],
+                'default' => [],
                 'multiple' => true,
                 'required' => false,
                 'affected_the_price' => true,

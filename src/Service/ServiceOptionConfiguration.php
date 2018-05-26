@@ -5,7 +5,7 @@ namespace Denmasyarikin\Production\Service;
 use App\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceTypeConfiguration extends Model
+class ServiceOptionConfiguration extends Model
 {
     use SoftDeletes;
 
@@ -14,14 +14,14 @@ class ServiceTypeConfiguration extends Model
      *
      * @var string
      */
-    protected $table = 'production_service_type_configurations';
+    protected $table = 'production_service_option_configurations';
 
     /**
-     * Get the serviceType record associated with the ServiceTypeConfiguration.
+     * Get the serviceOption record associated with the ServiceOptionConfiguration.
      */
-    public function serviceType()
+    public function serviceOption()
     {
-        return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(ServiceOption::class);
     }
 
     /**

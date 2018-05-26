@@ -2,11 +2,11 @@
 
 namespace Denmasyarikin\Production\Service\Requests;
 
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\ServicePrice;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class DetailServicePriceRequest extends DetailServiceTypeRequest
+class DetailServicePriceRequest extends DetailServiceOptionRequest
 {
     /**
      * servicePrice.
@@ -20,16 +20,16 @@ class DetailServicePriceRequest extends DetailServiceTypeRequest
      *
      * @return ServicePrice
      */
-    public function getServicePrice(ServiceType $serviceType = null): ?ServicePrice
+    public function getServicePrice(ServiceOption $serviceOption = null): ?ServicePrice
     {
         if ($this->servicePrice) {
             return $this->servicePrice;
         }
 
-        $serviceType = null === $serviceType ? $this->getServiceType() : $serviceType;
+        $serviceOption = null === $serviceOption ? $this->getServiceOption() : $serviceOption;
         $id = (int) $this->route('price_id');
 
-        if ($this->servicePrice = $serviceType->servicePrices()->find($id)) {
+        if ($this->servicePrice = $serviceOption->servicePrices()->find($id)) {
             return $this->servicePrice;
         }
 

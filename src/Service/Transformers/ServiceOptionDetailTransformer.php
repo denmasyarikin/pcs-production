@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Unit\Transformers\UnitListDetailTransformer;
 use Denmasyarikin\Production\Service\Factories\ServicePriceCalculator;
 
-class ServiceTypeDetailTransformer extends Detail
+class ServiceOptionDetailTransformer extends Detail
 {
     /**
      * get data.
@@ -31,7 +31,7 @@ class ServiceTypeDetailTransformer extends Detail
             'order_multiples' => $model->order_multiples,
             'base_price' => $calculator->getBasePrice() ? $calculator->getBasePrice()->price : null,
             'prices' => (new ServicePriceListTransformer($calculator->getAllPrices()))->toArray(),
-            'configurations' => (new ServiceTypeConfigurationListTransformer($model->serviceTypeConfigurations))->toArray(),
+            'configurations' => (new ServiceOptionConfigurationListTransformer($model->serviceOptionConfigurations))->toArray(),
             'enabled' => $model->enabled,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $model->updated_at->format('Y-m-d H:i:s'),

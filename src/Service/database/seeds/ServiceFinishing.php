@@ -3,9 +3,9 @@
 namespace Denmasyarikin\Production\Service\database\seeds;
 
 use Illuminate\Database\Seeder;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\ServicePrice;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 
 class ServiceFinishing extends Seeder
 {
@@ -16,7 +16,7 @@ class ServiceFinishing extends Seeder
     {
         $serviceFinishingId = 3;
 
-        ServiceType::create([
+        ServiceOption::create([
             'id' => 4,
             'name' => 'Numertator',
             'service_id' => $serviceFinishingId,
@@ -26,11 +26,11 @@ class ServiceFinishing extends Seeder
             'enabled' => 1,
         ]);
 
-        ServicePrice::create(['service_type_id' => 4, 'price' => 20000]);
+        ServicePrice::create(['service_option_id' => 4, 'price' => 20000]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Harga Kelipatan',
-            'service_type_id' => 4,
+            'service_option_id' => 4,
             'type' => 'multiples',
             'structure' => [
                 'relativity' => 'unit_price',
@@ -44,9 +44,9 @@ class ServiceFinishing extends Seeder
             ],
         ]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Jumlah Titik',
-            'service_type_id' => 4,
+            'service_option_id' => 4,
             'type' => 'multiplication',
             'structure' => [
                 'relativity' => 'unit_total',

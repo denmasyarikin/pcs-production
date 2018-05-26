@@ -52,7 +52,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     protected function isValidAdvanceStructure(array $config)
     {
         $this->checkStructureValue($config['value'], $config['affected_the_price']);
-        
+
         $checkDuplicate = array_unique($config['value'], SORT_REGULAR);
 
         if (count($checkDuplicate) !== count($config['value'])) {
@@ -60,15 +60,15 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         }
 
         $this->checkStructureDefaultValue($config['default'], $config['required'], $config['multiple'], $config['affected_the_price']);
-        
+
         if (!empty($config['default'])) {
             $this->checkisDefaultValueInSelection($config['default'], $config['value'], $config['multiple']);
         }
 
         if ($config['affected_the_price']
-            AND (empty($config['relativity'])
-            OR empty($config['rule'])
-            OR empty($config['formula']))) {
+            and (empty($config['relativity'])
+            or empty($config['rule'])
+            or empty($config['formula']))) {
             throw new InvalidArgumentException('relativity, rule and forumla required');
         }
 
@@ -76,17 +76,17 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     }
 
     /**
-     * check structure value
+     * check structure value.
      *
      * @param array $value
-     * @param bool $affectedThePrice
-     * @param bool $asDefaultValue
+     * @param bool  $affectedThePrice
+     * @param bool  $asDefaultValue
      *
      * @return bool
      */
     protected function checkStructureValue(array $value, bool $affectedThePrice, bool $asDefaultValue = false)
     {
-        if (!$asDefaultValue AND count($value) < 2) {
+        if (!$asDefaultValue and count($value) < 2) {
             throw new InvalidArgumentException('structure value count minimal 2');
         }
 
@@ -95,15 +95,15 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         if ($affectedThePrice) {
             foreach ($value as $key => $val) {
                 if (!is_array($val)) {
-                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should be array');
-                }
-                
-                if (!isset($val['label']) OR !is_string($val['label'])) {
-                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should contain key label and string');
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value ').$key.' should be array');
                 }
 
-                if (!isset($val['value']) OR !is_int($val['value'])) {
-                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should contain key value and integer');
+                if (!isset($val['label']) or !is_string($val['label'])) {
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value ').$key.' should contain key label and string');
+                }
+
+                if (!isset($val['value']) or !is_int($val['value'])) {
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value ').$key.' should contain key value and integer');
                 }
             }
         }
@@ -112,35 +112,35 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         else {
             foreach ($value as $key => $val) {
                 if (!is_string($val)) {
-                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value '). $key . ' should be string');
+                    throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value ').$key.' should be string');
                 }
             }
         }
     }
 
     /**
-     * check structure default value
+     * check structure default value.
      *
      * @param mixed $default
-     * @param bool $required
-     * @param bool $multiple
-     * @param bool $affectedThePrice
+     * @param bool  $required
+     * @param bool  $multiple
+     * @param bool  $affectedThePrice
      *
      * @return bool
      */
     protected function checkStructureDefaultValue($default, bool $required, bool $multiple, bool $affectedThePrice)
     {
-        if ($required AND empty($default)) {
+        if ($required and empty($default)) {
             throw new InvalidArgumentException('default value should be defined');
         }
 
-        if ($multiple AND !is_array($default)) {
+        if ($multiple and !is_array($default)) {
             throw new InvalidArgumentException('default value should be array when multiple');
         }
 
         if ($multiple) {
             $this->checkStructureValue($default, $affectedThePrice, true);
-        } else if (!empty($default)) {
+        } elseif (!empty($default)) {
             $this->checkStructureValue([$default], $affectedThePrice, true);
         }
 
@@ -148,11 +148,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     }
 
     /**
-     * check is default value in selection
+     * check is default value in selection.
      *
      * @param mixed $default
      * @param array $selection
-     * @param bool $multiple
+     * @param bool  $multiple
      *
      * @return bool
      */
@@ -163,7 +163,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             foreach ($default as $val) {
                 $this->checkisDefaultValueInSelection($val, $selection, false);
             }
-        } else if (!in_array($default, $selection)) {
+        } elseif (!in_array($default, $selection)) {
             throw new InvalidArgumentException('default value is not in selection');
         }
 
@@ -181,7 +181,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     {
         parent::isValidValue($value);
 
-        $structure = $this->serviceTypeConfiguration->structure;
+        $structure = $this->serviceOptionConfiguration->structure;
 
         if ($structure['affected_the_price']) {
             if (!is_array($value)) {
@@ -226,11 +226,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     }
                 }
             } else {
-                if ($structure['required'] AND !is_string($value)) {
+                if ($structure['required'] and !is_string($value)) {
                     throw new InvalidArgumentException('value is not string');
                 }
 
-                if ($structure['required'] AND !in_array($value, $structure['value'])) {
+                if ($structure['required'] and !in_array($value, $structure['value'])) {
                     throw new InvalidArgumentException('value is not in selection');
                 }
             }
@@ -253,7 +253,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $structure = $this->serviceTypeConfiguration->structure;
+        $structure = $this->serviceOptionConfiguration->structure;
 
         if ($structure['affected_the_price']) {
             if ($structure['multiple']) {
@@ -270,7 +270,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             'quantity' => $quantity,
             'before_unit_price' => $beforeUnitPrice,
             'before_unit_total' => $beforeUnitTotal,
-            'configuration' => $this->serviceTypeConfiguration->toArray(),
+            'configuration' => $this->serviceOptionConfiguration->toArray(),
         ];
     }
 

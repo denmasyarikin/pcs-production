@@ -3,25 +3,25 @@
 namespace Denmasyarikin\Production\Service\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 
 class MinOrder implements Rule
 {
     /**
-     * service type.
+     * service option.
      *
-     * @var ServiceType
+     * @var ServiceOption
      */
-    protected $serviceType;
+    protected $serviceOption;
 
     /**
      * Create a new MinOrder instance.
      *
-     * @param ServiceType $serviceType
+     * @param ServiceOption $serviceOption
      */
-    public function __construct(ServiceType $serviceType)
+    public function __construct(ServiceOption $serviceOption)
     {
-        $this->serviceType = $serviceType;
+        $this->serviceOption = $serviceOption;
     }
 
     /**
@@ -34,7 +34,7 @@ class MinOrder implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value >= $this->serviceType->min_order;
+        return $value >= $this->serviceOption->min_order;
     }
 
     /**
@@ -44,6 +44,6 @@ class MinOrder implements Rule
      */
     public function message()
     {
-        return 'The :attribute less then minimal order '.$this->serviceType->min_order;
+        return 'The :attribute less then minimal order '.$this->serviceOption->min_order;
     }
 }

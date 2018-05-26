@@ -36,7 +36,7 @@ class MultiplicationConfiguration extends Configuration implements Configuration
     {
         parent::isValidValue($value);
 
-        $structure = $this->serviceTypeConfiguration->structure;
+        $structure = $this->serviceOptionConfiguration->structure;
 
         if (!is_int($value)) {
             throw new InvalidArgumentException('Not an integer');
@@ -67,7 +67,7 @@ class MultiplicationConfiguration extends Configuration implements Configuration
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $structure = $this->serviceTypeConfiguration->structure;
+        $structure = $this->serviceOptionConfiguration->structure;
 
         if ('unit_total' === $structure['relativity']) {
             $unitTotal *= $value;
@@ -83,7 +83,7 @@ class MultiplicationConfiguration extends Configuration implements Configuration
             'quantity' => $quantity,
             'before_unit_price' => $beforeUnitPrice,
             'before_unit_total' => $beforeUnitTotal,
-            'configuration' => $this->serviceTypeConfiguration->toArray(),
+            'configuration' => $this->serviceOptionConfiguration->toArray(),
         ];
     }
 }

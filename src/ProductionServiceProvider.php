@@ -13,7 +13,7 @@ class ProductionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Relation::morphMap(['service_type' => 'Denmasyarikin\Production\Service\ServiceType']);
+        Relation::morphMap(['service_option' => 'Denmasyarikin\Production\Service\ServiceOption']);
     }
 
     /**

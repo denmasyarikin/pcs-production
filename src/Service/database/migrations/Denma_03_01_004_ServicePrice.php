@@ -13,7 +13,7 @@ class ServicePrice extends Migration
     {
         Schema::create('production_service_prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('service_type_id')->unsigned();
+            $table->integer('service_option_id')->unsigned();
             $table->integer('chanel_id')->nullable()->default(null)->unsigned()->comment('where chanel_id is null that mean is base price');
             $table->bigInteger('price');
             $table->boolean('current')->default(true);
@@ -23,7 +23,7 @@ class ServicePrice extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('service_type_id')->references('id')->on('production_service_types');
+            $table->foreign('service_option_id')->references('id')->on('production_service_options');
             $table->foreign('previous_id')->references('id')->on('production_service_prices');
             $table->foreign('chanel_id')->references('id')->on('core_chanels');
         });

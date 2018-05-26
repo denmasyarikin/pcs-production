@@ -3,9 +3,9 @@
 namespace Denmasyarikin\Production\Service\database\seeds;
 
 use Illuminate\Database\Seeder;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\ServicePrice;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 
 class ServiceCetak extends Seeder
 {
@@ -16,7 +16,7 @@ class ServiceCetak extends Seeder
     {
         $serviceCetakId = 2;
 
-        ServiceType::create([
+        ServiceOption::create([
             'id' => 3,
             'name' => 'Mesin Toko',
             'service_id' => $serviceCetakId,
@@ -26,11 +26,11 @@ class ServiceCetak extends Seeder
             'enabled' => 1,
         ]);
 
-        ServicePrice::create(['service_type_id' => 3, 'price' => 30000]);
+        ServicePrice::create(['service_option_id' => 3, 'price' => 30000]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Harga Kelipatan',
-            'service_type_id' => 3,
+            'service_option_id' => 3,
             'type' => 'multiples',
             'structure' => [
                 'relativity' => 'unit_price',
@@ -44,9 +44,9 @@ class ServiceCetak extends Seeder
             ],
         ]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Jumlah Warna',
-            'service_type_id' => 3,
+            'service_option_id' => 3,
             'type' => 'multiplication',
             'structure' => [
                 'relativity' => 'unit_total',
@@ -56,9 +56,9 @@ class ServiceCetak extends Seeder
             ],
         ]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Arah Putar Cetak',
-            'service_type_id' => 3,
+            'service_option_id' => 3,
             'type' => 'selection',
             'structure' => [
                 'value' => ['Bulak Bali Sama', 'Bulak Bali Bakul'],
@@ -68,7 +68,7 @@ class ServiceCetak extends Seeder
                 'affected_the_price' => false,
                 'relativity' => null,
                 'rule' => null,
-                'formula' => null
+                'formula' => null,
             ],
         ]);
     }

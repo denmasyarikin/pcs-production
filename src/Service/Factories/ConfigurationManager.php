@@ -2,8 +2,8 @@
 
 namespace Denmasyarikin\Production\Service\Factories;
 
-use Denmasyarikin\Production\Service\ServiceType;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOption;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 
 class ConfigurationManager
 {
@@ -85,22 +85,22 @@ class ConfigurationManager
     /**
      * get value from request.
      *
-     * @param ServiceType              $serviceType
-     * @param ServiceTypeConfiguration $serviceTypeConfiguration
-     * @param mixed                    $value
+     * @param ServiceOption              $serviceOption
+     * @param ServiceOptionConfiguration $serviceOptionConfiguration
+     * @param mixed                      $value
      *
      * @return data type
      */
-    public function getValueFromRequest(ServiceType $serviceType, ServiceTypeConfiguration $serviceTypeConfiguration, $value)
+    public function getValueFromRequest(ServiceOption $serviceOption, ServiceOptionConfiguration $serviceOptionConfiguration, $value)
     {
-        $configurations = $serviceType->serviceTypeConfigurations;
+        $configurations = $serviceOption->serviceOptionConfigurations;
 
         if (0 === $configurations->count()) {
             return null;
         }
 
-        if (isset($value[$serviceTypeConfiguration->id])) {
-            return $value[$serviceTypeConfiguration->id];
+        if (isset($value[$serviceOptionConfiguration->id])) {
+            return $value[$serviceOptionConfiguration->id];
         }
     }
 }

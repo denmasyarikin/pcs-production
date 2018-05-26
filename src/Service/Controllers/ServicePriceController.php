@@ -5,8 +5,8 @@ namespace Denmasyarikin\Production\Service\Controllers;
 use Modules\Chanel\Chanel;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Denmasyarikin\Production\Service\ServiceType;
-use Denmasyarikin\Production\Service\Requests\DetailServiceTypeRequest;
+use Denmasyarikin\Production\Service\ServiceOption;
+use Denmasyarikin\Production\Service\Requests\DetailServiceOptionRequest;
 use Denmasyarikin\Production\Service\Requests\CreateServicePriceRequest;
 use Denmasyarikin\Production\Service\Requests\UpdateServicePriceRequest;
 use Denmasyarikin\Production\Service\Requests\DeleteServicePriceRequest;
@@ -20,16 +20,16 @@ class ServicePriceController extends Controller
     /**
      * get list.
      *
-     * @param DetailServiceTypeRequest $request
+     * @param DetailServiceOptionRequest $request
      *
      * @return json
      */
-    public function getList(DetailServiceTypeRequest $request)
+    public function getList(DetailServiceOptionRequest $request)
     {
-        $serviceType = $request->getServiceType();
+        $serviceOption = $request->getServiceOption();
 
         return new JsonResponse([
-            'data' => (new ServicePriceListTransformer($serviceType->servicePrices()->orderBy('id', 'DESC')->get()))->toArray(),
+            'data' => (new ServicePriceListTransformer($serviceOption->servicePrices()->orderBy('id', 'DESC')->get()))->toArray(),
         ]);
     }
 
@@ -42,13 +42,13 @@ class ServicePriceController extends Controller
      */
     public function createPrice(CreateServicePriceRequest $request)
     {
-        $serviceType = $request->getServiceType();
-        $this->checkIsTypePriceExist($serviceType, $request->chanel_id);
+        $serviceOption = $request->getServiceOption();
+        $this->checkIsOptionPriceExist($serviceOption, $request->chanel_id);
 
         $data = $request->only(['chanel_id', 'price']);
         $data['current'] = true;
 
-        $calculator = new ServicePriceCalculator($serviceType);
+        $calculator = new ServicePriceCalculator($serviceOption);
         $defaultPrice = null;
 
         if (null !== $request->chanel_id) {
@@ -64,7 +64,7 @@ class ServicePriceController extends Controller
             $data['difference'] = $request->price - $defaultPrice->price;
         }
 
-        $price = $serviceType->servicePrices()->create($data);
+        $price = $serviceOption->servicePrices()->create($data);
 
         return new JsonResponse([
             'messaage' => 'Service price has been created',
@@ -81,19 +81,19 @@ class ServicePriceController extends Controller
      */
     public function updatePrice(UpdateServicePriceRequest $request)
     {
-        $type = $request->getServiceType();
+        $option = $request->getServiceOption();
         $price = $request->getServicePrice();
 
-        $calculator = new ServicePriceCalculator($type);
+        $calculator = new ServicePriceCalculator($option);
         $defaultPrice = null;
 
         if (null === $price->chanel_id) {
             $defaultPrice = $calculator->getBasePrice();
-            $type->servicePrices()
+            $option->servicePrices()
                     ->update(['current' => false]);
         } else {
             $defaultPrice = $calculator->getChanelPrice($price->chanel);
-            $type->servicePrices()
+            $option->servicePrices()
                     ->whereChanelId($price->chanel_id)
                     ->update(['current' => false]);
         }
@@ -133,14 +133,14 @@ class ServicePriceController extends Controller
     }
 
     /**
-     * check is service type price exist.
+     * check is service option price exist.
      *
-     * @param param type $serviceType
-     * @param mixed      $chanelId
+     * @param ServiceOption $serviceOption
+     * @param mixed         $chanelId
      */
-    protected function checkIsTypePriceExist(ServiceType $serviceType, $chanelId = null)
+    protected function checkIsOptionPriceExist(ServiceOption $serviceOption, $chanelId = null)
     {
-        $servicePrices = $serviceType->servicePrices();
+        $servicePrices = $serviceOption->servicePrices();
 
         if (is_null($chanelId)) {
             $servicePrices->whereNull('chanel_id');
@@ -149,7 +149,7 @@ class ServicePriceController extends Controller
         }
 
         if ($servicePrices->whereCurrent(true)->count() > 0) {
-            throw new BadRequestHttpException('Type price already exist');
+            throw new BadRequestHttpException('Option price already exist');
         }
 
         return;

@@ -2,7 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Requests;
 
-class UpdateServiceTypeRequest extends DetailServiceTypeRequest
+class CreateServiceOptionRequest extends DetailServiceRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,7 +16,6 @@ class UpdateServiceTypeRequest extends DetailServiceTypeRequest
             'unit_id' => 'required|exists:core_units,id',
             'min_order' => 'required|numeric',
             'order_multiples' => 'required|numeric',
-            'enabled' => 'required|boolean',
-       ];
+        ];
     }
 }

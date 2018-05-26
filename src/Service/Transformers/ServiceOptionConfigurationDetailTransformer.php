@@ -5,7 +5,7 @@ namespace Denmasyarikin\Production\Service\Transformers;
 use App\Http\Transformers\Detail;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceTypeConfigurationDetailTransformer extends Detail
+class ServiceOptionConfigurationDetailTransformer extends Detail
 {
     /**
      * get data.
@@ -16,20 +16,20 @@ class ServiceTypeConfigurationDetailTransformer extends Detail
      */
     protected function getData(Model $model)
     {
-        $serviceType = $model->serviceType;
+        $serviceOption = $model->serviceOption;
 
         return [
             'id' => $model->id,
             'name' => $model->name,
             'type' => $model->type,
-            'service_type_id' => $model->service_type_id,
+            'service_option_id' => $model->service_option_id,
             'service_type' => [
-                'id' => $serviceType->id,
-                'service_id' => $serviceType->service_id,
-                'name' => $serviceType->name,
-                'unit_id' => $serviceType->unit_id,
-                'min_order' => $serviceType->min_order,
-                'order_multiples' => $serviceType->order_multiples
+                'id' => $serviceOption->id,
+                'service_id' => $serviceOption->service_id,
+                'name' => $serviceOption->name,
+                'unit_id' => $serviceOption->unit_id,
+                'min_order' => $serviceOption->min_order,
+                'order_multiples' => $serviceOption->order_multiples,
             ],
             'structure' => $model->structure,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),

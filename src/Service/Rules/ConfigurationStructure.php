@@ -46,6 +46,7 @@ class ConfigurationStructure implements Rule
 
         if (!$manager->isConfigurationExists($this->type)) {
             $this->message = 'The :attribute can not be processed, no configuration found';
+
             return false;
         }
 
@@ -55,6 +56,7 @@ class ConfigurationStructure implements Rule
             return $factory->isValidStructure($value);
         } catch (InvalidArgumentException $e) {
             $this->message = $e->getMessage();
+
             return false;
         }
 

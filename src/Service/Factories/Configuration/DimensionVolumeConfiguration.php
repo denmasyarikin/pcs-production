@@ -12,7 +12,7 @@ class DimensionVolumeConfiguration extends DimensionConfiguration
     protected $type = 'volume';
 
     /**
-     * dimension
+     * dimension.
      *
      * @var array
      */

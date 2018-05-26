@@ -5,7 +5,7 @@ namespace Denmasyarikin\Production\Service\Transformers;
 use App\Http\Transformers\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceTypeConfigurationListTransformer extends Collection
+class ServiceOptionConfigurationListTransformer extends Collection
 {
     /**
      * get data.
@@ -14,6 +14,6 @@ class ServiceTypeConfigurationListTransformer extends Collection
      */
     protected function getData(Model $model)
     {
-        return (new ServiceTypeConfigurationDetailTransformer($model))->toArray();
+        return (new ServiceOptionConfigurationDetailTransformer($model))->toArray();
     }
 }

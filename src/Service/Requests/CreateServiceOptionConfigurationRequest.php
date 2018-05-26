@@ -5,7 +5,7 @@ namespace Denmasyarikin\Production\Service\Requests;
 use Denmasyarikin\Production\Service\Rules\ConfigurationType;
 use Denmasyarikin\Production\Service\Rules\ConfigurationStructure;
 
-class UpdateServiceTypeConfigurationRequest extends DetailServiceTypeConfigurationRequest
+class CreateServiceOptionConfigurationRequest extends DetailServiceOptionRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,7 +17,7 @@ class UpdateServiceTypeConfigurationRequest extends DetailServiceTypeConfigurati
         return [
             'name' => 'max:30',
             'type' => ['required', new ConfigurationType()],
-            'structure' => ['required', 'array', new ConfigurationStructure($this->type)]
-       ];
+            'structure' => ['required', 'array', new ConfigurationStructure($this->type)],
+        ];
     }
 }

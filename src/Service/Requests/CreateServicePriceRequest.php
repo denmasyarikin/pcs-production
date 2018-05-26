@@ -2,7 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Requests;
 
-class CreateServicePriceRequest extends DetailServiceTypeRequest
+class CreateServicePriceRequest extends DetailServiceOptionRequest
 {
     /**
      * Get the validation rules that apply to the request.

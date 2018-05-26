@@ -5,20 +5,20 @@ namespace Denmasyarikin\Production\Service\Controllers;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Denmasyarikin\Production\Service\Service;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
 use Denmasyarikin\Production\Service\Factories\ServicePriceCalculator;
-use Denmasyarikin\Production\Service\Requests\DetailTypeRequest;
+use Denmasyarikin\Production\Service\Requests\DetailOptionRequest;
 use Denmasyarikin\Production\Service\Requests\DetailServiceRequest;
-use Denmasyarikin\Production\Service\Requests\CreateServiceTypeRequest;
-use Denmasyarikin\Production\Service\Requests\UpdateServiceTypeRequest;
-use Denmasyarikin\Production\Service\Requests\DeleteServiceTypeRequest;
-use Denmasyarikin\Production\Service\Transformers\ServiceTypeListTransformer;
-use Denmasyarikin\Production\Service\Requests\CalculateServiceTypePriceRequest;
-use Denmasyarikin\Production\Service\Transformers\ServiceTypeDetailTransformer;
+use Denmasyarikin\Production\Service\Requests\CreateServiceOptionRequest;
+use Denmasyarikin\Production\Service\Requests\UpdateServiceOptionRequest;
+use Denmasyarikin\Production\Service\Requests\DeleteServiceOptionRequest;
+use Denmasyarikin\Production\Service\Transformers\ServiceOptionListTransformer;
+use Denmasyarikin\Production\Service\Requests\CalculateServiceOptionPriceRequest;
+use Denmasyarikin\Production\Service\Transformers\ServiceOptionDetailTransformer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class ServiceTypeController extends Controller
+class ServiceOptionController extends Controller
 {
     /**
      * get list.
@@ -30,91 +30,91 @@ class ServiceTypeController extends Controller
     public function getList(DetailServiceRequest $request)
     {
         $service = $request->getService();
-        $types = $service->serviceTypes();
+        $options = $service->serviceOptions();
 
         if ($request->has('name')) {
-            $types->where('name', 'like', "%{$request->name}%");
+            $options->where('name', 'like', "%{$request->name}%");
         }
 
         return new JsonResponse([
-            'data' => (new ServiceTypeListTransformer($types->get()))->toArray(),
+            'data' => (new ServiceOptionListTransformer($options->get()))->toArray(),
         ]);
     }
 
     /**
      * get detail.
      *
-     * @param DetailTypeRequest $request
+     * @param DetailOptionRequest $request
      *
      * @return json
      */
-    public function getDetail(DetailTypeRequest $request)
+    public function getDetail(DetailOptionRequest $request)
     {
-        $transform = new ServiceTypeDetailTransformer($request->getServiceType());
+        $transform = new ServiceOptionDetailTransformer($request->getServiceOption());
 
         return new JsonResponse(['data' => $transform->toArray()]);
     }
 
     /**
-     * create serviceType.
+     * create serviceOption.
      *
-     * @param CreateServiceTypeRequest $request
+     * @param CreateServiceOptionRequest $request
      *
      * @return json
      */
-    public function createType(CreateServiceTypeRequest $request)
+    public function createOption(CreateServiceOptionRequest $request)
     {
         $service = $request->getService();
 
-        $serviceType = $service->serviceTypes()->create(
+        $serviceOption = $service->serviceOptions()->create(
             $request->only(['name', 'unit_id', 'min_order', 'order_multiples'])
         );
 
         return new JsonResponse([
-            'messaage' => 'Service type has been created',
-            'data' => (new ServiceTypeDetailTransformer($serviceType))->toArray(),
+            'messaage' => 'Service option has been created',
+            'data' => (new ServiceOptionDetailTransformer($serviceOption))->toArray(),
         ], 201);
     }
 
     /**
-     * update serviceType.
+     * update serviceOption.
      *
-     * @param UpdateServiceTypeRequest $request
+     * @param UpdateServiceOptionRequest $request
      *
      * @return json
      */
-    public function updateType(UpdateServiceTypeRequest $request)
+    public function updateOption(UpdateServiceOptionRequest $request)
     {
         $service = $request->getService();
-        $serviceType = $request->getServiceType();
+        $serviceOption = $request->getServiceOption();
 
         if (true === (bool) $request->enabled) {
-            if (0 === $serviceType->servicePrices()->count()) {
+            if (0 === $serviceOption->servicePrices()->count()) {
                 throw new BadRequestHttpException('Can not be enabled with no prices');
             }
         }
 
-        $serviceType->update($request->only(['name', 'unit_id', 'min_order', 'order_multiples', 'enabled']));
+        $serviceOption->update($request->only(['name', 'unit_id', 'min_order', 'order_multiples', 'enabled']));
 
         return new JsonResponse([
-            'messaage' => 'Service type has been updated',
-            'data' => (new ServiceTypeDetailTransformer($serviceType))->toArray(),
+            'messaage' => 'Service option has been updated',
+            'data' => (new ServiceOptionDetailTransformer($serviceOption))->toArray(),
         ]);
     }
 
     /**
-     * delete serviceType.
+     * delete serviceOption.
      *
-     * @param DeleteServiceTypeRequest $request
+     * @param DeleteServiceOptionRequest $request
      *
      * @return json
      */
-    public function deleteType(DeleteServiceTypeRequest $request)
+    public function deleteOption(DeleteServiceOptionRequest $request)
     {
-        $serviceType = $request->getServiceType();
-        $serviceType->delete();
+        $serviceOption = $request->getServiceOption();
+        $serviceOption->delete();
 
-        return new JsonResponse(['messaage' => 'Service type has been deleted']);
+        return new JsonResponse(['messaage' => 'Service option has been deleted']);
     }
 
     /**
@@ -140,15 +140,15 @@ class ServiceTypeController extends Controller
     /**
      * calculate prise.
      *
-     * @param CalculateServiceTypePriceRequest $request
+     * @param CalculateServiceOptionPriceRequest $request
      *
      * @return json
      */
-    public function calculatePrice(CalculateServiceTypePriceRequest $request)
+    public function calculatePrice(CalculateServiceOptionPriceRequest $request)
     {
-        $serviceType = $request->getServiceType();
+        $serviceOption = $request->getServiceOption();
 
-        $calculator = new ServicePriceCalculator($serviceType);
+        $calculator = new ServicePriceCalculator($serviceOption);
 
         try {
             $calculation = $calculator->calculatePrice(

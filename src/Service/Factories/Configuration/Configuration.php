@@ -2,7 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Factories\Configuration;
 
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 abstract class Configuration
@@ -22,18 +22,18 @@ abstract class Configuration
     protected $structure = [];
 
     /**
-     * service type configuration.
+     * service option configuration.
      *
-     * @var ServiceTypeConfiguration
+     * @var ServiceOptionConfiguration
      */
-    public $serviceTypeConfiguration;
+    public $serviceOptionConfiguration;
 
     /**
      * Create a new Configuration instance.
      */
-    public function __construct(ServiceTypeConfiguration $serviceTypeConfiguration = null)
+    public function __construct(ServiceOptionConfiguration $serviceOptionConfiguration = null)
     {
-        $this->serviceTypeConfiguration = $serviceTypeConfiguration;
+        $this->serviceOptionConfiguration = $serviceOptionConfiguration;
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class Configuration
     {
         foreach ($this->structure as $key => $structure) {
             if (!array_key_exists($key, $config)) {
-                throw new InvalidArgumentException($key . ' is not present');
+                throw new InvalidArgumentException($key.' is not present');
             }
 
             $this->isValidStructureValue($key, $config[$key], $structure);
@@ -88,33 +88,33 @@ abstract class Configuration
     protected function isValidStructureValue($key, $value, $structure)
     {
         if (is_array($structure)) {
-            if  (!in_array($value, $structure)) {
-                throw new InvalidArgumentException($key . ' is not in options');
+            if (!in_array($value, $structure)) {
+                throw new InvalidArgumentException($key.' is not in options');
             }
         }
 
         switch ($structure) {
             case 'integer':
                 if (!is_int($value)) {
-                    throw new InvalidArgumentException($key . ' is not integer');
+                    throw new InvalidArgumentException($key.' is not integer');
                 }
                 break;
 
             case 'string':
                 if (!is_string($value)) {
-                    throw new InvalidArgumentException($key . ' is not string');
+                    throw new InvalidArgumentException($key.' is not string');
                 }
                 break;
 
             case 'array':
                 if (!is_array($value)) {
-                    throw new InvalidArgumentException($key . ' is not array');
+                    throw new InvalidArgumentException($key.' is not array');
                 }
                 break;
 
             case 'boolean':
                 if (!is_bool($value)) {
-                    throw new InvalidArgumentException($key . ' is not boolean');
+                    throw new InvalidArgumentException($key.' is not boolean');
                 }
                 break;
 
@@ -125,23 +125,23 @@ abstract class Configuration
     }
 
     /**
-     * set service type configuration.
+     * set service option configuration.
      *
-     * @return ServiceTypeConfiguration
+     * @return ServiceOptionConfiguration
      */
-    public function setServiceTypeConfiguration(ServiceTypeConfiguration $serviceTypeConfiguration)
+    public function setServiceOptionConfiguration(ServiceOptionConfiguration $serviceOptionConfiguration)
     {
-        return $this->serviceTypeConfiguration = $serviceTypeConfiguration;
+        return $this->serviceOptionConfiguration = $serviceOptionConfiguration;
     }
 
     /**
-     * get service type configuration.
+     * get service option configuration.
      *
-     * @return ServiceTypeConfiguration
+     * @return ServiceOptionConfiguration
      */
-    public function getServiceTypeConfiguration()
+    public function getServiceOptionConfiguration()
     {
-        return $this->serviceTypeConfiguration;
+        return $this->serviceOptionConfiguration;
     }
 
     /**
@@ -153,7 +153,7 @@ abstract class Configuration
      */
     public function isValidValue($value)
     {
-        if (is_null($this->serviceTypeConfiguration)) {
+        if (is_null($this->serviceOptionConfiguration)) {
             return false;
         }
 

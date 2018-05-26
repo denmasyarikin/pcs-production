@@ -12,7 +12,7 @@ class DimensionAreaConfiguration extends DimensionConfiguration
     protected $type = 'area';
 
     /**
-     * dimension
+     * dimension.
      *
      * @var array
      */

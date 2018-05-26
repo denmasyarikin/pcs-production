@@ -6,7 +6,7 @@ use App\Model;
 use App\Manager\Contracts\Priceable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceType extends Model implements Priceable
+class ServiceOption extends Model implements Priceable
 {
     use SoftDeletes;
 
@@ -15,7 +15,7 @@ class ServiceType extends Model implements Priceable
      *
      * @var string
      */
-    protected $table = 'production_service_types';
+    protected $table = 'production_service_options';
 
     /**
      * Get the service record associated with the ServicePrice.
@@ -26,7 +26,7 @@ class ServiceType extends Model implements Priceable
     }
 
     /**
-     * Get the servicePrices record associated with the ServiceType.
+     * Get the servicePrices record associated with the ServiceOption.
      */
     public function servicePrices()
     {
@@ -44,11 +44,11 @@ class ServiceType extends Model implements Priceable
     }
 
     /**
-     * Get the serviceConfigurations record associated with the ServiceType.
+     * Get the serviceOptionConfigurations record associated with the ServiceOption.
      */
-    public function serviceTypeConfigurations()
+    public function serviceOptionConfigurations()
     {
-        return $this->hasMany(ServiceTypeConfiguration::class);
+        return $this->hasMany(ServiceOptionConfiguration::class);
     }
 
     /**

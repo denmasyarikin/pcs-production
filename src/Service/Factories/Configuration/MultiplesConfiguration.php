@@ -41,7 +41,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     {
         parent::isValidValue($value);
 
-        $structure = $this->serviceTypeConfiguration->structure;
+        $structure = $this->serviceOptionConfiguration->structure;
 
         if ($structure['input_multiples']) {
             if (!is_int($value)) {
@@ -74,7 +74,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
-        $structure = $this->serviceTypeConfiguration->structure;
+        $structure = $this->serviceOptionConfiguration->structure;
         $firstPrice = $unitPrice;
         $nextPrice = $this->getNextPrice($structure['rule'], $structure['value'], 'unit_price' === $structure['relativity'] ? $unitPrice : $unitTotal);
 
@@ -101,7 +101,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
             'multiples' => $multiples,
             'first_price' => $firstPrice,
             'next_price' => $nextPrice,
-            'configuration' => $this->serviceTypeConfiguration->toArray(),
+            'configuration' => $this->serviceOptionConfiguration->toArray(),
         ];
     }
 

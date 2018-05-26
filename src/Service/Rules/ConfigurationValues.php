@@ -2,28 +2,25 @@
 
 namespace Denmasyarikin\Production\Service\Rules;
 
-use Denmasyarikin\Production\Service\ServiceType;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
-use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Denmasyarikin\Production\Service\ServiceOption;
 
 class ConfigurationValues extends ConfigurationValue
 {
     /**
-     * service type.
+     * service option.
      *
-     * @var ServiceType
+     * @var ServiceOption
      */
-    protected $serviceType;
+    protected $serviceOption;
 
     /**
      * Create a new ConfigurationRules instance.
      *
-     * @param ServiceType $serviceType
+     * @param ServiceOption $serviceOption
      */
-    public function __construct(ServiceType $serviceType)
+    public function __construct(ServiceOption $serviceOption)
     {
-        $this->serviceType = $serviceType;
+        $this->serviceOption = $serviceOption;
     }
 
     /**
@@ -36,7 +33,7 @@ class ConfigurationValues extends ConfigurationValue
      */
     public function passes($attribute, $value)
     {
-        $configurations = $this->serviceType->serviceTypeConfigurations;
+        $configurations = $this->serviceOption->serviceOptionConfigurations;
 
         if (0 === $configurations->count()) {
             return true;
@@ -53,14 +50,14 @@ class ConfigurationValues extends ConfigurationValue
             $currentValue = $value;
 
             if (!array_key_exists($config->id, $value)) {
-                $this->message = 'The :attribute not contain key service type configuration id '.$config->id;
+                $this->message = 'The :attribute not contain key service option configuration id '.$config->id;
 
                 return false;
             }
 
             $currentValue = $value[$config->id];
 
-            $this->serviceTypeConfiguration = $config;
+            $this->serviceOptionConfiguration = $config;
 
             if (!parent::passes($attribute, $currentValue)) {
                 return false;

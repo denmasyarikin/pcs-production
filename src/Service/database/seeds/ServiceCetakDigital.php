@@ -3,9 +3,9 @@
 namespace Denmasyarikin\Production\Service\database\seeds;
 
 use Illuminate\Database\Seeder;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\ServicePrice;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 
 class ServiceCetakDigital extends Seeder
 {
@@ -16,7 +16,7 @@ class ServiceCetakDigital extends Seeder
     {
         $serviceCetakId = 4;
 
-        ServiceType::create([
+        ServiceOption::create([
             'id' => 5,
             'name' => 'Banner',
             'service_id' => $serviceCetakId,
@@ -26,11 +26,11 @@ class ServiceCetakDigital extends Seeder
             'enabled' => 0,
         ]);
 
-        ServicePrice::create(['service_type_id' => 5, 'price' => 30000]);
+        ServicePrice::create(['service_option_id' => 5, 'price' => 30000]);
 
-        ServiceTypeConfiguration::create([
+        ServiceOptionConfiguration::create([
             'name' => 'Area Cetak',
-            'service_type_id' => 5,
+            'service_option_id' => 5,
             'type' => 'area',
             'structure' => [
                 'relativity' => 'unit_price',
@@ -43,7 +43,7 @@ class ServiceCetakDigital extends Seeder
             ],
         ]);
 
-        ServiceType::create([
+        ServiceOption::create([
             'id' => 6,
             'name' => 'A3',
             'service_id' => $serviceCetakId,
@@ -53,6 +53,6 @@ class ServiceCetakDigital extends Seeder
             'enabled' => 0,
         ]);
 
-        ServicePrice::create(['service_type_id' => 6, 'price' => 3000]);
+        ServicePrice::create(['service_option_id' => 6, 'price' => 3000]);
     }
 }

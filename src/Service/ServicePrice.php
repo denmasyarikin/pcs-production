@@ -27,11 +27,11 @@ class ServicePrice extends Model implements Price
     }
 
     /**
-     * Get the serviceType record associated with the ServicePrice.
+     * Get the serviceOption record associated with the ServicePrice.
      */
-    public function serviceType()
+    public function serviceOption()
     {
-        return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(ServiceOption::class);
     }
 
     /**
@@ -41,7 +41,7 @@ class ServicePrice extends Model implements Price
      */
     public function getPriceabel()
     {
-        return $this->serviceType();
+        return $this->serviceOption();
     }
 
     /**

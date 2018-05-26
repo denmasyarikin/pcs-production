@@ -127,8 +127,8 @@ class ServiceController extends Controller
         $service = $request->getService();
 
         if ('draft' !== $request->status
-            and 0 === $service->serviceTypes()->count()) {
-            throw new BadRequestHttpException('Can not update status with No Types');
+            and 0 === $service->serviceOptions()->count()) {
+            throw new BadRequestHttpException('Can not update status with No Options');
         }
 
         $service->update($request->only([

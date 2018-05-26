@@ -3,25 +3,25 @@
 namespace Denmasyarikin\Production\Service\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Denmasyarikin\Production\Service\ServiceType;
+use Denmasyarikin\Production\Service\ServiceOption;
 
 class OrderMultiple implements Rule
 {
     /**
-     * service type.
+     * service option.
      *
-     * @var ServiceType
+     * @var ServiceOption
      */
-    protected $serviceType;
+    protected $serviceOption;
 
     /**
      * Create a new OrderMultiple instance.
      *
-     * @param ServiceType $serviceType
+     * @param ServiceOption $serviceOption
      */
-    public function __construct(ServiceType $serviceType)
+    public function __construct(ServiceOption $serviceOption)
     {
-        $this->serviceType = $serviceType;
+        $this->serviceOption = $serviceOption;
     }
 
     /**
@@ -34,7 +34,7 @@ class OrderMultiple implements Rule
      */
     public function passes($attribute, $value)
     {
-        return 0 === $value % $this->serviceType->order_multiples;
+        return 0 === $value % $this->serviceOption->order_multiples;
     }
 
     /**
@@ -44,6 +44,6 @@ class OrderMultiple implements Rule
      */
     public function message()
     {
-        return 'The :attribute is not multiple of '.$this->serviceType->order_multiples;
+        return 'The :attribute is not multiple of '.$this->serviceOption->order_multiples;
     }
 }

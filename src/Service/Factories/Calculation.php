@@ -2,7 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Factories;
 
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 class Calculation
@@ -58,33 +58,33 @@ class Calculation
     /**
      * apply.
      *
-     * @param ServiceTypeConfiguration $serviceTypeConfiguration
-     * @param mixed                    $value
+     * @param ServiceOptionConfiguration $serviceOptionConfiguration
+     * @param mixed                      $value
      *
      * @return data type
      */
-    public function applyConfiguration(ServiceTypeConfiguration $serviceTypeConfiguration, $value)
+    public function applyConfiguration(ServiceOptionConfiguration $serviceOptionConfiguration, $value)
     {
-        $configInstance = $this->getConfigInstance($serviceTypeConfiguration);
+        $configInstance = $this->getConfigInstance($serviceOptionConfiguration);
 
         $configuration = $configInstance->apply($value, $this->quantity, $this->unitPrice, $this->unitTotal);
 
-        $this->configurations = $configuration;
+        $this->configurations[] = $configuration;
     }
 
     /**
      * get configuration instance.
      *
-     * @param ServiceTypeConfiguration $serviceTypeConfiguration
+     * @param ServiceOptionConfiguration $serviceOptionConfiguration
      *
      * @return ConfigurationInterface
      */
-    public function getConfigInstance(ServiceTypeConfiguration $serviceTypeConfiguration)
+    public function getConfigInstance(ServiceOptionConfiguration $serviceOptionConfiguration)
     {
-        $instance = $this->manager->getConfigurationInstance($serviceTypeConfiguration->type);
+        $instance = $this->manager->getConfigurationInstance($serviceOptionConfiguration->type);
 
         if (!is_null($instance)) {
-            $instance->setServiceTypeConfiguration($serviceTypeConfiguration);
+            $instance->setServiceOptionConfiguration($serviceOptionConfiguration);
 
             return $instance;
         }

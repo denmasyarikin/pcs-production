@@ -18,11 +18,11 @@ class Service extends Model
     protected $table = 'production_services';
 
     /**
-     * Get the serviceTypes record associated with the Service.
+     * Get the serviceOptions record associated with the Service.
      */
-    public function serviceTypes()
+    public function serviceOptions()
     {
-        return $this->hasMany(ServiceType::class);
+        return $this->hasMany(ServiceOption::class);
     }
 
     /**

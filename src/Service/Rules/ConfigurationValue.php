@@ -3,8 +3,7 @@
 namespace Denmasyarikin\Production\Service\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Denmasyarikin\Production\Service\ServiceType;
-use Denmasyarikin\Production\Service\ServiceTypeConfiguration;
+use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 use Denmasyarikin\Production\Service\Factories\ConfigurationManager;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
@@ -18,20 +17,20 @@ class ConfigurationValue implements Rule
     protected $message = 'The :attribute is not valid';
 
     /**
-     * service type configuration.
+     * service option configuration.
      *
-     * @var ServiceTypeConfiguration
+     * @var ServiceOptionConfiguration
      */
-    protected $serviceTypeConfiguration;
+    protected $serviceOptionConfiguration;
 
     /**
      * Create a new ConfigurationValue instance.
      *
-     * @param ServiceTypeConfiguration $serviceTypeConfiguration
+     * @param ServiceOptionConfiguration $serviceOptionConfiguration
      */
-    public function __construct(ServiceTypeConfiguration $serviceTypeConfiguration)
+    public function __construct(ServiceOptionConfiguration $serviceOptionConfiguration)
     {
-        $this->serviceTypeConfiguration = $serviceTypeConfiguration;
+        $this->serviceOptionConfiguration = $serviceOptionConfiguration;
     }
 
     /**
@@ -46,18 +45,20 @@ class ConfigurationValue implements Rule
     {
         $manager = new ConfigurationManager();
 
-        if (!$manager->isConfigurationExists($this->serviceTypeConfiguration->type)) {
+        if (!$manager->isConfigurationExists($this->serviceOptionConfiguration->type)) {
             $this->message = 'The :attribute can not be processed, no configuration found';
+
             return false;
         }
 
-        $factory = $manager->getConfigurationInstance($this->serviceTypeConfiguration->type);
-        $factory->setServiceTypeConfiguration($this->serviceTypeConfiguration);
+        $factory = $manager->getConfigurationInstance($this->serviceOptionConfiguration->type);
+        $factory->setServiceOptionConfiguration($this->serviceOptionConfiguration);
 
         try {
             return $factory->isValidValue($value);
         } catch (InvalidArgumentException $e) {
             $this->message = 'The :attribute invalid : '.$e->getMessage();
+
             return false;
         }
     }
