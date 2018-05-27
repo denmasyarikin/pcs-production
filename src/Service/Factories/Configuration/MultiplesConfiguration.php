@@ -70,13 +70,14 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      *
      * @return array
      */
-    public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
-        $firstPrice = $unitPrice;
-        $nextPrice = $this->getNextPrice($structure['rule'], $structure['value'], 'unit_price' === $structure['relativity'] ? $unitPrice : $unitTotal);
+        $relativeValue = 'unit_price' === $structure['relativity'] ? $unitPrice : $unitTotal;        
+        $firstPrice = $relativeValue;
+        $nextPrice = $this->getNextPrice($structure['rule'], $structure['value'], $firstPrice);
 
         // calculate multiple
         if ($structure['input_multiples']) {
@@ -88,10 +89,6 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         // calculate price
         $unitTotal = $firstPrice;
         $unitTotal += $nextPrice * ($multiples - 1);
-
-        if ($structure['input_multiples']) {
-            $unitTotal *= $quantity;
-        }
 
         return [
             'value' => $value,
@@ -110,11 +107,11 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      *
      * @param string $rule
      * @param int    $value
-     * @param int    $relativeValue
+     * @param int    $firstPrice
      *
      * @return int
      */
-    protected function getNextPrice($rule, int $value, int $relativeValue)
+    protected function getNextPrice($rule, int $value, int $firstPrice)
     {
         switch ($rule) {
             case 'fixed':
@@ -122,7 +119,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
                 break;
 
             case 'percentage':
-                return Money::round($value * $relativeValue) / 100;
+                return Money::round($value * $firstPrice) / 100;
                 break;
         }
     }

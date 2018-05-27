@@ -63,7 +63,7 @@ class MultiplicationConfiguration extends Configuration implements Configuration
      *
      * @return array
      */
-    public function apply($value, int &$quantity, int &$unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
         $beforeUnitPrice = $unitPrice;
         $beforeUnitTotal = $unitTotal;
