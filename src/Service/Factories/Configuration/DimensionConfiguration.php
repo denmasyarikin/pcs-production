@@ -94,8 +94,6 @@ abstract class DimensionConfiguration extends Configuration implements Configura
      */
     public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
-        $beforeUnitPrice = $unitPrice;
-        $beforeUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
 
         if ('unit_total' === $structure['relativity']) {
@@ -113,11 +111,14 @@ abstract class DimensionConfiguration extends Configuration implements Configura
         }
 
         return [
+            'id' => $this->serviceOptionConfiguration->id,
+            'name' => $this->serviceOptionConfiguration->name,
+            'type' => $this->serviceOptionConfiguration->type,
+            'structure' => $this->serviceOptionConfiguration->structure,
             'value' => $value,
             'quantity' => $quantity,
-            'before_unit_price' => $beforeUnitPrice,
-            'before_unit_total' => $beforeUnitTotal,
-            'configuration' => $this->serviceOptionConfiguration->toArray(),
+            'unit_price' => $unitPrice,
+            'unit_total' => $unitTotal,
         ];
     }
 }

@@ -72,8 +72,6 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      */
     public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
-        $beforeUnitPrice = $unitPrice;
-        $beforeUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
         $relativeValue = 'unit_price' === $structure['relativity'] ? $unitPrice : $unitTotal;        
         $firstPrice = $relativeValue;
@@ -91,14 +89,17 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         $unitTotal += $nextPrice * ($multiples - 1);
 
         return [
+            'id' => $this->serviceOptionConfiguration->id,
+            'name' => $this->serviceOptionConfiguration->name,
+            'type' => $this->serviceOptionConfiguration->type,
+            'structure' => $this->serviceOptionConfiguration->structure,
             'value' => $value,
             'quantity' => $quantity,
-            'before_unit_price' => $beforeUnitPrice,
-            'before_unit_total' => $beforeUnitTotal,
+            'unit_price' => $unitPrice,
+            'unit_total' => $unitTotal,
             'multiples' => $multiples,
             'first_price' => $firstPrice,
-            'next_price' => $nextPrice,
-            'configuration' => $this->serviceOptionConfiguration->toArray(),
+            'next_price' => $nextPrice
         ];
     }
 

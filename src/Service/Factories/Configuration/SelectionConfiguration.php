@@ -251,8 +251,6 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      */
     public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
-        $beforeUnitPrice = $unitPrice;
-        $beforeUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
 
         if ($structure['affected_the_price']) {
@@ -266,11 +264,14 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         }
 
         return [
+            'id' => $this->serviceOptionConfiguration->id,
+            'name' => $this->serviceOptionConfiguration->name,
+            'type' => $this->serviceOptionConfiguration->type,
+            'structure' => $this->serviceOptionConfiguration->structure,
             'value' => $value,
             'quantity' => $quantity,
-            'before_unit_price' => $beforeUnitPrice,
-            'before_unit_total' => $beforeUnitTotal,
-            'configuration' => $this->serviceOptionConfiguration->toArray(),
+            'unit_price' => $unitPrice,
+            'unit_total' => $unitTotal
         ];
     }
 
@@ -284,75 +285,73 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      * @param int   $unitPrice
      * @param int   $unitTotal
      */
-    protected function calculateSelected($value, array $config, int $quantity, int $unitPrice, int &$unitTotal)
+    protected function calculateSelected($value, array $config, int $quantity, int &$unitPrice, int &$unitTotal)
     {
         if (!method_exists($this, $methode = $config['formula'])) {
             throw new InvalidArgumentException('Unknwon formula '.$config['formula']);
         }
 
-        $relativeValue = $unitTotal;
-
-        if ('unit_price' === $config['relativity']) {
-            $relativeValue =  $unitPrice;
-            $unitTotal = $quantity * $relativeValue;
-        }
-
         if ('percentage' === $config['rule']) {
             $value = ceil(($relativeValue * $value) / 100);
         }
-
-        $this->$methode($value, $unitTotal);
+        
+        if ('unit_price' === $config['relativity']) {
+            $this->$methode($value, $unitPrice);
+            $unitTotal = $quantity * $unitPrice;
+        } else {
+            $this->$methode($value, $unitTotal);
+        }
     }
 
     /**
      * multiplication.
      *
      * @param int $value
-     * @param int $unitTotal
+     * @param int $relativeValue
      *
      * @return int
      */
-    public function multiplication(int $value, int &$unitTotal)
+    public function multiplication(int $value, int &$relativeValue)
     {
-        return $unitTotal *= $value;
+        return $relativeValue *= $value;
     }
 
     /**
      * division.
      *
      * @param int $value
-     * @param int $unitTotal
+     * @param int $relativeValue
      *
      * @return int
      */
-    public function division(int $value, int &$unitTotal)
+    public function division(int $value, int &$relativeValue)
     {
-        return $unitTotal /= $value;
+        return $relativeValue /= $value;
     }
 
     /**
      * addition.
      *
      * @param int $value
-     * @param int $unitTotal
+     * @param int $relativeValue
      *
      * @return int
      */
-    public function addition(int $value, int &$unitTotal)
+    public function addition(int $value, int &$relativeValue)
     {
-        return $unitTotal += $value;
+        return $relativeValue += $value;
     }
 
     /**
      * reduction.
      *
      * @param int $value
-     * @param int $unitTotal
+     * @param int $relativeValue
      *
      * @return int
      */
-    public function reduction(int $value, int &$unitTotal)
+    public function reduction(int $value, int &$relativeValue)
     {
-        return $unitTotal -= $value;
+        return $relativeValue -= $value;
     }
 }
