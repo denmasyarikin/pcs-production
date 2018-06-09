@@ -28,6 +28,7 @@ abstract class DimensionConfiguration extends Configuration implements Configura
      */
     protected $structure = [
         'relativity' => ['unit_price', 'unit_total'],
+        'relativity_state' => ['initial', 'calculated'],
     ];
 
     /**
@@ -92,19 +93,22 @@ abstract class DimensionConfiguration extends Configuration implements Configura
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal)
     {
+        $initialUnitPrice = $unitPrice;
+        $initialUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
+        $relativeValue = $this->getRelativeValue($unitPrice, $unitTotal);
 
         if ('unit_total' === $structure['relativity']) {
             foreach ($this->dimension as $dimension) {
-                $unitTotal *= $value[$dimension];
+                $unitTotal = ($relativeValue *= $value[$dimension]);
             }
         }
 
         if ('unit_price' === $structure['relativity']) {
             foreach ($this->dimension as $dimension) {
-                $unitPrice *= $value[$dimension];
+                $unitPrice = ($relativeValue *= $value[$dimension]);
             }
 
             $unitTotal = $unitPrice * $quantity;
@@ -119,6 +123,10 @@ abstract class DimensionConfiguration extends Configuration implements Configura
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
             'unit_total' => $unitTotal,
+            'initial' => [
+                'unit_price' => $initialUnitPrice,
+                'unit_total' => $initialUnitTotal
+            ]
         ];
     }
 }

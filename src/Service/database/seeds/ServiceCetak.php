@@ -30,10 +30,12 @@ class ServiceCetak extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Harga Kelipatan',
+            'sequence' => 1,
             'service_option_id' => 3,
             'type' => 'multiples',
             'structure' => [
                 'relativity' => 'unit_price',
+                'relativity_state' => 'initial',
                 'input_multiples' => false,
                 'input_min' => 0,
                 'input_max' => 0,
@@ -46,10 +48,12 @@ class ServiceCetak extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Jumlah Warna',
+            'sequence' => 2,
             'service_option_id' => 3,
             'type' => 'multiplication',
             'structure' => [
                 'relativity' => 'unit_total',
+                'relativity_state' => 'calculated',
                 'min' => 1,
                 'max' => 20,
                 'default' => 1,
@@ -58,6 +62,7 @@ class ServiceCetak extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Arah Putar Cetak',
+            'sequence' => 3,
             'service_option_id' => 3,
             'type' => 'selection',
             'structure' => [
@@ -67,6 +72,7 @@ class ServiceCetak extends Seeder
                 'default' => 'Bulak Bali Sama',
                 'affected_the_price' => false,
                 'relativity' => null,
+                'relativity_state' => null,
                 'rule' => null,
                 'formula' => null,
             ],

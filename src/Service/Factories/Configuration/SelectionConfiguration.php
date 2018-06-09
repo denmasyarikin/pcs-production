@@ -25,6 +25,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         'default' => 'any',
         'affected_the_price' => 'boolean',
         'relativity' => [null, 'unit_price', 'unit_total'],
+        'relativity_state' => [null, 'initial', 'calculated'],
         'rule' => [null, 'fixed', 'percentage'],
         'formula' => [null, 'multiplication', 'division', 'addition', 'reduction'],
     ];
@@ -249,8 +250,10 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal)
     {
+        $initialUnitPrice = $unitPrice;
+        $initialUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
 
         if ($structure['affected_the_price']) {
@@ -271,7 +274,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             'value' => $value,
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
-            'unit_total' => $unitTotal
+            'unit_total' => $unitTotal,
+            'initial' => [
+                'unit_price' => $initialUnitPrice,
+                'unit_total' => $initialUnitTotal
+            ]
         ];
     }
 
@@ -279,27 +286,31 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      * calculate selected.
      *
      * @param mixed $value
-     * @param array $config
+     * @param array $structure
      * @param mixed $value
      * @param int   $quantity
      * @param int   $unitPrice
      * @param int   $unitTotal
      */
-    protected function calculateSelected($value, array $config, int $quantity, int &$unitPrice, int &$unitTotal)
+    protected function calculateSelected($value, array $structure, int $quantity, int &$unitPrice, int &$unitTotal)
     {
-        if (!method_exists($this, $methode = $config['formula'])) {
-            throw new InvalidArgumentException('Unknwon formula '.$config['formula']);
+        if (!method_exists($this, $methode = $structure['formula'])) {
+            throw new InvalidArgumentException('Unknwon formula '.$structure['formula']);
         }
 
-        if ('percentage' === $config['rule']) {
+        $relativeValue = $this->getRelativeValue($unitPrice, $unitTotal);
+
+        if ('percentage' === $structure['rule']) {
             $value = ceil(($relativeValue * $value) / 100);
         }
         
-        if ('unit_price' === $config['relativity']) {
-            $this->$methode($value, $unitPrice);
-            $unitTotal = $quantity * $unitPrice;
+        $calculated = $this->$methode($value, $relativeValue);
+
+        if ('unit_price' === $structure['relativity']) {
+            $unitPrice = $calculated;
+            $unitTotal = $quantity * $calculated;
         } else {
-            $this->$methode($value, $unitTotal);
+            $unitTotal = $calculated;
         }
     }
 
@@ -311,7 +322,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      *
      * @return int
      */
-    public function multiplication(int $value, int &$relativeValue)
+    public function multiplication(int $value, int $relativeValue)
     {
         return $relativeValue *= $value;
     }
@@ -324,7 +335,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      *
      * @return int
      */
-    public function division(int $value, int &$relativeValue)
+    public function division(int $value, int $relativeValue)
     {
         return $relativeValue /= $value;
     }
@@ -337,7 +348,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      *
      * @return int
      */
-    public function addition(int $value, int &$relativeValue)
+    public function addition(int $value, int $relativeValue)
     {
         return $relativeValue += $value;
     }
@@ -350,7 +361,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      *
      * @return int
      */
-    public function reduction(int $value, int &$relativeValue)
+    public function reduction(int $value, int $relativeValue)
     {
         return $relativeValue -= $value;
     }

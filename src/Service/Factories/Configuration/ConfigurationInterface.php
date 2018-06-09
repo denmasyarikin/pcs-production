@@ -14,7 +14,24 @@ interface ConfigurationInterface
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal);
+    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal);
+
+    /**
+     * set previous calculation
+     *
+     * @param array $prevCalculation
+     */
+    public function setPreviousCalculation(array $prevCalculation);
+
+    /**
+     * get relative value.
+     *
+     * @param int $unitPrice
+     * @param int $unitTotal
+     *
+     * @return int
+     */
+    public function getRelativeValue(int $unitPrice, int $unitTotal);
 
     /**
      * configuration type.

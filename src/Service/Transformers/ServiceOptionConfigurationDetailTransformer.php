@@ -21,6 +21,7 @@ class ServiceOptionConfigurationDetailTransformer extends Detail
         return [
             'id' => $model->id,
             'name' => $model->name,
+            'sequence' => $model->sequence,
             'type' => $model->type,
             'service_option_id' => $model->service_option_id,
             'service_type' => [

@@ -30,10 +30,12 @@ class ServiceFinishing extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Harga Kelipatan',
+            'sequence' => 1,
             'service_option_id' => 4,
             'type' => 'multiples',
             'structure' => [
                 'relativity' => 'unit_price',
+                'relativity_state' => 'initial',
                 'multiples' => 500,
                 'input_multiples' => false,
                 'input_min' => 0,
@@ -46,10 +48,12 @@ class ServiceFinishing extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Jumlah Titik',
+            'sequence' => 2,
             'service_option_id' => 4,
             'type' => 'multiplication',
             'structure' => [
                 'relativity' => 'unit_total',
+                'relativity_state' => 'calculated',
                 'min' => 1,
                 'max' => 20,
                 'default' => 1,

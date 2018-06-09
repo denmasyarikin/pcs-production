@@ -40,7 +40,7 @@ class Calculation
      *
      * @var array
      */
-    protected $configurations;
+    protected $configurations = [];
 
     /**
      * Create a new Calculation instance.
@@ -66,6 +66,11 @@ class Calculation
     public function applyConfiguration(ServiceOptionConfiguration $serviceOptionConfiguration, $value)
     {
         $configInstance = $this->getConfigInstance($serviceOptionConfiguration);
+
+        if (count($this->configurations) > 0) {
+            $last = array_values(array_slice($this->configurations, -1))[0];
+            $configInstance->setPreviousCalculation($last);
+        }
 
         $configuration = $configInstance->apply($value, $this->quantity, $this->unitPrice, $this->unitTotal);
 

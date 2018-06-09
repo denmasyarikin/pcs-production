@@ -20,6 +20,7 @@ class MultiplicationConfiguration extends Configuration implements Configuration
      */
     protected $structure = [
         'relativity' => ['unit_price', 'unit_total'],
+        'relativity_state' => ['initial', 'calculated'],
         'min' => 'integer',
         'max' => 'integer',
         'default' => 'integer',
@@ -63,16 +64,19 @@ class MultiplicationConfiguration extends Configuration implements Configuration
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal)
     {
+        $initialUnitPrice = $unitPrice;
+        $initialUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
+        $relativeValue = $this->getRelativeValue($unitPrice, $unitTotal);
 
         if ('unit_total' === $structure['relativity']) {
-            $unitTotal *= $value;
+            $unitTotal = ($relativeValue *= $value);
         }
 
         if ('unit_price' === $structure['relativity']) {
-            $unitPrice *= $value;
+            $unitPrice = ($relativeValue *= $value);
             $unitTotal = $unitPrice * $quantity;
         }
 
@@ -84,7 +88,11 @@ class MultiplicationConfiguration extends Configuration implements Configuration
             'value' => $value,
             'quantity' => $quantity,
             'unit_price' => $unitPrice,
-            'unit_total' => $unitTotal
+            'unit_total' => $unitTotal,
+            'initial' => [
+                'unit_price' => $initialUnitPrice,
+                'unit_total' => $initialUnitTotal
+            ]
         ];
     }
 }

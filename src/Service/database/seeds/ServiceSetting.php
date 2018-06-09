@@ -30,6 +30,7 @@ class ServiceSetting extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Jenis Undagnan',
+            'sequence' => 1,
             'service_option_id' => 1,
             'type' => 'selection',
             'structure' => [
@@ -43,6 +44,7 @@ class ServiceSetting extends Seeder
                 'required' => true,
                 'affected_the_price' => true,
                 'relativity' => 'unit_price',
+                'relativity_state' => 'initial',
                 'rule' => 'fixed',
                 'formula' => 'addition',
             ],
@@ -59,25 +61,10 @@ class ServiceSetting extends Seeder
         ]);
 
         ServicePrice::create(['service_option_id' => 2, 'price' => 30000]);
-
-        ServiceOptionConfiguration::create([
-            'name' => 'Jumlah Nama',
-            'service_option_id' => 2,
-            'type' => 'multiples',
-            'structure' => [
-                'relativity' => 'unit_price',
-                'multiples' => 1,
-                'input_multiples' => true,
-                'input_min' => 1,
-                'input_max' => 1000,
-                'input_default' => 1,
-                'rule' => 'fixed',
-                'value' => 1000,
-            ],
-        ]);
-
+        
         ServiceOptionConfiguration::create([
             'name' => 'Kesulitan',
+            'sequence' => 1,
             'service_option_id' => 2,
             'type' => 'selection',
             'structure' => [
@@ -90,8 +77,27 @@ class ServiceSetting extends Seeder
                 'required' => false,
                 'affected_the_price' => true,
                 'relativity' => 'unit_price',
+                'relativity_state' => 'initial',
                 'rule' => 'fixed',
                 'formula' => 'addition',
+            ],
+        ]);
+
+        ServiceOptionConfiguration::create([
+            'name' => 'Jumlah Nama',
+            'sequence' => 2,
+            'service_option_id' => 2,
+            'type' => 'multiples',
+            'structure' => [
+                'relativity' => 'unit_price',
+                'relativity_state' => 'calculated',
+                'multiples' => 1,
+                'input_multiples' => true,
+                'input_min' => 1,
+                'input_max' => 1000,
+                'input_default' => 1,
+                'rule' => 'fixed',
+                'value' => 1000,
             ],
         ]);
     }

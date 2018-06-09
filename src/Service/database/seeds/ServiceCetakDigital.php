@@ -30,10 +30,12 @@ class ServiceCetakDigital extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Area Cetak',
+            'sequence' => 1,
             'service_option_id' => 5,
             'type' => 'area',
             'structure' => [
                 'relativity' => 'unit_price',
+                'relativity_state' => 'initial',
                 'min_width' => 1,
                 'max_width' => 5,
                 'min_length' => 1,

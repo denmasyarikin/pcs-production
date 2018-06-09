@@ -14,6 +14,7 @@ class ServiceOptionConfiguration extends Migration
         Schema::create('production_service_option_configurations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
+            $table->integer('sequence')->default(1);
             $table->integer('service_option_id')->unsigned();
             $table->string('type');
             $table->longText('structure');

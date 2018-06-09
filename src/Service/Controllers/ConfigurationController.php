@@ -44,9 +44,11 @@ class ConfigurationController extends Controller
         $serviceOption = $request->getServiceOption();
         $this->checkIsOptionConfigurationExist($serviceOption, $request->option);
 
+        $sequence = $serviceOption->serviceOptionConfigurations->count() + 1;
+        
         $configuration = $serviceOption->serviceOptionConfigurations()->create($request->only([
             'name', 'type', 'structure',
-        ]));
+        ]) + ['sequence' => $sequence]);
 
         return new JsonResponse([
             'messaage' => 'Service option configuration has been created',

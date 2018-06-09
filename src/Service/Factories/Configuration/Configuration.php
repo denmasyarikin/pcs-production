@@ -29,11 +29,81 @@ abstract class Configuration
     public $serviceOptionConfiguration;
 
     /**
+     * previous calculation
+     *
+     * @var array
+     */
+    protected $prevCalculation;
+
+    /**
      * Create a new Configuration instance.
      */
     public function __construct(ServiceOptionConfiguration $serviceOptionConfiguration = null)
     {
         $this->serviceOptionConfiguration = $serviceOptionConfiguration;
+    }
+
+    /**
+     * set previous calculation
+     *
+     * @param array $prevCalculation
+     */
+    public function setPreviousCalculation(array $prevCalculation)
+    {
+        $this->prevCalculation = $prevCalculation;
+    }
+
+    /**
+     * get relative value.
+     *
+     * @param int $unitPrice
+     * @param int $unitTotal
+     *
+     * @return int
+     */
+    public function getRelativeValue(int $unitPrice, int $unitTotal)
+    {
+        $structure = $this->serviceOptionConfiguration->structure;
+
+        if ('calculated' === $structure['relativity_state']) {
+            return 'unit_price' === $structure['relativity']
+                    ? $unitPrice
+                    : $unitTotal;
+        }
+
+        $initial = $this->getInitialValue($unitPrice, $unitTotal);
+
+        return 'unit_price' === $structure['relativity']
+                ? $initial['unit_price']
+                : $initial['unit_total'];
+    }
+
+    /**
+     * get inital value
+     *
+     * @param int $unitPrice
+     * @param int $unitTotal
+     *
+     * @return array
+     */
+    protected function getInitialValue(int $unitPrice, int $unitTotal)
+    {
+        $initial = [
+            'unit_price' => $unitPrice,
+            'unit_total' => $unitTotal
+        ];
+
+        if (is_array($this->prevCalculation) AND isset($this->prevCalculation['initial'])) {
+            if (isset($this->prevCalculation['initial']['unit_price'])) {
+                $initial['unit_price'] = $this->prevCalculation['initial']['unit_price'];
+            }
+
+            if (isset($this->prevCalculation['initial']['unit_total'])) {
+                $initial['unit_total'] = $this->prevCalculation['initial']['unit_total'];
+            }
+        }
+
+        return $initial;
     }
 
     /**

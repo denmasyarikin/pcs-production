@@ -21,6 +21,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      */
     protected $structure = [
         'relativity' => ['unit_price', 'unit_total'],
+        'relativity_state' => ['initial', 'calculated'],
         'multiples' => 'integer',
         'input_multiples' => 'boolean',
         'input_min' => 'integer',
@@ -70,22 +71,24 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal)
     {
+        $initialUnitPrice = $unitPrice;
+        $initialUnitTotal = $unitTotal;
         $structure = $this->serviceOptionConfiguration->structure;
-        $relativeValue = 'unit_price' === $structure['relativity'] ? $unitPrice : $unitTotal;        
-        $firstPrice = $relativeValue;
+        $firstPrice = $this->getRelativeValue($unitPrice, $unitTotal);
         $nextPrice = $this->getNextPrice($structure['rule'], $structure['value'], $firstPrice);
 
         // calculate multiple
         if ($structure['input_multiples']) {
+            $unitTotal = $quantity * $firstPrice;
             $multiples = $value;
         } else {
+            $unitTotal = $firstPrice;
             $multiples = ceil($quantity / $structure['multiples']);
         }
 
         // calculate price
-        $unitTotal = $firstPrice;
         $unitTotal += $nextPrice * ($multiples - 1);
 
         return [
@@ -99,7 +102,11 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
             'unit_total' => $unitTotal,
             'multiples' => $multiples,
             'first_price' => $firstPrice,
-            'next_price' => $nextPrice
+            'next_price' => $nextPrice,
+            'initial' => [
+                'unit_price' => $initialUnitPrice,
+                'unit_total' => $initialUnitTotal
+            ]
         ];
     }
 

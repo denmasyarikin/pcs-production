@@ -48,7 +48,7 @@ class ServiceOption extends Model implements Priceable
      */
     public function serviceOptionConfigurations()
     {
-        return $this->hasMany(ServiceOptionConfiguration::class);
+        return $this->hasMany(ServiceOptionConfiguration::class)->orderBy('sequence', 'ASC');
     }
 
     /**
