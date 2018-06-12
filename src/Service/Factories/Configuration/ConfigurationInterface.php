@@ -14,7 +14,7 @@ interface ConfigurationInterface
      *
      * @return array
      */
-    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal);
+    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal);
 
     /**
      * set previous calculation

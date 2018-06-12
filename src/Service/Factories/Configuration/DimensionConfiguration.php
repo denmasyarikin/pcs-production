@@ -93,11 +93,17 @@ abstract class DimensionConfiguration extends Configuration implements Configura
      *
      * @return array
      */
-    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
+        $structure = $this->serviceOptionConfiguration->structure;
+
+        if ($structure['relativity_state'] === 'calculated' AND !is_null($this->prevCalculation)) {
+            $unitPrice = $this->prevCalculation['unit_price'];
+            $unitTotal = $this->prevCalculation['unit_total'];
+        }
+
         $initialUnitPrice = $unitPrice;
         $initialUnitTotal = $unitTotal;
-        $structure = $this->serviceOptionConfiguration->structure;
         $relativeValue = $this->getRelativeValue($unitPrice, $unitTotal);
 
         if ('unit_total' === $structure['relativity']) {

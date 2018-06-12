@@ -71,11 +71,17 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      *
      * @return array
      */
-    public function apply($value, int $quantity, int &$unitPrice, int &$unitTotal)
+    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
     {
+        $structure = $this->serviceOptionConfiguration->structure;
+
+        if ($structure['relativity_state'] === 'calculated' AND !is_null($this->prevCalculation)) {
+            $unitPrice = $this->prevCalculation['unit_price'];
+            $unitTotal = $this->prevCalculation['unit_total'];
+        }
+
         $initialUnitPrice = $unitPrice;
         $initialUnitTotal = $unitTotal;
-        $structure = $this->serviceOptionConfiguration->structure;
         $firstPrice = $this->getRelativeValue($unitPrice, $unitTotal);
         $nextPrice = $this->getNextPrice($structure['rule'], $structure['value'], $firstPrice);
 
