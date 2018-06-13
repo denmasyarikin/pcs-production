@@ -48,6 +48,7 @@ class AdjustmentQuantityConfiguration extends Configuration implements Configura
             $unitTotal = $this->prevCalculation['unit_total'];
         }
 
+        $adjustment = 0;
         $initialUnitPrice = $unitPrice;
         $initialUnitTotal = $unitTotal;
 		$relativeValue = $this->getRelativeValue($unitPrice, $unitTotal);
@@ -61,21 +62,21 @@ class AdjustmentQuantityConfiguration extends Configuration implements Configura
 
 	        if ('unit_total' === $structure['relativity']) {
                 if ($structure['type'] === 'discount') {
-                  $unitTotal = ($relativeValue -= $calValue);
+                    $unitTotal = $adjustment = $relativeValue -= $calValue;
                 }
 
                 if ($structure['type'] === 'markup') {
-                  $unitTotal = ($relativeValue += $calValue);
+                    $unitTotal = $adjustment = $relativeValue += $calValue;
                 }
             }
 
             if ('unit_price' === $structure['relativity']) {
                 if ($structure['type'] === 'discount') {
-                    $unitPrice = ($relativeValue -= $calValue);
+                    $unitPrice = $adjustment = $relativeValue -= $calValue;
                 }
 
                 if ($structure['type'] === 'markup') {
-                    $unitPrice = ($relativeValue += $calValue);
+                    $unitPrice = $adjustment = $relativeValue += $calValue;
                 }
 
 	            $unitTotal = $unitPrice * $quantity;
@@ -89,6 +90,7 @@ class AdjustmentQuantityConfiguration extends Configuration implements Configura
             'structure' => $this->serviceOptionConfiguration->structure,
             'value' => $value,
             'quantity' => $quantity,
+            'adjustment' => $adjustment,
             'unit_price' => $unitPrice,
             'unit_total' => $unitTotal,
             'initial' => [

@@ -89,17 +89,22 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         // calculate multiple
         if ($structure['input_multiples']) {
             $unitTotal = $quantity * $firstPrice;
+            $mulQty = $value - (int) $structure['after_quantity'];
             $multiples = $value;
+            // calculate price
+            if ($multiples > (int) $structure['after_quantity']) {
+                $unitTotal += $nextPrice * $mulQty;
+            }
         } else {
             $unitTotal = $firstPrice;
             $mulQty = $quantity - (int) $structure['after_quantity'];
             $multiples = ceil($mulQty / $structure['multiples']);
+            // calculate price
+            if ($quantity > (int) $structure['after_quantity']) {
+                $unitTotal += $nextPrice * $multiples;
+            }
         }
 
-        // calculate price
-        if ($quantity > (int) $structure['after_quantity']) {
-            $unitTotal += $nextPrice * $multiples;
-        }
 
         return [
             'id' => $this->serviceOptionConfiguration->id,
