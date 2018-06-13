@@ -18,6 +18,7 @@ class ConfigurationManager
         Configuration\DimensionAreaConfiguration::class,
         Configuration\DimensionVolumeConfiguration::class,
         Configuration\SelectionConfiguration::class,
+        Configuration\AdjustmentQuantityConfiguration::class
     ];
 
     /**

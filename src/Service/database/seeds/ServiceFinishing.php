@@ -37,6 +37,7 @@ class ServiceFinishing extends Seeder
                 'relativity' => 'unit_price',
                 'relativity_state' => 'initial',
                 'multiples' => 500,
+                'after_quantity' => 500,
                 'input_multiples' => false,
                 'input_min' => 0,
                 'input_max' => 0,

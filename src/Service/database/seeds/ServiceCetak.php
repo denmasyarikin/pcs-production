@@ -26,7 +26,7 @@ class ServiceCetak extends Seeder
             'enabled' => 1,
         ]);
 
-        ServicePrice::create(['service_option_id' => 3, 'price' => 30000]);
+        ServicePrice::create(['service_option_id' => 3, 'price' => 15000]);
 
         ServiceOptionConfiguration::create([
             'name' => 'Harga Kelipatan',
@@ -41,14 +41,31 @@ class ServiceCetak extends Seeder
                 'input_max' => 0,
                 'input_default' => 0,
                 'multiples' => 500,
-                'rule' => 'percentage',
+                'after_quantity' => 7000,
+                'rule' => 'fixed',
                 'value' => 50,
             ],
         ]);
 
         ServiceOptionConfiguration::create([
-            'name' => 'Jumlah Warna',
+            'name' => 'Penyesuaian',
             'sequence' => 2,
+            'service_option_id' => 3,
+            'type' => 'adjustment_quantity',
+            'structure' => [
+                'type' => 'discount',
+                'relativity' => 'unit_total',
+                'relativity_state' => 'calculated',
+                'rule' => 'fixed',
+                'value' => 1000,
+                'quantity' => 1000,
+                'operator' => '>'
+            ],
+        ]);
+
+        ServiceOptionConfiguration::create([
+            'name' => 'Jumlah Warna',
+            'sequence' => 3,
             'service_option_id' => 3,
             'type' => 'multiplication',
             'structure' => [
@@ -62,7 +79,7 @@ class ServiceCetak extends Seeder
 
         ServiceOptionConfiguration::create([
             'name' => 'Arah Putar Cetak',
-            'sequence' => 3,
+            'sequence' => 4,
             'service_option_id' => 3,
             'type' => 'selection',
             'structure' => [

@@ -92,6 +92,7 @@ class ServiceSetting extends Seeder
                 'relativity' => 'unit_price',
                 'relativity_state' => 'calculated',
                 'multiples' => 1,
+                'after_quantity' => 1,
                 'input_multiples' => true,
                 'input_min' => 1,
                 'input_max' => 1000,

@@ -23,6 +23,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         'relativity' => ['unit_price', 'unit_total'],
         'relativity_state' => ['initial', 'calculated'],
         'multiples' => 'integer',
+        'after_quantity' => 'integer',
         'input_multiples' => 'boolean',
         'input_min' => 'integer',
         'input_max' => 'integer',
@@ -91,11 +92,14 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
             $multiples = $value;
         } else {
             $unitTotal = $firstPrice;
-            $multiples = ceil($quantity / $structure['multiples']);
+            $mulQty = $quantity - (int) $structure['after_quantity'];
+            $multiples = ceil($mulQty / $structure['multiples']);
         }
 
         // calculate price
-        $unitTotal += $nextPrice * ($multiples - 1);
+        if ($quantity > (int) $structure['after_quantity']) {
+            $unitTotal += $nextPrice * $multiples;
+        }
 
         return [
             'id' => $this->serviceOptionConfiguration->id,
