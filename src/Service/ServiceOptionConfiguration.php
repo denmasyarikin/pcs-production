@@ -21,7 +21,7 @@ class ServiceOptionConfiguration extends Model
      */
     public function serviceOption()
     {
-        return $this->belongsTo(ServiceOption::class);
+        return $this->belongsTo(ServiceOption::class)->withTrashed();
     }
 
     /**

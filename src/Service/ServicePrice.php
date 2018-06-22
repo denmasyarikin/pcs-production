@@ -23,7 +23,7 @@ class ServicePrice extends Model implements Price
      */
     public function chanel()
     {
-        return $this->belongsTo(Chanel::class);
+        return $this->belongsTo(Chanel::class)->withTrashed();
     }
 
     /**
@@ -31,7 +31,7 @@ class ServicePrice extends Model implements Price
      */
     public function serviceOption()
     {
-        return $this->belongsTo(ServiceOption::class);
+        return $this->belongsTo(ServiceOption::class)->withTrashed();
     }
 
     /**
@@ -49,6 +49,6 @@ class ServicePrice extends Model implements Price
      */
     public function previous()
     {
-        return $this->belongsTo(static::class, 'previous_id');
+        return $this->belongsTo(static::class, 'previous_id')->withTrashed();
     }
 }
