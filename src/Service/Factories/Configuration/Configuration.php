@@ -29,7 +29,7 @@ abstract class Configuration
     public $serviceOptionConfiguration;
 
     /**
-     * previous calculation
+     * previous calculation.
      *
      * @var array
      */
@@ -44,7 +44,7 @@ abstract class Configuration
     }
 
     /**
-     * set previous calculation
+     * set previous calculation.
      *
      * @param array $prevCalculation
      */
@@ -79,7 +79,7 @@ abstract class Configuration
     }
 
     /**
-     * get inital value
+     * get inital value.
      *
      * @param int $unitPrice
      * @param int $unitTotal
@@ -90,10 +90,10 @@ abstract class Configuration
     {
         $initial = [
             'unit_price' => $unitPrice,
-            'unit_total' => $unitTotal
+            'unit_total' => $unitTotal,
         ];
 
-        if (is_array($this->prevCalculation) AND isset($this->prevCalculation['initial'])) {
+        if (is_array($this->prevCalculation) and isset($this->prevCalculation['initial'])) {
             if (isset($this->prevCalculation['initial']['unit_price'])) {
                 $initial['unit_price'] = $this->prevCalculation['initial']['unit_price'];
             }

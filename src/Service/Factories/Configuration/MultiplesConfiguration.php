@@ -76,7 +76,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
-        if ($structure['relativity_state'] === 'calculated' AND !is_null($this->prevCalculation)) {
+        if ('calculated' === $structure['relativity_state'] and !is_null($this->prevCalculation)) {
             $unitPrice = $this->prevCalculation['unit_price'];
             $unitTotal = $this->prevCalculation['unit_total'];
         }
@@ -105,7 +105,6 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
             }
         }
 
-
         return [
             'id' => $this->serviceOptionConfiguration->id,
             'name' => $this->serviceOptionConfiguration->name,
@@ -120,8 +119,8 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
             'next_price' => $nextPrice,
             'initial' => [
                 'unit_price' => $initialUnitPrice,
-                'unit_total' => $initialUnitTotal
-            ]
+                'unit_total' => $initialUnitTotal,
+            ],
         ];
     }
 

@@ -61,7 +61,7 @@ class ServiceSetting extends Seeder
         ]);
 
         ServicePrice::create(['service_option_id' => 2, 'price' => 30000]);
-        
+
         ServiceOptionConfiguration::create([
             'name' => 'Kesulitan',
             'sequence' => 1,

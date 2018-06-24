@@ -97,7 +97,7 @@ abstract class DimensionConfiguration extends Configuration implements Configura
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
-        if ($structure['relativity_state'] === 'calculated' AND !is_null($this->prevCalculation)) {
+        if ('calculated' === $structure['relativity_state'] and !is_null($this->prevCalculation)) {
             $unitPrice = $this->prevCalculation['unit_price'];
             $unitTotal = $this->prevCalculation['unit_total'];
         }
@@ -131,8 +131,8 @@ abstract class DimensionConfiguration extends Configuration implements Configura
             'unit_total' => $unitTotal,
             'initial' => [
                 'unit_price' => $initialUnitPrice,
-                'unit_total' => $initialUnitTotal
-            ]
+                'unit_total' => $initialUnitTotal,
+            ],
         ];
     }
 }

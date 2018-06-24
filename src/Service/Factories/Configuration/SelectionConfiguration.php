@@ -254,7 +254,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
-        if ($structure['relativity_state'] === 'calculated' AND !is_null($this->prevCalculation)) {
+        if ('calculated' === $structure['relativity_state'] and !is_null($this->prevCalculation)) {
             $unitPrice = $this->prevCalculation['unit_price'];
             $unitTotal = $this->prevCalculation['unit_total'];
         }
@@ -283,8 +283,8 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             'unit_total' => $unitTotal,
             'initial' => [
                 'unit_price' => $initialUnitPrice,
-                'unit_total' => $initialUnitTotal
-            ]
+                'unit_total' => $initialUnitTotal,
+            ],
         ];
     }
 
@@ -309,7 +309,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
         if ('percentage' === $structure['rule']) {
             $value = ceil(($relativeValue * $value) / 100);
         }
-        
+
         $calculated = $this->$methode($value, $relativeValue);
 
         if ('unit_price' === $structure['relativity']) {

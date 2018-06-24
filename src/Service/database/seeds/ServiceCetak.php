@@ -59,7 +59,7 @@ class ServiceCetak extends Seeder
                 'rule' => 'fixed',
                 'value' => 1000,
                 'quantity' => 1000,
-                'operator' => '>'
+                'operator' => '>',
             ],
         ]);
 

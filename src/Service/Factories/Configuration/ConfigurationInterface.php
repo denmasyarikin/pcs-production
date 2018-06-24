@@ -17,7 +17,7 @@ interface ConfigurationInterface
     public function apply($value, int $quantity, int $unitPrice, int &$unitTotal);
 
     /**
-     * set previous calculation
+     * set previous calculation.
      *
      * @param array $prevCalculation
      */

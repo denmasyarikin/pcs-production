@@ -45,7 +45,7 @@ class ConfigurationController extends Controller
         $this->checkIsOptionConfigurationExist($serviceOption, $request->option);
 
         $sequence = $serviceOption->serviceOptionConfigurations->count() + 1;
-        
+
         $configuration = $serviceOption->serviceOptionConfigurations()->create($request->only([
             'name', 'type', 'structure',
         ]) + ['sequence' => $sequence]);
