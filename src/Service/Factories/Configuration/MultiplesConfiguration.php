@@ -30,6 +30,7 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         'input_default' => 'integer',
         'rule' => ['fixed', 'percentage'],
         'value' => 'integer',
+        'enabled_back_forth' => 'boolean',
     ];
 
     /**
@@ -44,6 +45,18 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         parent::isValidValue($value);
 
         $structure = $this->serviceOptionConfiguration->structure;
+
+        if ($structure['enabled_back_forth']) {
+            if (!is_array($value)) {
+                throw new InvalidArgumentException('Not an array while enbabled back forth');
+            }
+
+            if (!array_key_exists('value', $value) || !array_key_exists('back_forth', $value)) {
+                throw new InvalidArgumentException('array not contain key value or back_forth');
+            }
+
+            $value = $value['value'];
+        }
 
         if ($structure['input_multiples']) {
             if (!is_int($value)) {
@@ -79,6 +92,16 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         if ('calculated' === $structure['relativity_state'] and !is_null($this->prevCalculation)) {
             $unitPrice = $this->prevCalculation['unit_price'];
             $unitTotal = $this->prevCalculation['unit_total'];
+        }
+
+        if ($structure['enabled_back_forth']) {
+            $backForth = $value['back_forth'];
+            $value = $value['value'];
+
+            if ($backForth) {
+                $structure['value'] *= 2;
+                $structure['after_quantity'] = ceil($structure['after_quantity'] / 2);
+            }
         }
 
         $initialUnitPrice = $unitPrice;
