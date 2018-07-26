@@ -13,6 +13,7 @@ use Denmasyarikin\Production\Service\Requests\DetailServiceRequest;
 use Denmasyarikin\Production\Service\Requests\CreateServiceOptionRequest;
 use Denmasyarikin\Production\Service\Requests\UpdateServiceOptionRequest;
 use Denmasyarikin\Production\Service\Requests\DeleteServiceOptionRequest;
+use Denmasyarikin\Production\Service\Requests\UpdateSortingServiceOptionRequest;
 use Denmasyarikin\Production\Service\Transformers\ServiceOptionListTransformer;
 use Denmasyarikin\Production\Service\Requests\CalculateServiceOptionPriceRequest;
 use Denmasyarikin\Production\Service\Transformers\ServiceOptionDetailTransformer;
@@ -166,5 +167,21 @@ class ServiceOptionController extends Controller
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
+    }
+
+    /**
+     * update sorting.
+     *
+     * @param UpdateSortingServiceOptionRequest $request
+     *
+     * @return json
+     */
+    public function updateSorting(UpdateSortingServiceOptionRequest $request)
+    {
+        foreach ($request->data as $sort) {
+            ServiceOption::find($sort['id'])->update(['sort' => $sort['sort']]);
+        }
+
+        return new JsonResponse(['message' => 'Service has been sorted']);
     }
 }

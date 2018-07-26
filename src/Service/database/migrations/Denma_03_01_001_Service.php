@@ -14,6 +14,7 @@ class Service extends Migration
         Schema::create('production_services', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
+            $table->integer('sort')->default(0);
             $table->text('description')->nullable()->default(null);
             $table->enum('status', ['draft', 'active', 'inactive'])->default('draft');
             $table->timestamps();

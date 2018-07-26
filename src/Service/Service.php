@@ -22,7 +22,7 @@ class Service extends Model
      */
     public function serviceOptions()
     {
-        return $this->hasMany(ServiceOption::class);
+        return $this->hasMany(ServiceOption::class)->orderBy('sort', 'ASC')->orderBy('created_at', 'ASC');
     }
 
     /**
