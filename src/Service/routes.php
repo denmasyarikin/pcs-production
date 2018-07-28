@@ -13,7 +13,8 @@ $router->group(['prefix' => '/{id}/'.(RE ? 'option' : '0001')], function ($route
 
 $router->group(['middleware' => 'manage:production,service,write'], function ($router) {
     $router->put((RE ? 'sorting' : '0006'), ['as' => 'production.service.sorting', 'uses' => 'ServiceController@updateSorting']);
-    $router->put('/option/'.(RE ? 'sorting' : '0007'), ['as' => 'production.service.option.sorting', 'uses' => 'ServiceOptionController@updateSorting']);
+    $router->put((RE ? 'option/sorting' : '0001/0006'), ['as' => 'production.service.option.sorting', 'uses' => 'ServiceOptionController@updateSorting']);
+    $router->put((RE ? 'option/configuration/resequence' : '0004/0006'), ['as' => 'production.service.option.configuration.resequence', 'uses' => 'ConfigurationController@updateSequence']);
     
     $router->post('/', ['as' => 'production.service.create', 'uses' => 'ServiceController@createService']);
     $router->put('/{id}', ['as' => 'production.service.update', 'uses' => 'ServiceController@updateService']);
