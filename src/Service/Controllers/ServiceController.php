@@ -10,6 +10,7 @@ use Denmasyarikin\Production\Service\Requests\CreateServiceRequest;
 use Denmasyarikin\Production\Service\Requests\DetailServiceRequest;
 use Denmasyarikin\Production\Service\Requests\UpdateServiceRequest;
 use Denmasyarikin\Production\Service\Requests\DeleteServiceRequest;
+use Denmasyarikin\Production\Service\Requests\UpdateSortingServiceRequest;
 use Denmasyarikin\Production\Service\Transformers\ServiceListTransformer;
 use Denmasyarikin\Production\Service\Transformers\ServiceDetailTransformer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -47,7 +48,7 @@ class ServiceController extends Controller
      */
     protected function getServiceList(Request $request, $status = null)
     {
-        $services = Service::orderBy('id', 'ASC');
+        $services = Service::orderBy('sort', 'ASC')->orderBy('created_at', 'ASC');
 
         if ($request->has('key')) {
             $services->where('name', 'like', "%{$request->key}%");
@@ -157,5 +158,21 @@ class ServiceController extends Controller
         $service->delete();
 
         return new JsonResponse(['message' => 'Service has been deleted']);
+    }
+
+    /**
+     * update sorting.
+     *
+     * @param UpdateSortingServiceRequest $request
+     *
+     * @return json
+     */
+    public function updateSorting(UpdateSortingServiceRequest $request)
+    {
+        foreach ($request->data as $sort) {
+            Service::find($sort['id'])->update(['sort' => $sort['sort']]);
+        }
+
+        return new JsonResponse(['message' => 'Service has been sorted']);
     }
 }

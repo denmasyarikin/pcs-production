@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Denmasyarikin\Production\Service\ServiceOption;
 use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 use Denmasyarikin\Production\Service\Requests\DetailServiceOptionRequest;
+use Denmasyarikin\Production\Service\Requests\UpdateSequenceConfigurationRequest;
 use Denmasyarikin\Production\Service\Requests\CreateServiceOptionConfigurationRequest;
 use Denmasyarikin\Production\Service\Requests\UpdateServiceOptionConfigurationRequest;
 use Denmasyarikin\Production\Service\Requests\DeleteServiceOptionConfigurationRequest;
@@ -113,5 +114,21 @@ class ConfigurationController extends Controller
         if ($query->exists()) {
             throw new BadRequestHttpException("Service Option Configuration where {$type} already exist");
         }
+    }
+
+    /**
+     * update sequence.
+     *
+     * @param UpdateSequenceConfigurationRequest $request
+     *
+     * @return json
+     */
+    public function updateSequence(UpdateSequenceConfigurationRequest $request)
+    {
+        foreach ($request->data as $sequence) {
+            ServiceOptionConfiguration::find($sequence['id'])->update(['sequence' => $sequence['sequence']]);
+        }
+
+        return new JsonResponse(['message' => 'Service option configuration has been resequenced']);
     }
 }

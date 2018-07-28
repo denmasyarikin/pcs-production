@@ -14,6 +14,7 @@ class ServiceOption extends Migration
         Schema::create('production_service_options', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100)->nullable()->default(null);
+            $table->integer('sort')->default(0);
             $table->integer('service_id')->unsigned();
             $table->integer('unit_id')->unsigned();
             $table->float('min_order')->default(1);
