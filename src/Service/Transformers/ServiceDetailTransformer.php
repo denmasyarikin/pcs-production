@@ -20,6 +20,7 @@ class ServiceDetailTransformer extends Detail
         return [
             'id' => $model->id,
             'name' => $model->name,
+            'sort' => $model->sort,
             'description' => $model->description,
             'status' => $model->status,
             'service_option_count' => $model->serviceOptions()->count(),

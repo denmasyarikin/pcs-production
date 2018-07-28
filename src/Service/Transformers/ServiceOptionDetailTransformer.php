@@ -23,6 +23,7 @@ class ServiceOptionDetailTransformer extends Detail
         return [
             'id' => $model->id,
             'name' => $model->name,
+            'srot' => $model->srot,
             'service_id' => $model->service_id,
             'service' => (new ServiceDetailTransformer($model->service))->toArray(),
             'unit_id' => $model->unit_id,
