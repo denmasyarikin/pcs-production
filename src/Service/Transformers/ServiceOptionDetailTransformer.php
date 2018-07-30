@@ -33,8 +33,8 @@ class ServiceOptionDetailTransformer extends Detail
             'base_price' => $calculator->getBasePrice() ? $calculator->getBasePrice()->price : null,
             'prices' => (new ServicePriceListTransformer($calculator->getAllPrices()))->toArray(),
             'configurations' => (new ServiceOptionConfigurationListTransformer($model->serviceOptionConfigurations))->toArray(),
-            'enabled' => $model->enabled,
-            'free_input' => $model->free_input,
+            'enabled' => (bool) $model->enabled,
+            'free_input' => (bool) $model->free_input,
             'created_at' => $model->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $model->updated_at->format('Y-m-d H:i:s'),
         ];
