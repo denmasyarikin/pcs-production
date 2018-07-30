@@ -14,12 +14,14 @@ class ServicePriceCalculator extends ChanelPriceCalculator
      * @param int   $quantity
      * @param mixed $value
      * @param int   $chanelId
+     * @param int   $defaultPrice
      *
      * @return array
      */
-    public function calculatePrice(int $quantity, $value, int $chanelId = null)
+    public function calculatePrice(int $quantity, $value, int $chanelId = null, int $defaultPrice = null)
     {
-        $price = $this->getPrice($chanelId);
+        $price = $this->getPrice($chanelId, true, $defaultPrice);
+
         $manager = new ConfigurationManager();
 
         if (is_null($price)) {

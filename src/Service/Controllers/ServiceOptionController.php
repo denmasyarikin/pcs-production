@@ -155,7 +155,8 @@ class ServiceOptionController extends Controller
             $calculation = $calculator->calculatePrice(
                 $request->quantity,
                 $request->input('value'),
-                $request->input('chanel_id')
+                $request->input('chanel_id'),
+                $request->input('unit_price')
             );
 
             return new JsonResponse([

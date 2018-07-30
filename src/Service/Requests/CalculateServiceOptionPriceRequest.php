@@ -39,6 +39,7 @@ class CalculateServiceOptionPriceRequest extends DetailServiceOptionRequest
         return [
             'quantity' => ['required', 'numeric', new MinOrder($serviceOption), new OrderMultiple($serviceOption)],
             'chanel_id' => 'nullable|exists:core_chanels,id',
+            'unit_price' => 'nullable|numeric',
             'value' => [new ConfigurationValues($serviceOption)],
         ];
     }
