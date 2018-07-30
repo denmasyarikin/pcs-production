@@ -20,6 +20,7 @@ class ServiceOption extends Migration
             $table->float('min_order')->default(1);
             $table->float('order_multiples')->default(1);
             $table->boolean('enabled')->default(false);
+            $table->boolean('free_input')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

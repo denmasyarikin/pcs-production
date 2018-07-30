@@ -68,7 +68,7 @@ class ServiceOptionController extends Controller
         $service = $request->getService();
 
         $serviceOption = $service->serviceOptions()->create(
-            $request->only(['name', 'unit_id', 'min_order', 'order_multiples'])
+            $request->only(['name', 'unit_id', 'min_order', 'order_multiples', 'free_input'])
         );
 
         return new JsonResponse([
@@ -95,7 +95,7 @@ class ServiceOptionController extends Controller
             }
         }
 
-        $serviceOption->update($request->only(['name', 'unit_id', 'min_order', 'order_multiples', 'enabled']));
+        $serviceOption->update($request->only(['name', 'unit_id', 'min_order', 'order_multiples', 'enabled', 'free_input']));
 
         return new JsonResponse([
             'messaage' => 'Service option has been updated',

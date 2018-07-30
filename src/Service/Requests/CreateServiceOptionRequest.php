@@ -16,6 +16,7 @@ class CreateServiceOptionRequest extends DetailServiceRequest
             'unit_id' => 'required|exists:core_units,id',
             'min_order' => 'required|numeric',
             'order_multiples' => 'required|numeric',
+            'free_input' => 'required|boolean',
         ];
     }
 }

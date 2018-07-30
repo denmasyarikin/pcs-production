@@ -17,6 +17,7 @@ class UpdateServiceOptionRequest extends DetailServiceOptionRequest
             'min_order' => 'required|numeric',
             'order_multiples' => 'required|numeric',
             'enabled' => 'required|boolean',
+            'free_input' => 'required|boolean'
        ];
     }
 }
