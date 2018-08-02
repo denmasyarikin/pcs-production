@@ -45,10 +45,10 @@ class Calculation
     /**
      * Create a new Calculation instance.
      *
-     * @param int   $quantity
+     * @param float   $quantity
      * @param float $unitPrice
      */
-    public function __construct(int $quantity, float $unitPrice)
+    public function __construct(float $quantity, float $unitPrice)
     {
         $this->manager = new ConfigurationManager();
         $this->quantity = $quantity;

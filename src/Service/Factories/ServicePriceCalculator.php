@@ -11,14 +11,14 @@ class ServicePriceCalculator extends ChanelPriceCalculator
     /**
      * calculate price.
      *
-     * @param int   $quantity
+     * @param float   $quantity
      * @param mixed $value
      * @param int   $chanelId
      * @param int   $defaultPrice
      *
      * @return array
      */
-    public function calculatePrice(int $quantity, $value, int $chanelId = null, float $defaultPrice = null)
+    public function calculatePrice(float $quantity, $value, int $chanelId = null, float $defaultPrice = null)
     {
         $price = $this->getPrice($chanelId, true, $defaultPrice);
 
@@ -41,12 +41,12 @@ class ServicePriceCalculator extends ChanelPriceCalculator
     /**
      * generate calculation.
      *
-     * @param int          $quantity
+     * @param float        $quantity
      * @param ServicePrice $servicePrice
      *
      * @return Calculation
      */
-    protected function generateCalculation(int $quantity, ServicePrice $servicePrice)
+    protected function generateCalculation(float $quantity, ServicePrice $servicePrice)
     {
         return new Calculation($quantity, $servicePrice->price);
     }
