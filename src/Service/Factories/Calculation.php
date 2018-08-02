@@ -2,6 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Factories;
 
+use App\Manager\Facades\Money;
 use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 
@@ -125,7 +126,7 @@ class Calculation
      */
     public function getUnitTotal()
     {
-        return $this->unitTotal;
+        return Money::round($this->unitTotal);
     }
 
     /**
