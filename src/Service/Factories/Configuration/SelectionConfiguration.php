@@ -103,7 +103,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
                     throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value ').$key.' should contain key label and string');
                 }
 
-                if (!isset($val['value']) or !is_int($val['value'])) {
+                if (!isset($val['value']) or (!is_numeric($val['value']))) {
                     throw new InvalidArgumentException(($asDefaultValue ? 'default value ' : 'value ').$key.' should contain key value and integer');
                 }
             }
@@ -244,13 +244,13 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      * apply configuration.
      *
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, float $quantity, float $unitPrice, float &$unitTotal)
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
@@ -294,11 +294,11 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
      * @param mixed $value
      * @param array $structure
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      */
-    protected function calculateSelected($value, array $structure, int $quantity, int &$unitPrice, int &$unitTotal)
+    protected function calculateSelected($value, array $structure, float $quantity, float &$unitPrice, float &$unitTotal)
     {
         if (!method_exists($this, $methode = $structure['formula'])) {
             throw new InvalidArgumentException('Unknwon formula '.$structure['formula']);
@@ -310,7 +310,7 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
             $value = ceil(($relativeValue * $value) / 100);
         }
 
-        $calculated = $this->$methode($value, $relativeValue);
+        $calculated = $this->$methode(floatval($value), $relativeValue);
 
         if ('unit_price' === $structure['relativity']) {
             $unitPrice = $calculated;
@@ -323,12 +323,12 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     /**
      * multiplication.
      *
-     * @param int $value
-     * @param int $relativeValue
+     * @param float $value
+     * @param float $relativeValue
      *
-     * @return int
+     * @return float
      */
-    public function multiplication(int $value, int $relativeValue)
+    public function multiplication(float $value, float $relativeValue)
     {
         return $relativeValue *= $value;
     }
@@ -336,12 +336,12 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     /**
      * division.
      *
-     * @param int $value
-     * @param int $relativeValue
+     * @param float $value
+     * @param float $relativeValue
      *
-     * @return int
+     * @return float
      */
-    public function division(int $value, int $relativeValue)
+    public function division(float $value, float $relativeValue)
     {
         return $relativeValue /= $value;
     }
@@ -349,12 +349,12 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     /**
      * addition.
      *
-     * @param int $value
-     * @param int $relativeValue
+     * @param float $value
+     * @param float $relativeValue
      *
-     * @return int
+     * @return float
      */
-    public function addition(int $value, int $relativeValue)
+    public function addition(float $value, float $relativeValue)
     {
         return $relativeValue += $value;
     }
@@ -362,12 +362,12 @@ class SelectionConfiguration extends Configuration implements ConfigurationInter
     /**
      * reduction.
      *
-     * @param int $value
-     * @param int $relativeValue
+     * @param float $value
+     * @param float $relativeValue
      *
-     * @return int
+     * @return float
      */
-    public function reduction(int $value, int $relativeValue)
+    public function reduction(float $value, float $relativeValue)
     {
         return $relativeValue -= $value;
     }

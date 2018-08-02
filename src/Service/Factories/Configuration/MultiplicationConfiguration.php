@@ -58,13 +58,13 @@ class MultiplicationConfiguration extends Configuration implements Configuration
      * apply configuration.
      *
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, float $quantity, float $unitPrice, float &$unitTotal)
     {
         $structure = $this->serviceOptionConfiguration->structure;
 

@@ -8,13 +8,13 @@ interface ConfigurationInterface
      * apply configuration.
      *
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal);
+    public function apply($value, float $quantity, float $unitPrice, float &$unitTotal);
 
     /**
      * set previous calculation.
@@ -26,12 +26,12 @@ interface ConfigurationInterface
     /**
      * get relative value.
      *
-     * @param int $unitPrice
-     * @param int $unitTotal
+     * @param float $unitPrice
+     * @param float $unitTotal
      *
-     * @return int
+     * @return float
      */
-    public function getRelativeValue(int $unitPrice, int $unitTotal);
+    public function getRelativeValue(float $unitPrice, float $unitTotal);
 
     /**
      * configuration type.

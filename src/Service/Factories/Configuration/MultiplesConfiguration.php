@@ -79,13 +79,13 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      * apply configuration.
      *
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, float $quantity, float $unitPrice, float &$unitTotal)
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
@@ -112,18 +112,18 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
         // calculate multiple
         if ($structure['input_multiples']) {
             $unitTotal = $quantity * $firstPrice;
-            $mulQty = $value - (int) $structure['after_quantity'];
+            $mulQty = $value - (float) $structure['after_quantity'];
             $multiples = $value;
             // calculate price
-            if ($multiples > (int) $structure['after_quantity']) {
+            if ($multiples > (float) $structure['after_quantity']) {
                 $unitTotal += $nextPrice * $mulQty;
             }
         } else {
             $unitTotal = $firstPrice;
-            $mulQty = $quantity - (int) $structure['after_quantity'];
+            $mulQty = $quantity - (float) $structure['after_quantity'];
             $multiples = ceil($mulQty / $structure['multiples']);
             // calculate price
-            if ($quantity > (int) $structure['after_quantity']) {
+            if ($quantity > (float) $structure['after_quantity']) {
                 $unitTotal += $nextPrice * $multiples;
             }
         }
@@ -151,12 +151,12 @@ class MultiplesConfiguration extends Configuration implements ConfigurationInter
      * get next price.
      *
      * @param string $rule
-     * @param int    $value
-     * @param int    $firstPrice
+     * @param float    $value
+     * @param float  $firstPrice
      *
-     * @return int
+     * @return float
      */
-    protected function getNextPrice($rule, int $value, int $firstPrice)
+    protected function getNextPrice($rule, float $value, float $firstPrice)
     {
         switch ($rule) {
             case 'fixed':

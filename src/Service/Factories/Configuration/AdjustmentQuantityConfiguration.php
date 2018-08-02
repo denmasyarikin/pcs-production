@@ -30,13 +30,13 @@ class AdjustmentQuantityConfiguration extends Configuration implements Configura
      * apply configuration.
      *
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, float $quantity, float $unitPrice, float &$unitTotal)
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
@@ -100,13 +100,13 @@ class AdjustmentQuantityConfiguration extends Configuration implements Configura
     /**
      * check is value in condition.
      *
-     * @param int    $quantity
+     * @param float    $quantity
      * @param string $operator
-     * @param int    $value
+     * @param float    $value
      *
      * @return bool
      */
-    protected function inCondition($quantity, $operator, int $value)
+    protected function inCondition($quantity, $operator, float $value)
     {
         switch ($operator) {
             case '>':

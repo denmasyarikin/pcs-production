@@ -49,7 +49,7 @@ class ConfigurationValues extends ConfigurationValue
             $id = 0;
             $currentValue = $value;
 
-            if (!array_key_exists($config->id, $value)) {
+            if (!array_key_exists($config->id, (array) $value)) {
                 $this->message = 'The :attribute not contain key service option configuration id '.$config->id;
 
                 return false;

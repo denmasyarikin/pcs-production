@@ -18,7 +18,7 @@ class ServicePriceCalculator extends ChanelPriceCalculator
      *
      * @return array
      */
-    public function calculatePrice(int $quantity, $value, int $chanelId = null, int $defaultPrice = null)
+    public function calculatePrice(int $quantity, $value, int $chanelId = null, float $defaultPrice = null)
     {
         $price = $this->getPrice($chanelId, true, $defaultPrice);
 
