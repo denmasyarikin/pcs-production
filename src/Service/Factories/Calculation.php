@@ -2,6 +2,7 @@
 
 namespace Denmasyarikin\Production\Service\Factories;
 
+use App\Manager\Facades\Money;
 use Denmasyarikin\Production\Service\ServiceOptionConfiguration;
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 
@@ -45,9 +46,10 @@ class Calculation
     /**
      * Create a new Calculation instance.
      *
-     * @param param type $param
+     * @param float   $quantity
+     * @param float $unitPrice
      */
-    public function __construct(int $quantity, int $unitPrice)
+    public function __construct(float $quantity, float $unitPrice)
     {
         $this->manager = new ConfigurationManager();
         $this->quantity = $quantity;
@@ -124,7 +126,7 @@ class Calculation
      */
     public function getUnitTotal()
     {
-        return $this->unitTotal;
+        return Money::round($this->unitTotal);
     }
 
     /**

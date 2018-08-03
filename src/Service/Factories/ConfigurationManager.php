@@ -19,6 +19,7 @@ class ConfigurationManager
         Configuration\DimensionVolumeConfiguration::class,
         Configuration\SelectionConfiguration::class,
         Configuration\AdjustmentQuantityConfiguration::class,
+        Configuration\MinimumPriceConfiguration::class,
     ];
 
     /**

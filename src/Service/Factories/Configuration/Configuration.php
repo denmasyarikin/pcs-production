@@ -56,12 +56,12 @@ abstract class Configuration
     /**
      * get relative value.
      *
-     * @param int $unitPrice
-     * @param int $unitTotal
+     * @param float $unitPrice
+     * @param float $unitTotal
      *
-     * @return int
+     * @return float
      */
-    public function getRelativeValue(int $unitPrice, int $unitTotal)
+    public function getRelativeValue(float $unitPrice, float $unitTotal)
     {
         $structure = $this->serviceOptionConfiguration->structure;
 
@@ -81,12 +81,12 @@ abstract class Configuration
     /**
      * get inital value.
      *
-     * @param int $unitPrice
-     * @param int $unitTotal
+     * @param float $unitPrice
+     * @param float $unitTotal
      *
      * @return array
      */
-    protected function getInitialValue(int $unitPrice, int $unitTotal)
+    protected function getInitialValue(float $unitPrice, float $unitTotal)
     {
         $initial = [
             'unit_price' => $unitPrice,
@@ -165,7 +165,7 @@ abstract class Configuration
 
         switch ($structure) {
             case 'integer':
-                if (!is_int($value)) {
+                if (!is_numeric($value)) {
                     throw new InvalidArgumentException($key.' is not integer');
                 }
                 break;

@@ -63,7 +63,7 @@ abstract class DimensionConfiguration extends Configuration implements Configura
         }
 
         foreach ($this->dimension as $dimension) {
-            if (!isset($value[$dimension]) or !is_int($value[$dimension])) {
+            if (!isset($value[$dimension]) or !is_numeric($value[$dimension])) {
                 throw new InvalidArgumentException(ucwords($dimension).' Not present or not integer');
             }
 
@@ -87,13 +87,13 @@ abstract class DimensionConfiguration extends Configuration implements Configura
      * apply configuration.
      *
      * @param mixed $value
-     * @param int   $quantity
-     * @param int   $unitPrice
-     * @param int   $unitTotal
+     * @param float   $quantity
+     * @param float   $unitPrice
+     * @param float   $unitTotal
      *
      * @return array
      */
-    public function apply($value, int $quantity, int $unitPrice, int &$unitTotal)
+    public function apply($value, float $quantity, float $unitPrice, float &$unitTotal)
     {
         $structure = $this->serviceOptionConfiguration->structure;
 

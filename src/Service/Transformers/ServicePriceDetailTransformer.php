@@ -21,7 +21,7 @@ class ServicePriceDetailTransformer extends Detail
             'id' => $model->id,
             'chanel_id' => $model->chanel_id,
             'chanel' => (new ChanelDetailTransformer($model->chanel, ['id', 'name', 'type', 'markup', 'required_down_payment', 'due_date_day_count']))->toArray(),
-            'price' => (int) $model->price,
+            'price' => (float) $model->price,
             'current' => (bool) $model->current,
             'previous_id' => $model->previous_id,
             'change_type' => $model->change_type,
